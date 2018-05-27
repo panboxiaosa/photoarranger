@@ -1,0 +1,75 @@
+﻿<Window x:Class="phothoflow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="图片排列器" Height="350" Width="525">
+    
+    <Grid>
+        
+        <DockPanel>
+            <Menu DockPanel.Dock="Top" Name="menu" >
+                <MenuItem Header="选择文件夹" Click="MenuItem_Click"/>
+                <MenuItem Header="导出" Click="MenuItem_Click"/>
+                <MenuItem Header="宽度设置" Click="MenuItem_Click"/>
+                <MenuItem Header="边距设置" Click="MenuItem_Click"/>
+                <MenuItem Header="分辨率设置" Click="MenuItem_Click" />
+                <MenuItem Header="帮助" Click="MenuItem_Click" />
+                <MenuItem Header="关于" Click="MenuItem_Click" />
+            </Menu>
+
+            <ListBox DockPanel.Dock="Right" Width="200" Name="waitingList" ItemsSource="{Binding}" SelectionChanged="waitingList_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Image Grid.Column="0" Width="100" Height="100" Source="{Binding Path=Preview}"></Image>
+                            <TextBlock Grid.Column="1" FontSize ="18" Text="{Binding Path=Name}"/>
+                        </Grid>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ScrollViewer DockPanel.Dock="Left" Name="arrangePanel" HorizontalScrollBarVisibility="Auto" Background="Gray">
+                <Canvas Name="MainContainer" Height="1000" Width="500" Background="White">
+                    
+                </Canvas>
+            </ScrollViewer>
+
+        </DockPanel>
+        <Popup Name="SettingDialog" Placement="Center" Width="300" Height="180">
+            <Border  BorderBrush="AliceBlue" BorderThickness="1">
+                <Grid Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="Auto"/>
+
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Name="SettingTitle" Height="20" TextAlignment="Center" Grid.Column="0" Grid.Row="0" Text="分辨率设置"/>
+
+                    <TextBlock Height="20" Grid.Column="0" Grid.Row="1" TextAlignment="Right">新建:</TextBlock>
+                    <TextBlock Height="20" Grid.Column="0" Grid.Row="2" TextAlignment="Right">默认:</TextBlock>
+
+                    <TextBox Width="60" Height="20" Grid.Column="1" Grid.Row="1" Name="CreateData"></TextBox>
+                    <Button Click="Confirm_Click" Width="40" Height="20" Grid.Column="2" Grid.Row="1" Tag="AddData">添加</Button>
+                    <ComboBox Width="60" Height="20" Grid.Column="1" Grid.Row="2" Name="ChooseList" ItemsSource="{Binding}" DropDownClosed="ChooseList_DropDownClosed"/>
+                    <Button Grid.Column="2" Grid.Row="3" Click="Confirm_Click" Width="40" Height="20" Tag="Confirm">确定</Button>
+                    <Button Grid.Column="3" Grid.Row="3"  Click="Confirm_Click" Width="40" Height="20" Tag="Cancel">取消</Button>
+                </Grid>
+            </Border>
+            
+            
+        </Popup>
+    </Grid>
+        
+        
+
+</Window>

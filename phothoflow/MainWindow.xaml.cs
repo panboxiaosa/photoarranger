@@ -41,7 +41,7 @@ namespace phothoflow
             SettingManager.Init();
 
             arrangement = new Arrangement(this);
-            arrangement.Load("E:\\git\\testpic");
+            arrangement.Load("D:\\testpic");
             DrawContainer();
         }
 

@@ -69,11 +69,11 @@ namespace phothoflow.location
             List<String> images = ImageList.listDirectory(path);
             foreach (String pathStr in images) 
             {
-
                 Item item = new Item(pathStr);
                 allItemList.Add(item);
                 AutoArrange(item);
             }
+            callback.OnFinish();
         }
 
         MemoryStream GetMemoryStream(string path)
@@ -94,6 +94,7 @@ namespace phothoflow.location
             {
                 AutoArrange(item);
             }
+            callback.OnFinish();
         }
 
         public void Recession(Item item)
@@ -107,8 +108,9 @@ namespace phothoflow.location
             if (position != -1)
             {
                 currentArrange.Insert(position, item);
+                callback.OnStep(item);
             }
-            callback.OnStep();
+            
         }
 
         public void ManualArrange(Item item, int x, int y)

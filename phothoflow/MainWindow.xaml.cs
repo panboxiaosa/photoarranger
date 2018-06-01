@@ -16,6 +16,7 @@ using phothoflow.location;
 using phothoflow.setting;
 using System.Windows.Controls.Primitives;
 using phothoflow.filemanager;
+using System.Threading;
 
 namespace phothoflow
 {
@@ -29,9 +30,35 @@ namespace phothoflow
         private Point origin;
         private Point start;
 
-        public void OnStep()
+        public void OnFinish()
         {
-            //DrawContainer();
+            waitingList.ItemsSource = arrangement.GetUnarrangedItems();
+        }
+
+        public void OnStep(Item one)
+        {
+            float height = arrangement.GetTotalHeight();
+            int rate = DisplayOptions.DisplayRate;
+            if (MainContainer.Height < height * rate)
+            {
+                MainContainer.Height = height * rate;
+            }
+            if (MainContainer.Width != SettingManager.GetWidth() * rate) {
+                MainContainer.Width = SettingManager.GetWidth() * rate;
+            }
+
+            Image img = new Image();
+            img.Width = one.Width * rate;
+            img.Height = one.Height * rate;
+            img.Source = one.Preview;
+
+            img.MouseLeftButtonDown += ImageClick;
+            img.MouseLeftButtonUp += ImageRelease;
+            img.MouseMove += image_MouseMove;
+
+            Canvas.SetLeft(img, one.Left * rate);
+            Canvas.SetTop(img, one.Top * rate);
+            MainContainer.Children.Add(img);
         }
         
         Arrangement arrangement;
@@ -41,34 +68,17 @@ namespace phothoflow
             SettingManager.Init();
 
             arrangement = new Arrangement(this);
-            arrangement.Load("D:\\testpic");
-            DrawContainer();
+            
         }
 
         void DrawContainer()
         {
-            waitingList.ItemsSource = arrangement.GetUnarrangedItems();
             List<Item> arrange = arrangement.GetarrangedItems();
-            float height = arrangement.GetTotalHeight();
-            int rate = DisplayOptions.DisplayRate;
-            MainContainer.Height = height * rate;
-            MainContainer.Width = SettingManager.GetWidth() * rate;
             MainContainer.Children.Clear();
 
             foreach (Item one in arrange)
             {
-                Image img = new Image();
-                img.Width = one.Width * rate;
-                img.Height = one.Height * rate;
-                img.Source = one.Preview;
-
-                img.MouseLeftButtonDown += ImageClick;
-                img.MouseLeftButtonUp += ImageRelease;
-                img.MouseMove += image_MouseMove;
-
-                Canvas.SetLeft(img, one.Left * rate);
-                Canvas.SetTop(img, one.Top * rate);
-                MainContainer.Children.Add(img);
+                OnStep(one);
             }
 
         }
@@ -149,9 +159,35 @@ namespace phothoflow
                 case "导出":
                     SaveFile();
                     break;
+                case "选择文件夹":
+                    OpenFolder();
+                    break;
                 default:
                     break;
             }
+        }
+
+
+        void OpenFolder()
+        {
+            using (System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                folderBrowserDialog.ShowNewFolderButton = false;
+                if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string path = folderBrowserDialog.SelectedPath;
+                    Thread thread = new Thread(new ThreadStart(() =>
+                    {
+                        arrangement.Load(path);
+                    }
+                        ));
+                    thread.SetApartmentState(ApartmentState.STA);
+                    thread.IsBackground = true;
+                    thread.Start();
+
+                }
+            }
+            
         }
 
         void SaveFile()
@@ -171,7 +207,6 @@ namespace phothoflow
         {
             SettingDialog.IsOpen = false;
             arrangement.Update();
-            DrawContainer();
 
         }
 

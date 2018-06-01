@@ -16,7 +16,7 @@ using System.IO;
 
 namespace phothoflow.location
 {
-    class Item
+    public class Item
     {
         public float Top;
         public float Left;

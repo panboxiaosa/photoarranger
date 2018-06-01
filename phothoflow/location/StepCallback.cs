@@ -8,6 +8,8 @@ namespace phothoflow.location
 {
     interface StepCallback
     {
-        void OnStep();
+        void OnStep(Item item);
+
+        void OnFinish();
     }
 }

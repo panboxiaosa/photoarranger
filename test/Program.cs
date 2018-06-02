@@ -14,12 +14,12 @@ using BitMiracle.LibTiff;
 using BitMiracle.LibTiff.Classic;
 using System.Runtime.InteropServices;
 using Emgu.CV.Structure;
+using System.IO;
 
 namespace test
 {
     class Program
     {
-        
         static void Jpg2TiffByLibTiffAndCV(Tiff tiff, short pageIndex,string imgPath)
         {
             if(tiff== null)
@@ -39,14 +39,24 @@ namespace test
             tiff.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
             tiff.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
 
+            int step = firstImg.Step;
+            byte[] buf = new byte[step];
 
-    for (int i = 0; i < firstHeight; i++)
-    {
-        tiff.WriteScanline(firstImg.GetData(0), i);
-    }
+            unsafe
+            {
+                byte* rawData = (byte*)firstImg.DataPointer.ToPointer();
+                using (UnmanagedMemoryStream ms = new UnmanagedMemoryStream(rawData, step * firstImg.Height))  
+                {
+                    for (int i = 0; i < firstHeight; i++)
+                    {
+                        ms.Read(buf, 0, step);  
+                        tiff.WriteScanline(buf, i);
+                     }
+                }
+            }
 
-    tiff.WriteDirectory();
-}
+            tiff.WriteDirectory();
+        }
 
     static void Jpgs2TiffByLibTiffAndCV(List<string> vecImgPath, string tifPath)
     {
@@ -65,9 +75,10 @@ namespace test
     static Mat CmykToRgb(Mat cmyk)
     {
         Mat cvted = new Mat(cmyk.Rows, cmyk.Cols, DepthType.Cv8U, 3);
-        CvInvoke.MixChannels(cmyk, cvted, new int[] { 0, 0, 1, 1, 2, 2 });
-        CvInvoke.CvtColor(cvted, cvted, ColorConversion.YCrCb2Rgb, 3);
-        return cvted;
+        CvInvoke.MixChannels(cmyk, cvted, new int[] { 0, 2, 1, 1, 2, 0 });
+        Image<Rgb, byte> wrapper = cvted.ToImage<Rgb, byte>();
+        Image<Rgb, byte> reved = wrapper.Convert<Byte>((Byte b)=> { return (Byte)(255 - b); });  
+        return reved.Mat;
     }
 
     private static Mat TiffToMat(string asTiffFile)
@@ -88,11 +99,18 @@ namespace test
         Mat mat = new Mat(height, width, DepthType.Cv8U, value[0].ToShort());
         
         value = tif.GetField(TiffTag.PHOTOMETRIC);
-        for (int i = 0; i < height; i++)
-        {
-            byte[] data = mat.GetData(new int[]{i});
-            tif.ReadScanline(data, i);
+
+        byte[] buf = new byte[mat.Step];
+        unsafe {
+            byte* ptr = (byte*)mat.DataPointer.ToPointer();
+            for (int i = 0; i < height; i++)
+            {
+                tif.ReadScanline(buf, i);
+                Marshal.Copy(buf, 0, new IntPtr(ptr), mat.Step);
+                ptr += mat.Step;
+            }
         }
+        
 
         tif.Close();
         tif.Dispose();
@@ -103,13 +121,14 @@ namespace test
         static void Main(string[] args)
         {
 
-            Mat mat = TiffToMat("E:\\temp\\a.tif");
+            Mat mat = TiffToMat("d:\\a.tif");
             Bitmap map = mat.Bitmap;
-            map.Save("E:\\temp\\b.jpg");
+            map.Save("d:\\test.jpg");
             map.Dispose();
-            //List<string> all = new List<string>() { "D:\\part\\a.tif", "D:\\part\\b.tif" };
 
-            //Jpgs2TiffByLibTiffAndCV(all, "output.tif");
+            //List<string> all = new List<string>() { "D:\\c.jpg", "D:\\d.jpg" };
+
+            //Jpgs2TiffByLibTiffAndCV(all, "D:\\output.tif");
         }
     }
 }

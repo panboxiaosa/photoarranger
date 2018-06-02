@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using BitMiracle.LibTiff.Classic;
 using System.Threading;
+using System.IO.MemoryMappedFiles;  
 
 namespace phothoflow.filemanager
 {
@@ -34,6 +35,7 @@ namespace phothoflow.filemanager
                 else
                 {
                     WriteSegs(target, objs, pixelWidth, pixelHeight);
+                    System.Windows.MessageBox.Show("保存成功");
                 }
             }).Start();
             
@@ -96,6 +98,33 @@ namespace phothoflow.filemanager
 
         void WritePart(Tiff tiff, List<Item> objs, short index, int eachHeight, int pixelWidth)
         {
+            Mat mat = AsMat(objs, index, eachHeight, pixelWidth);
+
+            //tiff.SetDirectory(index);
+            //tiff.SetField(TiffTag.SUBFILETYPE, FileType.PAGE);
+            //tiff.SetField(TiffTag.IMAGEWIDTH, pixelWidth);
+            //tiff.SetField(TiffTag.IMAGELENGTH, eachHeight);
+            //tiff.SetField(TiffTag.SAMPLESPERPIXEL, 3);
+            //tiff.SetField(TiffTag.BITSPERSAMPLE, 8);
+            //tiff.SetField(TiffTag.COMPRESSION, Compression.NONE);
+            //tiff.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
+            //tiff.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
+
+            //byte[] temp = new byte[pixelWidth * 3];
+            //for (int i = 0; i < eachHeight; i++)
+            //{
+                
+
+            //    tiff.WriteScanline(temp, i);
+            //}
+
+            //tiff.WriteDirectory();
+            //mat.Dispose();
+
+        }
+
+        Mat AsMat(List<Item> objs, short index, int eachHeight, int pixelWidth)
+        {
             Mat mat = new Mat(eachHeight, pixelWidth, DepthType.Cv8U, 3);
             mat.SetTo(new MCvScalar(255, 255, 255));
             float currentDpi = SettingManager.GetDpi();
@@ -106,14 +135,14 @@ namespace phothoflow.filemanager
 
             foreach (Item slice in objs)
             {
-                if (InsidePart(eachHeight, yOffset, slice)) 
+                if (InsidePart(eachHeight, yOffset, slice))
                 {
                     Mat shrink = LoadRequired(slice);
 
                     int x = (int)(currentDpi * slice.Left) + marginOffset;
                     int y = (int)(currentDpi * slice.Top) + marginOffset - yOffset;
 
-                    Rectangle src = new Rectangle(0,0, shrink.Width, shrink.Height);
+                    Rectangle src = new Rectangle(0, 0, shrink.Width, shrink.Height);
                     Rectangle dst = new Rectangle(x, y, shrink.Width, shrink.Height);
                     if (y < 0)
                     {
@@ -139,25 +168,18 @@ namespace phothoflow.filemanager
                     shrink.Dispose();
                 }
             }
+            return mat;
+        }
 
-            tiff.SetDirectory(index);
-            tiff.SetField(TiffTag.SUBFILETYPE, FileType.PAGE);
-            tiff.SetField(TiffTag.IMAGEWIDTH, pixelWidth);
-            tiff.SetField(TiffTag.IMAGELENGTH, eachHeight);
-            tiff.SetField(TiffTag.SAMPLESPERPIXEL, 3);
-            tiff.SetField(TiffTag.BITSPERSAMPLE, 8);
-            tiff.SetField(TiffTag.COMPRESSION, Compression.NONE);
-            tiff.SetField(TiffTag.PHOTOMETRIC, Photometric.RGB);
-            tiff.SetField(TiffTag.PLANARCONFIG, PlanarConfig.CONTIG);
-
-
-            for (int i = 0; i < eachHeight; i++)
-            {
-                tiff.WriteScanline(mat.GetData(0), i);
-            }
-
-            tiff.WriteDirectory();
-
+        void WritePic(string target, List<Item> objs, short index, int eachHeight, int pixelWidth)
+        {
+            MemoryMappedFile mmf = MemoryMappedFile.CreateNew("store", eachHeight * pixelWidth * 3);
+            System.IO.MemoryMappedFiles.MemoryMappedViewStream stream;
+            
+            Mat one = AsMat(objs, index, eachHeight, pixelWidth);
+            one.Bitmap.Save(target);
+            one.Bitmap.Dispose();
+            one.Dispose();
         }
 
         void WriteSegs(string target, List<Item> objs, int pixelWidth, int pixelHeight)
@@ -165,20 +187,24 @@ namespace phothoflow.filemanager
             
             int eachHeight = (PART_LEN / pixelWidth) + 1;
             short segs = (short)(pixelHeight / eachHeight);
-            int restHeight = pixelHeight - pixelHeight * segs;
+            int restHeight = pixelHeight - eachHeight * segs;
 
-            Tiff tiff = Tiff.Open(target, "w");
+            //Tiff tiff = Tiff.Open(target, "w");
 
             for (short i = 0; i < segs; i++)
             {
-                WritePart(tiff, objs, i,eachHeight, pixelWidth);
+                //WritePart(tiff, objs, i,eachHeight, pixelWidth);
+                string name = target.Substring(0,target.Length - 4) + i + ".tif";
+                WritePic(name, objs, i, eachHeight, pixelWidth);
             }
 
             if (restHeight > 0)
             {
-                WritePart(tiff, objs, segs, restHeight, pixelWidth);
+                string name = target.Substring(0, target.Length - 4) + segs + ".tif";
+                WritePic(name, objs, segs, eachHeight, pixelWidth);
+                //WritePart(tiff, objs, segs, restHeight, pixelWidth);
             }
-            tiff.Close();
+            //tiff.Close();
         }
     }
 }

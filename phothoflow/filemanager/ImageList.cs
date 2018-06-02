@@ -9,7 +9,7 @@ namespace phothoflow.filemanager
 {
     class ImageList
     {
-        public static List<String> listDirectory(String path)
+        public static List<string> listDirectory(String path)
         {
             
             List<String> result = new List<String>();

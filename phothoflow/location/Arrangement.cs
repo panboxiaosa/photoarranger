@@ -7,6 +7,9 @@ using System.Windows.Media.Imaging;
 using System.Drawing;
 using System.IO;
 using phothoflow.filemanager;
+using System.Threading;
+using phothoflow.setting;
+
 
 namespace phothoflow.location
 {
@@ -15,32 +18,13 @@ namespace phothoflow.location
         StepCallback callback;
 
         ArrangeCalcer calcer = new ArrangeCalcer();
-
         List<Item> currentArrange;
-
         List<Item> allItemList;
-
+        
         public Arrangement(StepCallback callback_)
         {
             callback = callback_;
-        }
-
-        public List<Item> GetWorkSpaceItems()
-        {
-            return allItemList;
-        }
-
-        public List<Item> GetUnarrangedItems()
-        {
-            List<Item> result = new List<Item>(); 
-            foreach (Item item in allItemList)
-            {
-                if (!currentArrange.Contains(item))
-                {
-                    result.Add(item);
-                }
-            }
-            return result;
+            
         }
 
         public float GetTotalHeight()
@@ -61,19 +45,57 @@ namespace phothoflow.location
             return currentArrange;
         }
 
+        public void Remargin()
+        {
+            if (allItemList == null)
+            {
+                return;
+            }
+            foreach (Item one in allItemList)
+            {
+                one.Width = one.RealWidth + SettingManager.GetMargin() * 2;
+                one.Height = one.RealHeight + SettingManager.GetMargin() * 2;
+            }
+        }
+
+
         public void Load(string path)
         {
             allItemList = new List<Item>();
-            currentArrange = new List<Item>();
-            
-            List<String> images = ImageList.listDirectory(path);
-            foreach (String pathStr in images) 
+            List<string> images = ImageList.listDirectory(path);
+
+            int seg = 1;// Environment.ProcessorCount;
+            int each = images.Count / seg;
+
+            List<Thread> ts = new List<Thread>();
+            for (int i = 0; i < seg; i++)
             {
-                Item item = new Item(pathStr);
-                allItemList.Add(item);
-                AutoArrange(item);
+                List<string> part = new List<string>();
+                int num = i == seg - 1 ? images.Count - each * (seg - 1) : each;
+                part.AddRange(images.GetRange(i * each, num));
+
+                Thread t = new Thread(new ParameterizedThreadStart((object partList) =>
+                {
+                    List<string> toBeLoad = (List<string>)partList;
+                    foreach (String pathStr in toBeLoad)
+                    {
+                        Item item = new Item(pathStr);
+                        lock (allItemList)
+                        {
+                            allItemList.Add(item);
+                            callback.OnStep(item);
+                        }
+                    }
+                }));
+                t.Start(part);
+                ts.Add(t);
             }
-            callback.OnFinish();
+
+            foreach (Thread t in ts)
+                t.Join();
+
+
+            Arrange();
         }
 
         MemoryStream GetMemoryStream(string path)
@@ -86,9 +108,13 @@ namespace phothoflow.location
             return myMS2;
         }
         
-
-        public void Update()
+        public void Arrange()
         {
+            if (allItemList == null)
+            {
+                return;
+            }
+            callback.OnStart();
             currentArrange = new List<Item>();
             foreach (Item item in allItemList)
             {
@@ -108,9 +134,7 @@ namespace phothoflow.location
             if (position != -1)
             {
                 currentArrange.Insert(position, item);
-                callback.OnStep(item);
             }
-            
         }
 
         public void ManualArrange(Item item, int x, int y)

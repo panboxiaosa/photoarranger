@@ -13,6 +13,7 @@ using System.Drawing;
 using BitMiracle.LibTiff;
 using BitMiracle.LibTiff.Classic;
 using System.Runtime.InteropServices;
+using Emgu.CV.Structure;
 
 namespace test
 {
@@ -61,18 +62,54 @@ namespace test
     tiff.Close();
     }
 
+    static Mat CmykToRgb(Mat cmyk)
+    {
+        Mat cvted = new Mat(cmyk.Rows, cmyk.Cols, DepthType.Cv8U, 3);
+        CvInvoke.MixChannels(cmyk, cvted, new int[] { 0, 0, 1, 1, 2, 2 });
+        CvInvoke.CvtColor(cvted, cvted, ColorConversion.YCrCb2Rgb, 3);
+        return cvted;
+    }
+
+    private static Mat TiffToMat(string asTiffFile)
+    {
+        Tiff tif = Tiff.Open(asTiffFile, "r");
+        if (tif == null)
+        {
+            return null;
+        }
+        FieldValue[] value = tif.GetField(TiffTag.IMAGEWIDTH);
+        int width = value[0].ToInt();
+
+        value = tif.GetField(TiffTag.IMAGELENGTH);
+        int height = value[0].ToInt();
+
+        value = tif.GetField(TiffTag.SAMPLESPERPIXEL);
+
+        Mat mat = new Mat(height, width, DepthType.Cv8U, value[0].ToShort());
+        
+        value = tif.GetField(TiffTag.PHOTOMETRIC);
+        for (int i = 0; i < height; i++)
+        {
+            byte[] data = mat.GetData(new int[]{i});
+            tif.ReadScanline(data, i);
+        }
+
+        tif.Close();
+        tif.Dispose();
+
+        return CmykToRgb(mat);
+    }
+
         static void Main(string[] args)
         {
-            //Stitcher sticher = new Stitcher(false);
-            
-            //Mat[] array = new Mat[2];
-            //array[0] = new Mat("D:\\part\\a.tif", LoadImageType.Color);
-            //array[1] = new Mat("D:\\part\\b.tif", LoadImageType.Color);
-            //Image[] ims = new Bitmap[] {array[0].Bitmap, array[1].Bitmap};
 
-            List<string> all = new List<string>(){"D:\\part\\a.tif", "D:\\part\\b.tif"};
+            Mat mat = TiffToMat("E:\\temp\\a.tif");
+            Bitmap map = mat.Bitmap;
+            map.Save("E:\\temp\\b.jpg");
+            map.Dispose();
+            //List<string> all = new List<string>() { "D:\\part\\a.tif", "D:\\part\\b.tif" };
 
-            Jpgs2TiffByLibTiffAndCV(all, "output.tif");
+            //Jpgs2TiffByLibTiffAndCV(all, "output.tif");
         }
     }
 }

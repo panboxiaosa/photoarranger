@@ -70,6 +70,11 @@ namespace phothoflow.setting
             return width.Get()[width.Current()];
         }
 
+        public static float GetMargin()
+        {
+            return margin.Get()[margin.Current()];
+        }
+
         public static Managable Get(string currentDeal) {
             Managable choose = null;
             switch (currentDeal)

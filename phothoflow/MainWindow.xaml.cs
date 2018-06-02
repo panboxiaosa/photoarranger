@@ -17,6 +17,9 @@ using phothoflow.setting;
 using System.Windows.Controls.Primitives;
 using phothoflow.filemanager;
 using System.Threading;
+using System.Collections.ObjectModel;
+using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace phothoflow
 {
@@ -29,36 +32,74 @@ namespace phothoflow
 
         private Point origin;
         private Point start;
+        ObservableCollection<Item> unarranged;
+
+        public void OnStart()
+        {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                MainContainer.Width = 100;
+                MainContainer.Children.Clear();
+                unarranged.Clear();
+            }));
+        }
 
         public void OnFinish()
         {
-            waitingList.ItemsSource = arrangement.GetUnarrangedItems();
+            foreach (Item val in arrangement.GetarrangedItems())
+            {
+                AddItem(val);
+                this.Dispatcher.Invoke(new Action<Item>((one) =>{
+                    unarranged.Remove(one);
+                }), val);
+            }
+
         }
 
-        public void OnStep(Item one)
+        void AddItem(Item val)
         {
-            float height = arrangement.GetTotalHeight();
-            int rate = DisplayOptions.DisplayRate;
-            if (MainContainer.Height < height * rate)
+            this.Dispatcher.Invoke(new Action<Item>((one) =>
             {
-                MainContainer.Height = height * rate;
-            }
-            if (MainContainer.Width != SettingManager.GetWidth() * rate) {
-                MainContainer.Width = SettingManager.GetWidth() * rate;
-            }
+                float height = arrangement.GetTotalHeight();
+                int rate = DisplayOptions.DisplayRate;
+                if (MainContainer.Height < height * rate)
+                {
+                    MainContainer.Height = height * rate;
+                }
+                if (MainContainer.Width != SettingManager.GetWidth() * rate)
+                {
+                    MainContainer.Width = SettingManager.GetWidth() * rate;
+                }
 
-            Image img = new Image();
-            img.Width = one.Width * rate;
-            img.Height = one.Height * rate;
-            img.Source = one.Preview;
+                Image img = new Image();
+                img.Width = one.RealWidth * rate;
+                img.Height = one.RealHeight * rate;
+                if (!(one.Preview is BitmapFrame))
+                {
+                    one.Preview = BitmapFrame.Create(one.Preview); 
+                }
+                img.Source = one.Preview;
 
-            img.MouseLeftButtonDown += ImageClick;
-            img.MouseLeftButtonUp += ImageRelease;
-            img.MouseMove += image_MouseMove;
+                img.MouseLeftButtonDown += ImageClick;
+                img.MouseLeftButtonUp += ImageRelease;
+                img.MouseMove += image_MouseMove;
 
-            Canvas.SetLeft(img, one.Left * rate);
-            Canvas.SetTop(img, one.Top * rate);
-            MainContainer.Children.Add(img);
+                Canvas.SetLeft(img, (one.Left + SettingManager.GetMargin()) * rate);
+                Canvas.SetTop(img, (one.Top + SettingManager.GetMargin()) * rate);
+                MainContainer.Children.Add(img);
+            }), val);
+        }
+
+        public void OnStep(Item val)
+        {
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                if (!(val.Preview is BitmapFrame))
+                {
+                    val.Preview = BitmapFrame.Create(val.Preview);
+                }
+                unarranged.Add(val);
+            }));
         }
         
         Arrangement arrangement;
@@ -66,9 +107,9 @@ namespace phothoflow
         {
             InitializeComponent();
             SettingManager.Init();
-
             arrangement = new Arrangement(this);
-            
+            unarranged = new ObservableCollection<Item>();
+            waitingList.ItemsSource = unarranged;
         }
 
         void DrawContainer()
@@ -87,6 +128,7 @@ namespace phothoflow
         {
 
         }
+
 
         private void image_MouseMove(object sender, MouseEventArgs e)
         {
@@ -170,30 +212,33 @@ namespace phothoflow
 
         void OpenFolder()
         {
-            using (System.Windows.Forms.FolderBrowserDialog folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog())
-            {
-                folderBrowserDialog.ShowNewFolderButton = false;
-                if (folderBrowserDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    string path = folderBrowserDialog.SelectedPath;
-                    Thread thread = new Thread(new ThreadStart(() =>
-                    {
-                        arrangement.Load(path);
-                    }
-                        ));
-                    thread.SetApartmentState(ApartmentState.STA);
-                    thread.IsBackground = true;
-                    thread.Start();
-
-                }
+            var dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            if (CommonFileDialogResult.Ok == dialog.ShowDialog()) {
+                string path = dialog.FileName;
+                new Thread(() => { arrangement.Load(path); }).Start();
             }
+            
             
         }
 
         void SaveFile()
         {
-            FileWriter fw = new FileWriter();
-            fw.Write("output.tif", arrangement.GetarrangedItems(), arrangement.GetTotalHeight());
+            SaveFileDialog sfd = new SaveFileDialog();
+            //设置保存的文件的类型，注意过滤器的语法  
+            sfd.Filter = "tif文件|*.tif";
+            //调用ShowDialog()方法显示该对话框，该方法的返回值代表用户是否点击了确定按钮  
+            if (sfd.ShowDialog() == true)
+            {
+                FileWriter fw = new FileWriter();
+                fw.Write(sfd.FileName, arrangement.GetarrangedItems(), arrangement.GetTotalHeight());
+            }
+            else
+            {
+                MessageBox.Show("取消保存");
+            }  
+
+            
         }
 
         private void PerformAdd()
@@ -206,7 +251,8 @@ namespace phothoflow
         private void PerformConfirm()
         {
             SettingDialog.IsOpen = false;
-            arrangement.Update();
+            arrangement.Remargin();
+            arrangement.Arrange();
 
         }
 

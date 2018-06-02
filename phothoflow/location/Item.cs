@@ -12,6 +12,11 @@ using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Emgu.CV;
 using System.IO;
+using phothoflow.setting;
+using BitMiracle.LibTiff.Classic;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using phothoflow.filemanager;
 
 
 namespace phothoflow.location
@@ -20,6 +25,9 @@ namespace phothoflow.location
     {
         public float Top;
         public float Left;
+
+        public float RealWidth;
+        public float RealHeight;
 
         public float Width;
         public float Height;
@@ -30,7 +38,7 @@ namespace phothoflow.location
         public string ImagePath { get; set; }
         public string Name { get; set; }
 
-        public BitmapImage Preview { get; set; }
+        public BitmapSource Preview { get; set; }
 
         public bool ThumbnailCallback()
         {
@@ -44,7 +52,6 @@ namespace phothoflow.location
             Preview = InitBitmap(path);
         }
 
-
         public static BitmapImage BitmapToBitmapImage(Bitmap bitmap)
         {
             MemoryStream ms = new MemoryStream();
@@ -57,22 +64,24 @@ namespace phothoflow.location
             return bImage;
         }
 
+        
+
         BitmapImage InitBitmap(string path)
         {
-
-            Mat mat = new Mat(path, LoadImageType.Color);
-
-            Bitmap img = mat.Bitmap;
-
+            Bitmap img = ImageReader.readAsBitmap(path);
+            
             Density_x = img.HorizontalResolution;
             Density_y = img.VerticalResolution;
-            Width = (img.Width / Density_x);
-            Height = (img.Height / Density_y);
+
+            RealWidth = (img.Width / Density_x);
+            RealHeight = (img.Height / Density_y);
+
+            Width = RealWidth + SettingManager.GetMargin() * 2;
+            Height = RealHeight + SettingManager.GetMargin() * 2;
+
             BitmapImage thumb = BuildThumb(img);
 
-            mat.Dispose();
             img.Dispose();
-            
             return thumb;
 
         }

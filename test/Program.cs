@@ -25,7 +25,8 @@ namespace test
             if(tiff== null)
                 return;
 
-            Mat firstImg = new Mat(imgPath, LoadImageType.Color);
+            Mat firstImg = TiffToMat(imgPath);
+
             int firstWidth = firstImg.Cols;
             int firstHeight = firstImg.Rows;
 
@@ -121,14 +122,14 @@ namespace test
         static void Main(string[] args)
         {
 
-            Mat mat = TiffToMat("d:\\a.tif");
-            Bitmap map = mat.Bitmap;
-            map.Save("d:\\test.jpg");
-            map.Dispose();
+            //Mat mat = TiffToMat("d:\\a.tif");
+            //Bitmap map = mat.Bitmap;
+            //map.Save("d:\\test.jpg");
+            //map.Dispose();
 
-            //List<string> all = new List<string>() { "D:\\c.jpg", "D:\\d.jpg" };
+            List<string> all = new List<string>() { "D:\\a.tif", "D:\\d.tif" };
 
-            //Jpgs2TiffByLibTiffAndCV(all, "D:\\output.tif");
+            Jpgs2TiffByLibTiffAndCV(all, "D:\\output.tif");
         }
     }
 }

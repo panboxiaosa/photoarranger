@@ -30,17 +30,21 @@ namespace phothoflow
     public partial class MainWindow : Window, StepCallback
     {
 
-        private Point origin;
         private Point start;
         ObservableCollection<Item> unarranged;
+        Color Normal = Color.FromRgb(176, 196, 222);
+        Color Chosen = Color.FromRgb(220, 20, 60);
 
         public void OnStart()
         {
             this.Dispatcher.Invoke(new Action(() =>
             {
-                MainContainer.Width = 100;
+                if (MainContainer.Width != SettingManager.GetWidth() * DisplayOptions.DisplayRate)
+                {
+                    MainContainer.Width = SettingManager.GetWidth() * DisplayOptions.DisplayRate;
+                }
+                MainContainer.Height = 100;
                 MainContainer.Children.Clear();
-                unarranged.Clear();
             }));
         }
 
@@ -56,6 +60,32 @@ namespace phothoflow
 
         }
 
+        UIElement CreateMovable(Item one)
+        {
+            int rate = DisplayOptions.DisplayRate;
+            Image img = new Image();
+            img.Width = one.RealWidth * rate;
+            img.Height = one.RealHeight * rate;
+            if (!(one.Preview is BitmapFrame))
+            {
+                one.Preview = BitmapFrame.Create(one.Preview);
+            }
+            img.Source = one.Preview;
+
+            Border border = new Border();
+            border.Width = one.Width * rate;
+            border.Height = one.Height * rate;
+            border.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            border.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+
+            border.BorderBrush = new SolidColorBrush(Normal);
+            border.BorderThickness = new Thickness(0.5);
+
+            border.Child = img;
+            border.Tag = one;
+            return border;
+        }
+
         void AddItem(Item val)
         {
             this.Dispatcher.Invoke(new Action<Item>((one) =>
@@ -66,27 +96,15 @@ namespace phothoflow
                 {
                     MainContainer.Height = height * rate;
                 }
-                if (MainContainer.Width != SettingManager.GetWidth() * rate)
-                {
-                    MainContainer.Width = SettingManager.GetWidth() * rate;
-                }
 
-                Image img = new Image();
-                img.Width = one.RealWidth * rate;
-                img.Height = one.RealHeight * rate;
-                if (!(one.Preview is BitmapFrame))
-                {
-                    one.Preview = BitmapFrame.Create(one.Preview); 
-                }
-                img.Source = one.Preview;
+                UIElement photo = CreateMovable(val);
+                photo.MouseLeftButtonDown += ImageClick;
+                photo.MouseLeftButtonUp += ImageRelease;
+                photo.MouseMove += ImageMouseMove;
 
-                img.MouseLeftButtonDown += ImageClick;
-                img.MouseLeftButtonUp += ImageRelease;
-                img.MouseMove += image_MouseMove;
-
-                Canvas.SetLeft(img, (one.Left + SettingManager.GetMargin()) * rate);
-                Canvas.SetTop(img, (one.Top + SettingManager.GetMargin()) * rate);
-                MainContainer.Children.Add(img);
+                Canvas.SetLeft(photo, one.Left * rate);
+                Canvas.SetTop(photo, one.Top * rate);
+                MainContainer.Children.Add(photo);
             }), val);
         }
 
@@ -121,52 +139,50 @@ namespace phothoflow
             {
                 OnStep(one);
             }
-
         }
 
-        private void waitingList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ImageMouseMove(object sender, MouseEventArgs e)
         {
-
-        }
-
-
-        private void image_MouseMove(object sender, MouseEventArgs e)
-        {
-            Image image = e.Source as Image;
-            if (!image.IsMouseCaptured) return;
+            UIElement delta = sender as UIElement;
+            if (!delta.IsMouseCaptured) return;
             Point p = e.MouseDevice.GetPosition(MainContainer);
 
-            Matrix m = image.RenderTransform.Value;
-            m.OffsetX = origin.X + (p.X - start.X);
-            m.OffsetY = origin.Y + (p.Y - start.Y);
+            Matrix m = delta.RenderTransform.Value;
+            m.OffsetX = p.X - start.X;
+            m.OffsetY = p.Y - start.Y;
 
-            image.RenderTransform = new MatrixTransform(m);
+            delta.RenderTransform = new MatrixTransform(m);
         }
 
         private void ImageRelease(object sender, MouseButtonEventArgs e)
         {
-            Image image = e.Source as Image;
-            image.ReleaseMouseCapture();
+            Border delta = sender as Border;
+            delta.BorderBrush = new SolidColorBrush(Normal);
+            delta.ReleaseMouseCapture();
+
+            Matrix m = delta.RenderTransform.Value;
+            float x = (float)((Canvas.GetLeft(delta) + m.OffsetX)/ DisplayOptions.DisplayRate);
+            float y = (float)((Canvas.GetTop(delta) + m.OffsetY)/ DisplayOptions.DisplayRate);
+            Item target = delta.Tag as Item;
+
+            if (!arrangement.AdjustItem(target, x, y))
+            {
+                OnStart();
+                OnFinish();
+            }
+  
         }
 
         private void ImageClick(object sender, MouseButtonEventArgs e)
         {
-            Image image = e.Source as Image;
-            if (image.IsMouseCaptured) return;
-            image.CaptureMouse();
-
-            start = e.GetPosition(MainContainer);
-            origin.X = image.RenderTransform.Value.OffsetX;
-            origin.Y = image.RenderTransform.Value.OffsetY;
-        }
+            Border delta = sender as Border;
+            if (delta.IsMouseCaptured) return;
+            delta.BorderBrush = new SolidColorBrush(Chosen);
+            start = e.MouseDevice.GetPosition(MainContainer);
 
 
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            UIElement thumb = e.Source as UIElement;
-
-            Canvas.SetLeft(thumb, Canvas.GetLeft(thumb) + e.HorizontalChange);
-            Canvas.SetTop(thumb, Canvas.GetTop(thumb) + e.VerticalChange);
+            delta.CaptureMouse();
+            
         }
 
         private void PopSetting(string str)
@@ -178,6 +194,7 @@ namespace phothoflow
 
         private void PopUpdate()
         {
+            CreateData.Text = "";
             Managable settingItem = SettingManager.Get(SettingTitle.Text);
             ChooseList.ItemsSource = settingItem.Get();
             ChooseList.SelectedIndex = settingItem.Current();
@@ -219,7 +236,6 @@ namespace phothoflow
                 new Thread(() => { arrangement.Load(path); }).Start();
             }
             
-            
         }
 
         void SaveFile()
@@ -237,7 +253,6 @@ namespace phothoflow
             {
                 MessageBox.Show("取消保存");
             }  
-
             
         }
 
@@ -266,7 +281,6 @@ namespace phothoflow
                     PerformAdd();
                     break;
                 case "Confirm":
-                case "Cancel":
                     PerformConfirm();
                     break;
                 default:

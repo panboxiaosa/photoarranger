@@ -30,6 +30,7 @@ namespace phothoflow.setting
                 return;
             configs.Insert(0, item);
             selected = 0;
+            Save();
         }
 
         public ObservableCollection<float> Get()

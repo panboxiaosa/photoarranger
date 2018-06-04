@@ -16,7 +16,7 @@
                 <MenuItem Header="关于" Click="MenuItem_Click" />
             </Menu>
 
-            <ListBox DockPanel.Dock="Right" Width="250" Name="waitingList" ItemsSource="{Binding}" SelectionChanged="waitingList_SelectionChanged">
+            <ListBox DockPanel.Dock="Right" Width="250" Name="waitingList" ItemsSource="{Binding}" >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel HorizontalAlignment="Left">
@@ -34,7 +34,7 @@
             </ScrollViewer>
 
         </DockPanel>
-        <Popup Name="SettingDialog" Placement="Center" Width="300" Height="180">
+        <Popup Name="SettingDialog" Placement="Center" Width="280" Height="180">
             <Border  BorderBrush="AliceBlue" BorderThickness="1">
                 <Grid Background="White">
                     <Grid.ColumnDefinitions>
@@ -62,7 +62,6 @@
                     <Button Click="Confirm_Click" Width="40" Height="20" Grid.Column="2" Grid.Row="1" Tag="AddData">添加</Button>
                     <ComboBox Width="60" Height="20" Grid.Column="1" Grid.Row="2" Name="ChooseList" ItemsSource="{Binding}" DropDownClosed="ChooseList_DropDownClosed"/>
                     <Button Grid.Column="2" Grid.Row="3" Click="Confirm_Click" Width="40" Height="20" Tag="Confirm">确定</Button>
-                    <Button Grid.Column="3" Grid.Row="3"  Click="Confirm_Click" Width="40" Height="20" Tag="Cancel">取消</Button>
                 </Grid>
             </Border>
             

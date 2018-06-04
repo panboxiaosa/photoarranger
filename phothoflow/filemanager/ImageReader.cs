@@ -39,11 +39,8 @@ namespace phothoflow.filemanager
 
             value = tif.GetField(TiffTag.IMAGELENGTH);
             int height = value[0].ToInt();
-
             value = tif.GetField(TiffTag.SAMPLESPERPIXEL);
-
             Mat mat = new Mat(height, width, DepthType.Cv8U, value[0].ToShort());
-
             value = tif.GetField(TiffTag.PHOTOMETRIC);
 
             byte[] buf = new byte[mat.Step];
@@ -58,17 +55,10 @@ namespace phothoflow.filemanager
                 }
             }
 
-
             tif.Close();
             tif.Dispose();
 
             return CmykToRgb(mat);
-        }
-
-        public static Bitmap readAsBitmap(string path)
-        {
-            Mat mat = readAsMat(path);
-            return mat.Bitmap;
         }
 
         public static Mat readAsMat(string path)

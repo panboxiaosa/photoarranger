@@ -88,6 +88,11 @@ namespace phothoflow.location
 
         public int FindSuitable(List<Item> origin, Item inc)
         {
+            return FindSuitable(origin, inc, 9999f, 9999f);
+        }
+
+        public int FindSuitable(List<Item> origin, Item inc, float x, float y)
+        {
             float width = SettingManager.GetWidth();
             if (origin.Count == 0)
             {
@@ -103,7 +108,7 @@ namespace phothoflow.location
                 List<Corner> possible = GetAllPosible(origin);
                 foreach (Corner taste in possible)
                 {
-                    if (Fit(inc, taste, origin))
+                    if (taste.x <=x && taste.y <= y &&Fit(inc, taste, origin))
                     {
                         inc.Top = taste.y;
                         inc.Left = taste.x;
@@ -114,9 +119,5 @@ namespace phothoflow.location
             return -1;
         }
 
-        public int FindSuitable(List<Item> origin, Item inc, int x, int y)
-        {
-            return 0;
-        }
     }
 }

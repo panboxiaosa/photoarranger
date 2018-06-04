@@ -8,6 +8,6 @@ namespace phothoflow.setting
 {
     class DisplayOptions
     {
-        public static int DisplayRate = 5;
+        public static int DisplayRate = 8;
     }
 }

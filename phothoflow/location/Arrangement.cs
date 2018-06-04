@@ -18,7 +18,7 @@ namespace phothoflow.location
         StepCallback callback;
 
         ArrangeCalcer calcer = new ArrangeCalcer();
-        List<Item> currentArrange;
+        private List<Item> currentArrange;
         List<Item> allItemList;
         
         public Arrangement(StepCallback callback_)
@@ -64,7 +64,7 @@ namespace phothoflow.location
             allItemList = new List<Item>();
             List<string> images = ImageList.listDirectory(path);
 
-            int seg = 1;// Environment.ProcessorCount;
+            int seg = 1; // Environment.ProcessorCount;
             int each = images.Count / seg;
 
             List<Thread> ts = new List<Thread>();
@@ -107,18 +107,72 @@ namespace phothoflow.location
             MemoryStream myMS2 = new MemoryStream(myBytes);
             return myMS2;
         }
-        
+
+        public bool AdjustItem(Item adjust, float x, float y)
+        {
+            if (adjust.Width + x > SettingManager.GetWidth()) return false;
+            if (y < 0 || x < 0) return false;
+            List<Item> prepare = new List<Item>();
+            List<Item> abondon = new List<Item>();
+            adjust.Top = y;
+            adjust.Left = x;
+            foreach (Item inpos in currentArrange)
+            {
+                if (inpos == adjust) continue;
+                if (adjust.IsOverlap(inpos))
+                {
+                    abondon.Add(inpos);
+                }
+                else
+                {
+                    prepare.Add(inpos);
+                }
+            }
+            int postion = calcer.FindSuitable(prepare, adjust, x, y);
+            if (postion != -1)
+            {
+                prepare.Insert(postion, adjust);
+            }
+
+            abondon.AddRange(prepare.GetRange(postion + 1, prepare.Count - postion -1));
+            prepare.RemoveRange(postion + 1, prepare.Count - postion -1);
+
+            ReArrange(prepare, abondon);
+            return true;
+        }
+
+        private void ReArrange(List<Item> already, List<Item> rest)
+        {
+            callback.OnStart();
+            foreach (Item item in rest)
+            {
+                int position = calcer.FindSuitable(already, item);
+                if (position != -1)
+                {
+                    already.Insert(position, item);
+                }
+            }
+            currentArrange = already;
+
+            callback.OnFinish();
+        }
+
         public void Arrange()
         {
             if (allItemList == null)
             {
                 return;
             }
+
             callback.OnStart();
             currentArrange = new List<Item>();
             foreach (Item item in allItemList)
             {
-                AutoArrange(item);
+                int position = calcer.FindSuitable(currentArrange, item);
+                if (position != -1)
+                {
+                    currentArrange.Insert(position, item);
+                }
             }
             callback.OnFinish();
         }
@@ -126,21 +180,6 @@ namespace phothoflow.location
         public void Recession(Item item)
         {
             currentArrange.Remove(item);
-        }
-
-        public void AutoArrange(Item item)
-        {
-            int position = calcer.FindSuitable(currentArrange, item);
-            if (position != -1)
-            {
-                currentArrange.Insert(position, item);
-            }
-        }
-
-        public void ManualArrange(Item item, int x, int y)
-        {
-            int position = calcer.FindSuitable(currentArrange, item, x, y);
-            currentArrange.Insert(position, item);
         }
 
     }

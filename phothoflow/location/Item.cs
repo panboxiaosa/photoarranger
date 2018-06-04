@@ -68,7 +68,8 @@ namespace phothoflow.location
 
         BitmapImage InitBitmap(string path)
         {
-            Bitmap img = ImageReader.readAsBitmap(path);
+            Mat mat = ImageReader.readAsMat(path);
+            Bitmap img = mat.Bitmap;
             
             Density_x = img.HorizontalResolution;
             Density_y = img.VerticalResolution;

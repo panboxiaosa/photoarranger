@@ -9,7 +9,8 @@
 
 #include <stdio.h>
 #include <tchar.h>
-
-
+#include <iostream>
+#include <opencv2/opencv.hpp>
+#include "tiffio.h"
 
 // TODO: reference additional headers your program requires here

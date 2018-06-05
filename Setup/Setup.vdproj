@@ -21,85 +21,61 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_08EC77D1B5599B36F19F43ECA5A36FF3"
+        "MsmKey" = "8:_08127F85B441FB041CAE0EBFBF393E53"
         "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_0A79798838184D62A07F290905AD0A48"
+        "MsmKey" = "8:_1A55B5A4023D47FEA45EAB7990337DEA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_1153D182B110406FB5C18628C5752016"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_19D8175ED48DD9ADCA96B8BD0A29C331"
-        "OwnerKey" = "8:_08EC77D1B5599B36F19F43ECA5A36FF3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_19D8175ED48DD9ADCA96B8BD0A29C331"
+        "MsmKey" = "8:_222773C0C456703B13F6CA2C6636ECB3"
         "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_295298122E12499E961792EF4D1C53BE"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_222773C0C456703B13F6CA2C6636ECB3"
+        "OwnerKey" = "8:_9B5AF4AFBC9237A216A01DD9FFCF733F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_2E8EB5F9029D4363942D9C429C1E1691"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_32EBB48F506EF5318BD9D643D24F6E81"
+        "OwnerKey" = "8:_08127F85B441FB041CAE0EBFBF393E53"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_38EBCD0A686D07E5574DFF6DE40C9800"
-        "OwnerKey" = "8:_CA95FC8060C42DB1162F17DDB4E11B24"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_38EBCD0A686D07E5574DFF6DE40C9800"
+        "MsmKey" = "8:_32EBB48F506EF5318BD9D643D24F6E81"
         "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_38EBCD0A686D07E5574DFF6DE40C9800"
-        "OwnerKey" = "8:_08EC77D1B5599B36F19F43ECA5A36FF3"
+        "MsmKey" = "8:_32EBB48F506EF5318BD9D643D24F6E81"
+        "OwnerKey" = "8:_7C74BEAC9B7206B15491052EE374CB61"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_3B250F46BD7A47598740EFE19D407EBB"
+        "MsmKey" = "8:_3C4946364CF849028E20C60F614B57F2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_46B4CA26376F46D5ABB94333F646A7AB"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_50847D533F1B504E27747AF791BE759C"
+        "MsmKey" = "8:_4532D8ADBA3B1C207298B6FED7018C37"
         "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_5C4FAB7144534A9E957B6CE2ED928581"
+        "MsmKey" = "8:_47B7F3732E964531955DD01161ED5B09"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -117,13 +93,19 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_80CCE61BF21F4628AA320C3B4E78525C"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_7C74BEAC9B7206B15491052EE374CB61"
+        "OwnerKey" = "8:_08127F85B441FB041CAE0EBFBF393E53"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_887C9C0EFF8D4D208F2C5E509159A5BD"
+        "MsmKey" = "8:_7C74BEAC9B7206B15491052EE374CB61"
+        "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_80CCE61BF21F4628AA320C3B4E78525C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -135,170 +117,62 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_8FE300597905C3430689B51CABD07E97"
-        "OwnerKey" = "8:_08EC77D1B5599B36F19F43ECA5A36FF3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8FE300597905C3430689B51CABD07E97"
-        "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8FE300597905C3430689B51CABD07E97"
-        "OwnerKey" = "8:_19D8175ED48DD9ADCA96B8BD0A29C331"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A3D6D493B230AF4071F8347158AD6125"
-        "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_A3D6D493B230AF4071F8347158AD6125"
-        "OwnerKey" = "8:_DA99B523CCD39AA319C9DCE49B061D9D"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_AAFC3639429C400697C3A93E0DAAA8C5"
+        "MsmKey" = "8:_9386933CEF754CC3B3EAEFE90A8E5451"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_C2FF18C1543D4789809B0966AECCF16E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_C47C830A518540AEADAAAA0C6090A5E9"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_CA95FC8060C42DB1162F17DDB4E11B24"
+        "MsmKey" = "8:_9B5AF4AFBC9237A216A01DD9FFCF733F"
         "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_CB295940458146DFB0DB5E426F92105B"
+        "MsmKey" = "8:_BA1EB955E8274901A467FAFFD2CE9EFA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DA99B523CCD39AA319C9DCE49B061D9D"
+        "MsmKey" = "8:_EB04A9F6CF668B08292D4D460255A596"
+        "OwnerKey" = "8:_FF1CD735731F75B6FB04AFF74AF4E658"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_EB04A9F6CF668B08292D4D460255A596"
         "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_E715CD90306E8DC17C26E96880409CBA"
-        "OwnerKey" = "8:_CA95FC8060C42DB1162F17DDB4E11B24"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_E715CD90306E8DC17C26E96880409CBA"
-        "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_F907039EC4C74BD3B2DA647557C4DD02"
+        "MsmKey" = "8:_F361DC171C094825A609DC2617269A32"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_50847D533F1B504E27747AF791BE759C"
+        "MsmKey" = "8:_F9D6D9A4F3FBA346B10EAA2B304ACF4A"
+        "OwnerKey" = "8:_FF1CD735731F75B6FB04AFF74AF4E658"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_F907039EC4C74BD3B2DA647557C4DD02"
+        "MsmKey" = "8:_F9D6D9A4F3FBA346B10EAA2B304ACF4A"
+        "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5FB68C1C133C4A689CF8ED7B20D28B6B"
+        "MsmKey" = "8:_F9D6D9A4F3FBA346B10EAA2B304ACF4A"
+        "OwnerKey" = "8:_08127F85B441FB041CAE0EBFBF393E53"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_295298122E12499E961792EF4D1C53BE"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_887C9C0EFF8D4D208F2C5E509159A5BD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_80CCE61BF21F4628AA320C3B4E78525C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C47C830A518540AEADAAAA0C6090A5E9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0A79798838184D62A07F290905AD0A48"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2E8EB5F9029D4363942D9C429C1E1691"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_67D5B1A650C3496E85FFBA3C7D9CC8F0"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_89C822A686A540ED8756AA44CE61C668"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C2FF18C1543D4789809B0966AECCF16E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5C4FAB7144534A9E957B6CE2ED928581"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AAFC3639429C400697C3A93E0DAAA8C5"
+        "MsmKey" = "8:_FF1CD735731F75B6FB04AFF74AF4E658"
+        "OwnerKey" = "8:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -310,49 +184,55 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DA99B523CCD39AA319C9DCE49B061D9D"
+        "OwnerKey" = "8:_9B5AF4AFBC9237A216A01DD9FFCF733F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_A3D6D493B230AF4071F8347158AD6125"
+        "OwnerKey" = "8:_222773C0C456703B13F6CA2C6636ECB3"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_08EC77D1B5599B36F19F43ECA5A36FF3"
+        "OwnerKey" = "8:_08127F85B441FB041CAE0EBFBF393E53"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_19D8175ED48DD9ADCA96B8BD0A29C331"
+        "OwnerKey" = "8:_7C74BEAC9B7206B15491052EE374CB61"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_8FE300597905C3430689B51CABD07E97"
+        "OwnerKey" = "8:_32EBB48F506EF5318BD9D643D24F6E81"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_CA95FC8060C42DB1162F17DDB4E11B24"
+        "OwnerKey" = "8:_FF1CD735731F75B6FB04AFF74AF4E658"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_E715CD90306E8DC17C26E96880409CBA"
+        "OwnerKey" = "8:_EB04A9F6CF668B08292D4D460255A596"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_38EBCD0A686D07E5574DFF6DE40C9800"
+        "OwnerKey" = "8:_F9D6D9A4F3FBA346B10EAA2B304ACF4A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4532D8ADBA3B1C207298B6FED7018C37"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -373,6 +253,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -389,6 +277,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -418,14 +314,14 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_08EC77D1B5599B36F19F43ECA5A36FF3"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_08127F85B441FB041CAE0EBFBF393E53"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Emgu.CV.UI.GL, Version=3.1.0.2282, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_08EC77D1B5599B36F19F43ECA5A36FF3"
+                    "_08127F85B441FB041CAE0EBFBF393E53"
                     {
                     "Name" = "8:Emgu.CV.UI.GL.dll"
                     "Attributes" = "3:512"
@@ -449,23 +345,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0A79798838184D62A07F290905AD0A48"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1A55B5A4023D47FEA45EAB7990337DEA"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=pt, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_0A79798838184D62A07F290905AD0A48"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\pt\\ZedGraph.resources.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\x64\\Release\\opencv_world310.dll"
+            "TargetName" = "8:opencv_world310.dll"
             "Tag" = "8:"
-            "Folder" = "8:_8963CAC2E8C94BABB2B4A19987A51934"
+            "Folder" = "8:_BD21973FF04A421A9F2B0FFAD81DE4D7"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -480,40 +365,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1153D182B110406FB5C18628C5752016"
-            {
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\x86\\cvextern.dll"
-            "TargetName" = "8:cvextern.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_73C3B6D2EA274E4FABF5A2943E0135EC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_19D8175ED48DD9ADCA96B8BD0A29C331"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_222773C0C456703B13F6CA2C6636ECB3"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_19D8175ED48DD9ADCA96B8BD0A29C331"
+                    "_222773C0C456703B13F6CA2C6636ECB3"
                     {
-                    "Name" = "8:OpenTK.GLControl.dll"
+                    "Name" = "8:Microsoft.WindowsAPICodePack.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:OpenTK.GLControl.dll"
+            "SourcePath" = "8:Microsoft.WindowsAPICodePack.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_948A925589BB4C0B994DD357A58882F5"
@@ -531,82 +396,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_295298122E12499E961792EF4D1C53BE"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_32EBB48F506EF5318BD9D643D24F6E81"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=tr, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_295298122E12499E961792EF4D1C53BE"
+                    "_32EBB48F506EF5318BD9D643D24F6E81"
                     {
-                    "Name" = "8:ZedGraph.resources.dll"
+                    "Name" = "8:OpenTK.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\tr\\ZedGraph.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2E613553B70E47069FD7AFF563EDF2E1"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2E8EB5F9029D4363942D9C429C1E1691"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=ja, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_2E8EB5F9029D4363942D9C429C1E1691"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\ja\\ZedGraph.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_02EA75EC858E4E90866D6E76FDC7F598"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_38EBCD0A686D07E5574DFF6DE40C9800"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Emgu.CV.World, Version=3.1.0.2282, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_38EBCD0A686D07E5574DFF6DE40C9800"
-                    {
-                    "Name" = "8:Emgu.CV.World.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Emgu.CV.World.dll"
+            "SourcePath" = "8:OpenTK.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_948A925589BB4C0B994DD357A58882F5"
@@ -624,32 +427,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3B250F46BD7A47598740EFE19D407EBB"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3C4946364CF849028E20C60F614B57F2"
             {
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\x64\\cvextern.dll"
-            "TargetName" = "8:cvextern.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_43DBBCA6109C4303902833A7BABA84A9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_46B4CA26376F46D5ABB94333F646A7AB"
-            {
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\x64\\opencv_ffmpeg310_64.dll"
+            "SourcePath" = "8:..\\x64\\Release\\opencv_ffmpeg310_64.dll"
             "TargetName" = "8:opencv_ffmpeg310_64.dll"
             "Tag" = "8:"
-            "Folder" = "8:_43DBBCA6109C4303902833A7BABA84A9"
+            "Folder" = "8:_BD21973FF04A421A9F2B0FFAD81DE4D7"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -664,14 +447,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_50847D533F1B504E27747AF791BE759C"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4532D8ADBA3B1C207298B6FED7018C37"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:BitMiracle.LibTiff.NET40, Version=2.4.584.0, Culture=neutral, PublicKeyToken=53879b3e20e7a7d6, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_50847D533F1B504E27747AF791BE759C"
+                    "_4532D8ADBA3B1C207298B6FED7018C37"
                     {
                     "Name" = "8:BitMiracle.LibTiff.NET40.dll"
                     "Attributes" = "3:512"
@@ -695,23 +478,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5C4FAB7144534A9E957B6CE2ED928581"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_47B7F3732E964531955DD01161ED5B09"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=es, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_5C4FAB7144534A9E957B6CE2ED928581"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\es\\ZedGraph.resources.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\x64\\Release\\libtiff.dll"
+            "TargetName" = "8:libtiff.dll"
             "Tag" = "8:"
-            "Folder" = "8:_5AE0E5D8EA5E4A9483C71745191D04D9"
+            "Folder" = "8:_BD21973FF04A421A9F2B0FFAD81DE4D7"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -733,11 +505,6 @@
             "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=zh-cn, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_5FB68C1C133C4A689CF8ED7B20D28B6B"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\zh-cn\\ZedGraph.resources.dll"
             "TargetName" = "8:"
@@ -764,11 +531,6 @@
             "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=it, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_67D5B1A650C3496E85FFBA3C7D9CC8F0"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\it\\ZedGraph.resources.dll"
             "TargetName" = "8:"
@@ -788,23 +550,23 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_80CCE61BF21F4628AA320C3B4E78525C"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7C74BEAC9B7206B15491052EE374CB61"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=sk, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_80CCE61BF21F4628AA320C3B4E78525C"
+                    "_7C74BEAC9B7206B15491052EE374CB61"
                     {
-                    "Name" = "8:ZedGraph.resources.dll"
+                    "Name" = "8:OpenTK.GLControl.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\sk\\ZedGraph.resources.dll"
+            "SourcePath" = "8:OpenTK.GLControl.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_36287EB695F24413B0EEED6C17329C9F"
+            "Folder" = "8:_948A925589BB4C0B994DD357A58882F5"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -816,26 +578,21 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_887C9C0EFF8D4D208F2C5E509159A5BD"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_80CCE61BF21F4628AA320C3B4E78525C"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=sv, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=sk, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_887C9C0EFF8D4D208F2C5E509159A5BD"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\sv\\ZedGraph.resources.dll"
+            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\sk\\ZedGraph.resources.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_55574D5B00EF4B45BBC9C97C86973CB9"
+            "Folder" = "8:_36287EB695F24413B0EEED6C17329C9F"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -857,11 +614,6 @@
             "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=hu, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_89C822A686A540ED8756AA44CE61C668"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\hu\\ZedGraph.resources.dll"
             "TargetName" = "8:"
@@ -881,85 +633,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_8FE300597905C3430689B51CABD07E97"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9386933CEF754CC3B3EAEFE90A8E5451"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_8FE300597905C3430689B51CABD07E97"
-                    {
-                    "Name" = "8:OpenTK.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:OpenTK.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\x64\\Release\\jpeg.dll"
+            "TargetName" = "8:jpeg.dll"
             "Tag" = "8:"
-            "Folder" = "8:_948A925589BB4C0B994DD357A58882F5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_A3D6D493B230AF4071F8347158AD6125"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_A3D6D493B230AF4071F8347158AD6125"
-                    {
-                    "Name" = "8:Microsoft.WindowsAPICodePack.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.WindowsAPICodePack.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_948A925589BB4C0B994DD357A58882F5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_AAFC3639429C400697C3A93E0DAAA8C5"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=de, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_AAFC3639429C400697C3A93E0DAAA8C5"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\de\\ZedGraph.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_823C7E3C3F724117AC14B7A7BC1A37D2"
+            "Folder" = "8:_BD21973FF04A421A9F2B0FFAD81DE4D7"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -974,127 +653,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C2FF18C1543D4789809B0966AECCF16E"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=fr, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_C2FF18C1543D4789809B0966AECCF16E"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\fr\\ZedGraph.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_9DAF508A2F92492C90EFF4EB5DA3610F"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C47C830A518540AEADAAAA0C6090A5E9"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=ru, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_C47C830A518540AEADAAAA0C6090A5E9"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\ru\\ZedGraph.resources.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_94983C9F0CFD4757B6A54B87EDDEA4CE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CA95FC8060C42DB1162F17DDB4E11B24"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Emgu.CV.UI, Version=3.1.0.2282, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_CA95FC8060C42DB1162F17DDB4E11B24"
-                    {
-                    "Name" = "8:Emgu.CV.UI.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Emgu.CV.UI.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_948A925589BB4C0B994DD357A58882F5"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CB295940458146DFB0DB5E426F92105B"
-            {
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\x86\\opencv_ffmpeg310.dll"
-            "TargetName" = "8:opencv_ffmpeg310.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_73C3B6D2EA274E4FABF5A2943E0135EC"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DA99B523CCD39AA319C9DCE49B061D9D"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9B5AF4AFBC9237A216A01DD9FFCF733F"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_DA99B523CCD39AA319C9DCE49B061D9D"
+                    "_9B5AF4AFBC9237A216A01DD9FFCF733F"
                     {
                     "Name" = "8:Microsoft.WindowsAPICodePack.Shell.dll"
                     "Attributes" = "3:512"
@@ -1118,14 +684,34 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E715CD90306E8DC17C26E96880409CBA"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_BA1EB955E8274901A467FAFFD2CE9EFA"
+            {
+            "SourcePath" = "8:..\\x64\\Release\\zlib.dll"
+            "TargetName" = "8:zlib.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_BD21973FF04A421A9F2B0FFAD81DE4D7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EB04A9F6CF668B08292D4D460255A596"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:ZedGraph, Version=5.1.7.430, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_E715CD90306E8DC17C26E96880409CBA"
+                    "_EB04A9F6CF668B08292D4D460255A596"
                     {
                     "Name" = "8:ZedGraph.dll"
                     "Attributes" = "3:512"
@@ -1149,23 +735,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F907039EC4C74BD3B2DA647557C4DD02"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F361DC171C094825A609DC2617269A32"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ZedGraph.resources, Version=5.1.7.430, Culture=zh-tw, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_F907039EC4C74BD3B2DA647557C4DD02"
-                    {
-                    "Name" = "8:ZedGraph.resources.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\phothoflow\\bin\\x86\\Release\\zh-tw\\ZedGraph.resources.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\x64\\Release\\imgmerge.exe"
+            "TargetName" = "8:imgmerge.exe"
             "Tag" = "8:"
-            "Folder" = "8:_F0EA03DAF9D7495D95BD41FC127F8DFB"
+            "Folder" = "8:_BD21973FF04A421A9F2B0FFAD81DE4D7"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -1178,6 +753,68 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F9D6D9A4F3FBA346B10EAA2B304ACF4A"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Emgu.CV.World, Version=3.1.0.2282, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_F9D6D9A4F3FBA346B10EAA2B304ACF4A"
+                    {
+                    "Name" = "8:Emgu.CV.World.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Emgu.CV.World.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_948A925589BB4C0B994DD357A58882F5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FF1CD735731F75B6FB04AFF74AF4E658"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Emgu.CV.UI, Version=3.1.0.2282, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_FF1CD735731F75B6FB04AFF74AF4E658"
+                    {
+                    "Name" = "8:Emgu.CV.UI.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Emgu.CV.UI.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_948A925589BB4C0B994DD357A58882F5"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -1295,17 +932,6 @@
                         {
                         }
                     }
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_73C3B6D2EA274E4FABF5A2943E0135EC"
-                    {
-                    "Name" = "8:x86"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_D45B1F56590A4D04B9526C648708FFD6"
-                        "Folders"
-                        {
-                        }
-                    }
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_823C7E3C3F724117AC14B7A7BC1A37D2"
                     {
                     "Name" = "8:de"
@@ -1357,6 +983,17 @@
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
                     "Property" = "8:_4E5F7B1959934C52B53FAFC75DE4D0B9"
+                        "Folders"
+                        {
+                        }
+                    }
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_BD21973FF04A421A9F2B0FFAD81DE4D7"
+                    {
+                    "Name" = "8:fileop"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_DF72321BC5A64DBFBEE516737E215C06"
                         "Folders"
                         {
                         }
@@ -1937,7 +1574,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_01B9BEDE3C8B4D5FAAB6EC0279F469F5"
             {
-            "SourcePath" = "8:..\\phothoflow\\obj\\x86\\Release\\arranger.exe"
+            "SourcePath" = "8:..\\phothoflow\\obj\\x64\\Release\\arranger.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_948A925589BB4C0B994DD357A58882F5"

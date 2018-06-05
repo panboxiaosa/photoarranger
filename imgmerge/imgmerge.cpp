@@ -2,13 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "tiffio.h"
-#include <iostream>
-#include <windef.h>
-#include <wingdi.h>
-#include <opencv2/opencv.hpp>
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
 
 using namespace cv;
 using namespace std;
@@ -85,6 +78,7 @@ void write_huge() {
 		TIFFWriteScanline(tiff, data, i);
 	}
 
+	
 	TIFFClose(tiff);
 }
 

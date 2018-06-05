@@ -12,5 +12,11 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include "tiffio.h"
+#include <Windows.h>
+#include <map>
+#include <vector>
+
+using namespace std;
+using namespace cv;
 
 // TODO: reference additional headers your program requires here

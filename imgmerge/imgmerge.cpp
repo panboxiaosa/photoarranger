@@ -2,9 +2,12 @@
 //
 
 #include "stdafx.h"
+#include "ThumbManager.h"
+#include "StoreManager.h"
 
 using namespace cv;
 using namespace std;
+
 
 void Jpg2TiffByLibTiffAndCV(TIFF *tiff, int pageIndex, std::string imgPath)
 {
@@ -82,17 +85,100 @@ void write_huge() {
 	TIFFClose(tiff);
 }
 
+ThumbManager thumb;
+
+StoreManager store;
+
+std::string TCHAR2STRING(TCHAR *STR)
+{
+	int iLen = WideCharToMultiByte(CP_ACP, 0, STR, -1, NULL, 0, NULL, NULL);
+	char* chRtn = new char[iLen*sizeof(char)];
+	WideCharToMultiByte(CP_ACP, 0, STR, -1, chRtn, iLen, NULL, NULL);
+	std::string str(chRtn);
+	return str;
+}
+
+/*----------------------------
+* 功能 : 递归遍历文件夹，找到其中包含的所有文件
+*----------------------------
+* 函数 : find
+* 访问 : public
+*
+* 参数 : lpPath [in]      需遍历的文件夹目录
+* 参数 : fileList [in]    以文件名称的形式存储遍历后的文件
+*/
+void find(TCHAR* lpPath, std::vector<const std::string> &fileList)
+{
+	TCHAR szFind[MAX_PATH];
+	WIN32_FIND_DATA FindFileData;
+
+	_tcscpy_s(szFind, lpPath);
+	_tcscat_s(szFind, _T("\\*.*"));
+
+	HANDLE hFind = ::FindFirstFile(szFind, &FindFileData);
+	if (INVALID_HANDLE_VALUE == hFind)    return;
+
+	while (true)
+	{
+		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		{
+			if (FindFileData.cFileName[0] != '.')
+			{
+				TCHAR szFile[MAX_PATH];
+				_tcscpy_s(szFile, lpPath);
+				_tcscat_s(szFile, (TCHAR*)(FindFileData.cFileName));
+
+				find(szFile, fileList);
+			}
+		}
+		else
+		{
+			TCHAR szTarget[MAX_PATH];
+			_tcscpy_s(szTarget, lpPath);
+			_tcscat_s(szTarget, FindFileData.cFileName);
+			fileList.push_back(TCHAR2STRING(szTarget));
+		}
+		if (!FindNextFile(hFind, &FindFileData))    break;
+	}
+	FindClose(hFind);
+}
+
+bool endsWith(string obj, const char* suf) {
+	string tar = suf;
+	transform(tar.begin(), tar.end(), tar.begin(), tolower);
+	return obj.compare(obj.size() - tar.size(), tar.size(), tar) == 0;
+}
+
+void loadEntry(TCHAR* filename) {
+
+	vector<const string> files;
+	find(filename, files);
+	for (string item : files) {
+		
+		if (endsWith(item, ".jpg") || endsWith(item, ".jpeg") || endsWith(item, ".png") || endsWith(item, ".tif")) {
+			thumb.load(item);
+		}
+	}
+}
+
+void mergeEntry(string filename) {
+
+}
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//vector<string> src;
-	//src.push_back("D:\\a.tif");
-	//src.push_back("D:\\b.tif");
-	//Jpgs2TiffByLibTiffAndCV(src, "output.tif");
-	Mat* test = new Mat(200000, 10000, CV_8UC3, Scalar(255, 255, 255));
-	vector<int> compression_params;
+	if (argc < 3)
+		return 0;
+	
+	if (_tcscmp(argv[1], _T("-l")) == 0) {
+		loadEntry(argv[2]);
+	}
+	else if (_tcscmp(argv[1], _T("-m")) == 0) 
+	{
+		mergeEntry(TCHAR2STRING(argv[2]));
+	}
 
-	imwrite("test.tif", *test, compression_params);
-	//write_huge();
 
 	return 0;
 }

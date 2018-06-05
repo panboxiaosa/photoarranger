@@ -157,12 +157,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Fragment.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StoreManager.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="ThumbManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="imgmerge.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="StoreManager.cpp" />
+    <ClCompile Include="ThumbManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -154,9 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="filemanager\CMyPipe.cs" />
     <Compile Include="filemanager\FileWriter.cs" />
     <Compile Include="filemanager\ImageReader.cs" />
+    <Compile Include="ipc\PipeManager.cs" />
+    <Compile Include="ipc\ServerNamedPipe.cs" />
     <Compile Include="setting\DisplayOptions.cs" />
     <Compile Include="location\StepCallback.cs" />
     <Compile Include="manual\Command.cs" />
@@ -241,6 +242,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="License-LGPL.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yzmeir.InterProcessComm\Yzmeir.InterProcessComm.csproj">
+      <Project>{72a9cff3-e0c1-450b-998b-327cd3a39e64}</Project>
+      <Name>Yzmeir.InterProcessComm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yzmeir.NamedPipes\Yzmeir.NamedPipes.csproj">
+      <Project>{c55f8a8d-abd9-47e9-a6c9-f85eb487ff1d}</Project>
+      <Name>Yzmeir.NamedPipes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -154,6 +154,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="filemanager\CMyPipe.cs" />
     <Compile Include="filemanager\FileWriter.cs" />
     <Compile Include="filemanager\ImageReader.cs" />
     <Compile Include="setting\DisplayOptions.cs" />

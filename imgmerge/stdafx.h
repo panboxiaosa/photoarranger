@@ -16,6 +16,12 @@
 #include <map>
 #include <vector>
 
+#include <fstream>
+#include <sstream>
+#include <memory>
+#include <iomanip>
+#include <sstream>
+
 using namespace std;
 using namespace cv;
 

@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "ThumbManager.h"
 #include "StoreManager.h"
+#include "Messager.h"
+#include "StringCoder.h"
 
 using namespace cv;
 using namespace std;
@@ -15,7 +17,6 @@ void Jpg2TiffByLibTiffAndCV(TIFF *tiff, int pageIndex, std::string imgPath)
 		return;
 
 	cv::Mat firstImg = cv::imread(imgPath);
-	int c = firstImg.channels();
 	cv::cvtColor(firstImg, firstImg, CV_BGR2RGB);
 	int firstWidth = firstImg.cols;
 	int firstHeight = firstImg.rows;
@@ -85,17 +86,21 @@ void write_huge() {
 	TIFFClose(tiff);
 }
 
+
+
 ThumbManager thumb;
 
 StoreManager store;
 
-std::string TCHAR2STRING(TCHAR *STR)
-{
-	int iLen = WideCharToMultiByte(CP_ACP, 0, STR, -1, NULL, 0, NULL, NULL);
-	char* chRtn = new char[iLen*sizeof(char)];
-	WideCharToMultiByte(CP_ACP, 0, STR, -1, chRtn, iLen, NULL, NULL);
-	std::string str(chRtn);
-	return str;
+Messager messager;
+
+string buildTimeStr(WIN32_FIND_DATA filedata) {
+	stringstream ss;
+	ss << filedata.ftCreationTime.dwHighDateTime
+		<< filedata.ftCreationTime.dwLowDateTime
+		<< filedata.ftLastWriteTime.dwHighDateTime
+		<< filedata.ftLastWriteTime.dwLowDateTime;
+	return ss.str();
 }
 
 /*----------------------------
@@ -107,7 +112,7 @@ std::string TCHAR2STRING(TCHAR *STR)
 * 参数 : lpPath [in]      需遍历的文件夹目录
 * 参数 : fileList [in]    以文件名称的形式存储遍历后的文件
 */
-void find(TCHAR* lpPath, std::vector<const std::string> &fileList)
+void find(TCHAR* lpPath, std::vector<pair<wstring, string> > &fileList)
 {
 	TCHAR szFind[MAX_PATH];
 	WIN32_FIND_DATA FindFileData;
@@ -135,48 +140,56 @@ void find(TCHAR* lpPath, std::vector<const std::string> &fileList)
 		{
 			TCHAR szTarget[MAX_PATH];
 			_tcscpy_s(szTarget, lpPath);
+			if (lpPath[_tcslen(lpPath) - 1] != _T('\\'))
+			{
+				_tcscat_s(szTarget, _T("\\"));
+			}
 			_tcscat_s(szTarget, FindFileData.cFileName);
-			fileList.push_back(TCHAR2STRING(szTarget));
+			fileList.push_back(pair<wstring, string>(wstring(szTarget), buildTimeStr(FindFileData)));
 		}
 		if (!FindNextFile(hFind, &FindFileData))    break;
 	}
 	FindClose(hFind);
 }
 
-bool endsWith(string obj, const char* suf) {
-	string tar = suf;
+bool endsWith(wstring obj, const WCHAR* suf) {
+	wstring tar = suf;
 	transform(tar.begin(), tar.end(), tar.begin(), tolower);
 	return obj.compare(obj.size() - tar.size(), tar.size(), tar) == 0;
 }
 
 void loadEntry(TCHAR* filename) {
 
-	vector<const string> files;
+	vector<pair<wstring, string>> files;
 	find(filename, files);
-	for (string item : files) {
-		
-		if (endsWith(item, ".jpg") || endsWith(item, ".jpeg") || endsWith(item, ".png") || endsWith(item, ".tif")) {
-			thumb.load(item);
+	for (pair<wstring, string> item : files) {
+		wstring pathName = item.first;
+		if (endsWith(pathName, _T(".jpg")) 
+			|| endsWith(pathName, _T(".jpeg")) 
+			|| endsWith(pathName, _T(".png")) 
+			|| endsWith(pathName, _T(".tif"))) {
+			thumb.load(pathName, item.second);
 		}
 	}
+	cout << endl;
 }
 
 void mergeEntry(string filename) {
 
 }
 
-
 int _tmain(int argc, _TCHAR* argv[])
 {
 	if (argc < 3)
 		return 0;
+	
 	
 	if (_tcscmp(argv[1], _T("-l")) == 0) {
 		loadEntry(argv[2]);
 	}
 	else if (_tcscmp(argv[1], _T("-m")) == 0) 
 	{
-		mergeEntry(TCHAR2STRING(argv[2]));
+		mergeEntry(StringCoder::TCHAR2STRING(argv[2]));
 	}
 
 

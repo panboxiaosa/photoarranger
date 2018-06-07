@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Yzmeir.NamedPipes;
+using Yzmeir.InterProcessComm;
 
-namespace NamedPipesServer
+namespace phothoflow.ipc
 {
     public sealed class ServerNamedPipe : IDisposable
     {
@@ -14,18 +15,18 @@ namespace NamedPipesServer
         internal DateTime LastAction;
         private bool disposed = false;
 
+        public static IChannelManager PipManager;
+
         private void PipeListener()
         {
             CheckIfDisposed();
             try
             {
-                Listen = Program.PipeManager.Listen;
-                //Form1.ActivityRef.AppendText("Pipe " + this.PipeConnection.NativeHandle.ToString() + ": new pipe started" + Environment.NewLine);
+                Listen = PipManager.Listen;
                 while (Listen)
                 {
                     LastAction = DateTime.Now;
                     string request = PipeConnection.Read();
-                    //byte[] bytes = PipeConnection.ReadBytes();
                     LastAction = DateTime.Now;
                     if (request.Trim() != "")
                     {
@@ -43,7 +44,7 @@ namespace NamedPipesServer
                         //Form1.ActivityRef.AppendText("Pipe " + this.PipeConnection.NativeHandle.ToString() + ": listening" + Environment.NewLine);
                         Connect();
                     }
-                    Program.PipeManager.WakeUp();
+                    PipManager.WakeUp();
                 }
             }
             catch (System.Threading.ThreadAbortException ex) { }
@@ -66,7 +67,7 @@ namespace NamedPipesServer
         {
             CheckIfDisposed();
             this.Listen = false;
-            Program.PipeManager.RemoveServerChannel(this.PipeConnection.NativeHandle);
+            PipManager.RemoveServerChannel(this.PipeConnection.NativeHandle);
             this.Dispose();
         }
         internal void Start()

@@ -20,6 +20,9 @@ using System.Threading;
 using System.Collections.ObjectModel;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Yzmeir.InterProcessComm;
+using Yzmeir.NamedPipes;
+using phothoflow.ipc;
 
 namespace phothoflow
 {
@@ -29,6 +32,7 @@ namespace phothoflow
     /// </summary>
     public partial class MainWindow : Window, StepCallback
     {
+
 
         private Point start;
         ObservableCollection<Item> unarranged;
@@ -128,6 +132,8 @@ namespace phothoflow
             arrangement = new Arrangement(this);
             unarranged = new ObservableCollection<Item>();
             waitingList.ItemsSource = unarranged;
+            ServerNamedPipe.PipManager = new PipeManager();
+            ServerNamedPipe.PipManager.Initialize();
         }
 
         void DrawContainer()

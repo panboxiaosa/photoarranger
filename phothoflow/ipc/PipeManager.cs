@@ -6,7 +6,7 @@ using System.Threading;
 using Yzmeir.InterProcessComm;
 using Yzmeir.NamedPipes;
 
-namespace NamedPipesServer
+namespace phothoflow.ipc
 {
     public sealed class PipeManager : IChannelManager
     {
@@ -46,17 +46,8 @@ namespace NamedPipesServer
             MainThread.IsBackground = true;
             MainThread.Name = "Main Pipe Thread";
             MainThread.Start();
-            Thread.Sleep(1000);
         }
-        public string HandleRequest(string request)
-        {
-            string returnVal;
 
-            //Form1.ActivityRef.AppendText(request + Environment.NewLine);
-            returnVal = "Response to: " + request;
-
-            return returnVal;
-        }
         private void Start()
         {
             try

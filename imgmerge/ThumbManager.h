@@ -8,14 +8,14 @@ public:
 	ThumbManager();
 	~ThumbManager();
 
-	std::string load(std::wstring path, string tag);
+	std::wstring load(std::wstring path, string tag);
 
 private:
 	std::string getProfile(std::wstring profile, string tag);
 
-	std::string createThumb(cv::Mat mat);
+	std::wstring createThumb(cv::Mat mat, string name);
 
-	map<string, string> cache;
+	map<string, wstring> cache;
 
 };
 

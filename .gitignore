@@ -162,3 +162,6 @@ $RECYCLE.BIN/
 .vscode  
 /imgmerge/OpenCV.overlay-Win32_v120.2.4.8
 /imgmerge/OpenCV.overlay-Win32_v120_Debug.2.4.8
+*.jpg
+*.png
+*.tif

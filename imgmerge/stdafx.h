@@ -15,6 +15,7 @@
 #include <Windows.h>
 #include <map>
 #include <vector>
+#include <io.h>
 
 #include <fstream>
 #include <sstream>

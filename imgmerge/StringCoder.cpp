@@ -90,14 +90,43 @@ void StringCoder::Wchar_tToString(std::string& szDst, wchar_t *wchar)
 
 std::string StringCoder::WString2String(const std::wstring& ws)
 {
-	std::string strLocale = setlocale(LC_ALL, "");
-	const wchar_t* wchSrc = ws.c_str();
-	size_t nDestSize = wcstombs(NULL, wchSrc, 0) + 1;
-	char *chDest = new char[nDestSize];
-	memset(chDest, 0, nDestSize);
-	wcstombs(chDest, wchSrc, nDestSize);
-	std::string strResult = chDest;
-	delete[]chDest;
-	setlocale(LC_ALL, strLocale.c_str());
-	return strResult;
+	int nLen = WideCharToMultiByte(CP_ACP, 0, ws.c_str(), -1, NULL, 0, NULL, NULL);
+
+	if (nLen <= 0) return std::string("");
+
+	char* pszDst = new char[nLen];
+	if (NULL == pszDst) return std::string("");
+
+	WideCharToMultiByte(CP_ACP, 0, ws.c_str(), -1, pszDst, nLen, NULL, NULL);
+	pszDst[nLen - 1] = 0;
+
+	std::string strTemp(pszDst);
+	delete[] pszDst;
+
+	return strTemp;
+}
+
+std::wstring StringCoder::String2WString(const std::string& s)
+{
+	
+	int nSize = MultiByteToWideChar(CP_ACP, 0, s.c_str(), s.size(), 0, 0);
+	if (nSize <= 0) return NULL;
+	WCHAR *pwszDst = new WCHAR[nSize + 1];
+	if (NULL == pwszDst) return NULL;
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), s.size(), pwszDst, nSize);
+	pwszDst[nSize] = 0;
+	if (pwszDst[0] == 0xFEFF) // skip Oxfeff
+		for (int i = 0; i < nSize; i++)
+			pwszDst[i] = pwszDst[i + 1];
+	std::wstring wcharString(pwszDst);
+	delete pwszDst;
+	return wcharString;
+	
+}
+
+
+bool StringCoder::endsWith(wstring obj, const WCHAR* suf) {
+	wstring tar = suf;
+	transform(tar.begin(), tar.end(), tar.begin(), tolower);
+	return obj.compare(obj.size() - tar.size(), tar.size(), tar) == 0;
 }

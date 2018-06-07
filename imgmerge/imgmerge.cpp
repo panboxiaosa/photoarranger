@@ -73,7 +73,6 @@ void write_huge() {
 	TIFFSetField(tiff, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_RGB);
 	TIFFSetField(tiff, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 
-
 	uchar data[WIDTH * 3];
 	memset(data, 0, WIDTH * 3 / 2);
 	memset(data + WIDTH * 3 / 2, 180, WIDTH * 3 / 2);
@@ -82,10 +81,8 @@ void write_huge() {
 		TIFFWriteScanline(tiff, data, i);
 	}
 
-	
 	TIFFClose(tiff);
 }
-
 
 
 ThumbManager thumb;
@@ -152,23 +149,22 @@ void find(TCHAR* lpPath, std::vector<pair<wstring, string> > &fileList)
 	FindClose(hFind);
 }
 
-bool endsWith(wstring obj, const WCHAR* suf) {
-	wstring tar = suf;
-	transform(tar.begin(), tar.end(), tar.begin(), tolower);
-	return obj.compare(obj.size() - tar.size(), tar.size(), tar) == 0;
-}
-
 void loadEntry(TCHAR* filename) {
 
 	vector<pair<wstring, string>> files;
 	find(filename, files);
 	for (pair<wstring, string> item : files) {
 		wstring pathName = item.first;
-		if (endsWith(pathName, _T(".jpg")) 
-			|| endsWith(pathName, _T(".jpeg")) 
-			|| endsWith(pathName, _T(".png")) 
-			|| endsWith(pathName, _T(".tif"))) {
+		if (StringCoder::endsWith(pathName, _T(".jpg")) 
+			|| StringCoder::endsWith(pathName, _T(".jpeg")) 
+			|| StringCoder::endsWith(pathName, _T(".png")) 
+			|| StringCoder::endsWith(pathName, _T(".tif"))
+			|| StringCoder::endsWith(pathName, _T(".JPG"))
+			|| StringCoder::endsWith(pathName, _T(".JPEG"))
+			|| StringCoder::endsWith(pathName, _T(".PNG"))
+			|| StringCoder::endsWith(pathName, _T(".TIF"))) {
 			thumb.load(pathName, item.second);
+			wcout << pathName << endl;
 		}
 	}
 	cout << endl;
@@ -178,20 +174,28 @@ void mergeEntry(string filename) {
 
 }
 
+extern "C" {
+
+	void doNothing(const char*, const char*, char *) {
+	}
+}
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	if (argc < 3)
 		return 0;
-	
-	
+	wcout.imbue(locale(locale(), "", LC_CTYPE));
 	if (_tcscmp(argv[1], _T("-l")) == 0) {
+
+		TIFFSetErrorHandler(doNothing);
+		TIFFSetWarningHandler(doNothing);
 		loadEntry(argv[2]);
 	}
 	else if (_tcscmp(argv[1], _T("-m")) == 0) 
 	{
 		mergeEntry(StringCoder::TCHAR2STRING(argv[2]));
 	}
-
 
 	return 0;
 }

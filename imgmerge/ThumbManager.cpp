@@ -1,19 +1,22 @@
 #include "ThumbManager.h"
 #include "md5.h"
 #include "stdafx.h"
+#include "StringCoder.h"
+#include "jpeglib.h"
+#include <direct.h>  
 
 ThumbManager::ThumbManager()
 {
 
 }
 
-
 ThumbManager::~ThumbManager()
 {
 }
 
+byte stableBuf[12000 * 12000 * 5];
 
-std::string ThumbManager::load(std::wstring path, string tag){
+std::wstring ThumbManager::load(std::wstring path, string tag){
 
 	string profile = getProfile(path, tag);
 
@@ -22,13 +25,89 @@ std::string ThumbManager::load(std::wstring path, string tag){
 	}
 	else 
 	{
-		TIFF *tiff = TIFFOpenW(path.c_str(), "r");
-		TIFFClose(tiff);
-		Mat full = imread(StringCoder::WString2String(), IMREAD_REDUCED_COLOR_8);
-		int c = full.channels();
-		string thumb = createThumb(full);
-		cache[profile] = thumb;
-		return thumb;
+		//if (stableBuf == nullptr) {
+		//	stableBuf = new byte[12000 * 12000 * 5];
+		//}
+		
+		int width, height;
+		short channel;
+		if (StringCoder::endsWith(path, _T(".tif")) || StringCoder::endsWith(path, _T(".TIF"))) {
+
+			TIFF *tiff = TIFFOpenW(path.c_str(), "r");
+
+			TIFFGetField(tiff, TIFFTAG_IMAGEWIDTH, &width);
+			TIFFGetField(tiff, TIFFTAG_IMAGELENGTH, &height);
+			TIFFGetField(tiff, TIFFTAG_SAMPLESPERPIXEL, &channel);
+			int step = width * channel;
+			int offset = 0;
+			for (int i = 0; i < height; i++) {
+				TIFFReadScanline(tiff, stableBuf + offset, i);
+				offset += step;
+			}
+
+			TIFFClose(tiff);
+			
+		}
+		else if (StringCoder::endsWith(path, _T(".jpg")) 
+			|| StringCoder::endsWith(path, _T(".JPG"))
+			|| StringCoder::endsWith(path, _T(".JPEG"))
+			|| StringCoder::endsWith(path, _T(".jpeg"))){
+
+			struct jpeg_decompress_struct cinfo;
+			struct jpeg_error_mgr jerr;
+			FILE * infile;
+			JSAMPARRAY buffer;
+			int row_stride;
+
+			//绑定标准错误处理结构  
+			cinfo.err = jpeg_std_error(&jerr);
+
+			//初始化JPEG对象  
+			jpeg_create_decompress(&cinfo);
+
+			//指定图像文件  
+			_wfopen_s(&infile, path.c_str(), _T("rb"));
+
+			jpeg_stdio_src(&cinfo, infile);
+
+			//读取图像信息  
+			(void)jpeg_read_header(&cinfo, TRUE);
+
+			//开始解压缩图像  
+			(void)jpeg_start_decompress(&cinfo);
+
+
+			//分配缓冲区空间  
+			row_stride = cinfo.output_width * cinfo.output_components;
+			height = cinfo.output_height;
+			width = cinfo.output_width;
+			channel = cinfo.output_components;
+
+			buffer = (*cinfo.mem->alloc_sarray)((j_common_ptr)&cinfo, JPOOL_IMAGE, row_stride, 1);
+
+			int offset = 0;
+			//读取数据  
+			while (cinfo.output_scanline < cinfo.output_height)
+			{
+				(void)jpeg_read_scanlines(&cinfo, buffer, 1);
+
+				memcpy_s(stableBuf + offset, row_stride, buffer[0], row_stride);
+				offset += row_stride;
+			}
+			//结束解压缩操作  
+			(void)jpeg_finish_decompress(&cinfo);
+
+			//释放资源  
+			jpeg_destroy_decompress(&cinfo);
+			fclose(infile);
+
+		}
+
+		Mat full(height, width, CV_8UC(channel), stableBuf);
+		
+		wstring thumbPath = createThumb(full, profile);
+		cache[profile] = thumbPath;
+		return thumbPath;
 	}
 }
 
@@ -70,7 +149,35 @@ std::string ThumbManager::getProfile(std::wstring path, string tag) {
 }
 
 
-std::string ThumbManager::createThumb(cv::Mat mat)
+std::wstring ThumbManager::createThumb(cv::Mat mat, string name)
 {
-	return "";
+	Mat thumb;
+	resize(mat, thumb, Size(0, 0), 0.1, 0.1, INTER_NEAREST);
+
+	TCHAR _szPath[MAX_PATH + 1] = { 0 };
+	GetModuleFileName(NULL, _szPath, MAX_PATH);
+	(_tcsrchr(_szPath, _T('\\')))[1] = 0;//删除文件名，只获得路径 字串
+	
+
+	const WCHAR* thumbdir = _T("thumb");
+	_tcscat_s(_szPath, thumbdir);
+	if (-1 == _waccess(_szPath, 0)) {
+		_wmkdir(_szPath);
+	}
+
+	wstring path = _szPath;
+	path += _T("\\") + StringCoder::String2WString(name) + _T(".jpg");
+	vector <int> params;
+	if (thumb.channels() > 3) {
+		Mat test(thumb.size(), CV_8UC3);
+		const int fromTo[6] = { 1, 0, 2, 1, 3, 2 };
+		mixChannels(thumb, test, fromTo, 3);
+		imwrite(StringCoder::WString2String(path), test);
+	}
+	else {
+		imwrite(StringCoder::WString2String(path), thumb);
+	}
+	
+	
+	return path;
 }

@@ -17,5 +17,9 @@ public:
 	static void Wchar_tToString(std::string& szDst, wchar_t *wchar);
 
 	static std::string WString2String(const std::wstring& ws);
+
+	static bool endsWith(wstring obj, const WCHAR* suf);
+
+	static std::wstring String2WString(const std::string& s);
 };
 

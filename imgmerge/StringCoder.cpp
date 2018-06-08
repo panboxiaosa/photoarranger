@@ -127,6 +127,5 @@ std::wstring StringCoder::String2WString(const std::string& s)
 
 bool StringCoder::endsWith(wstring obj, const WCHAR* suf) {
 	wstring tar = suf;
-	transform(tar.begin(), tar.end(), tar.begin(), tolower);
-	return obj.compare(obj.size() - tar.size(), tar.size(), tar) == 0;
+	return obj.compare(obj.size() - tar.size(), tar.size(), suf) == 0;
 }

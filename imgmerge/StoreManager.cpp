@@ -11,7 +11,7 @@ StoreManager::~StoreManager()
 }
 
 
-void StoreManager::saveTo(string tar) 
+void StoreManager::saveTo(wstring tar) 
 {
 
 }
@@ -24,7 +24,18 @@ void StoreManager::loadDefault() {
 
 }
 
-void StoreManager::load(string tar) {
+void StoreManager::load(wstring tar) {
+	std::ifstream fin(tar.c_str(), std::ifstream::in | std::ifstream::binary);
+	
+	while (!fin.eof())
+	{
+		string content;
+		fin >> content;
+
+	}
+
+	fin.close();
+
 
 }
 

@@ -6,6 +6,8 @@
 #include "StoreManager.h"
 #include "Messager.h"
 #include "StringCoder.h"
+#include "FileUtil.h"
+#include "BufStorage.h"
 
 using namespace cv;
 using namespace std;
@@ -85,74 +87,15 @@ void write_huge() {
 }
 
 
-ThumbManager thumb;
-
-StoreManager store;
-
 Messager messager;
 
-string buildTimeStr(WIN32_FIND_DATA filedata) {
-	stringstream ss;
-	ss << filedata.ftCreationTime.dwHighDateTime
-		<< filedata.ftCreationTime.dwLowDateTime
-		<< filedata.ftLastWriteTime.dwHighDateTime
-		<< filedata.ftLastWriteTime.dwLowDateTime;
-	return ss.str();
-}
-
-/*----------------------------
-* 功能 : 递归遍历文件夹，找到其中包含的所有文件
-*----------------------------
-* 函数 : find
-* 访问 : public
-*
-* 参数 : lpPath [in]      需遍历的文件夹目录
-* 参数 : fileList [in]    以文件名称的形式存储遍历后的文件
-*/
-void find(TCHAR* lpPath, std::vector<pair<wstring, string> > &fileList)
-{
-	TCHAR szFind[MAX_PATH];
-	WIN32_FIND_DATA FindFileData;
-
-	_tcscpy_s(szFind, lpPath);
-	_tcscat_s(szFind, _T("\\*.*"));
-
-	HANDLE hFind = ::FindFirstFile(szFind, &FindFileData);
-	if (INVALID_HANDLE_VALUE == hFind)    return;
-
-	while (true)
-	{
-		if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-		{
-			if (FindFileData.cFileName[0] != '.')
-			{
-				TCHAR szFile[MAX_PATH];
-				_tcscpy_s(szFile, lpPath);
-				_tcscat_s(szFile, (TCHAR*)(FindFileData.cFileName));
-
-				find(szFile, fileList);
-			}
-		}
-		else
-		{
-			TCHAR szTarget[MAX_PATH];
-			_tcscpy_s(szTarget, lpPath);
-			if (lpPath[_tcslen(lpPath) - 1] != _T('\\'))
-			{
-				_tcscat_s(szTarget, _T("\\"));
-			}
-			_tcscat_s(szTarget, FindFileData.cFileName);
-			fileList.push_back(pair<wstring, string>(wstring(szTarget), buildTimeStr(FindFileData)));
-		}
-		if (!FindNextFile(hFind, &FindFileData))    break;
-	}
-	FindClose(hFind);
-}
 
 void loadEntry(TCHAR* filename) {
+	
+	ThumbManager thumb;
 
 	vector<pair<wstring, string>> files;
-	find(filename, files);
+	FileUtil::find(filename, files);
 	for (pair<wstring, string> item : files) {
 		wstring pathName = item.first;
 		if (StringCoder::endsWith(pathName, _T(".jpg")) 
@@ -164,14 +107,14 @@ void loadEntry(TCHAR* filename) {
 			|| StringCoder::endsWith(pathName, _T(".PNG"))
 			|| StringCoder::endsWith(pathName, _T(".TIF"))) {
 			thumb.load(pathName, item.second);
-			wcout << pathName << endl;
 		}
 	}
-	cout << endl;
 }
 
-void mergeEntry(string filename) {
-
+void mergeEntry(wstring filename) {
+	StoreManager store;
+	store.load(filename);
+	
 }
 
 extern "C" {
@@ -183,6 +126,7 @@ extern "C" {
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+
 	if (argc < 3)
 		return 0;
 	wcout.imbue(locale(locale(), "", LC_CTYPE));
@@ -194,9 +138,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	}
 	else if (_tcscmp(argv[1], _T("-m")) == 0) 
 	{
-		mergeEntry(StringCoder::TCHAR2STRING(argv[2]));
+		mergeEntry(argv[2]);
 	}
-
+	BufStorage::releaseStorage();
 	return 0;
 }
 

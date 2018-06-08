@@ -9,13 +9,13 @@ public:
 	StoreManager();
 	~StoreManager();
 
-	void saveTo(string tar);
+	void saveTo(wstring tar);
 
 	void saveDefault();
 
 	void loadDefault();
 
-	void load(string tar);
+	void load(wstring tar);
 
 	void build(string tar);
 

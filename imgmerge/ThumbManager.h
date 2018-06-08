@@ -15,6 +15,10 @@ private:
 
 	std::wstring createThumb(cv::Mat mat, string name);
 
+	void initCache();
+
+	wstring getThumbDir();
+
 	map<string, wstring> cache;
 
 };

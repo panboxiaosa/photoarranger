@@ -15,29 +15,36 @@ using BitMiracle.LibTiff.Classic;
 using System.Threading;
 using System.IO.MemoryMappedFiles;
 using System.IO;
+using System.Diagnostics;
 
 namespace phothoflow.filemanager
 {
     class FileWriter
     {
-        const int PART_LEN = 160000000;
+        
 
         public void Write(string target, List<Item> objs, float height)
         {
             new Thread(() => {
-                int pixelWidth = (int)(SettingManager.GetWidth() * SettingManager.GetDpi());
-                int pixelHeight = (int)(height * SettingManager.GetDpi());
+                int dpi = (int)SettingManager.GetDpi();
+                int pixelWidth = (int)(SettingManager.GetWidth() * dpi);
+                int pixelHeight = (int)(height * dpi);
+                int margin = (int)(dpi * SettingManager.GetMargin());
 
-                if (pixelHeight * pixelWidth < PART_LEN)
+                string[] lines = new string[objs.Count + 1];
+
+                lines[0] = "" + pixelWidth + "$" + pixelHeight + "$" + dpi + "$" + margin;
+                for (int i = 0; i < objs.Count; i++ )
                 {
-                    WriteDirectly(target, objs, pixelWidth, pixelHeight);
-                    System.Windows.MessageBox.Show("保存成功");
+                    Item one = objs[i];
+                    lines[i + 1] = one.OriginPath + "$" + (int) (one.Left * dpi)+ "$" + (int) (one.Top * dpi)+"$" + (one.Rotated ? 1 : 0);
                 }
-                else
-                {
-                    WriteSegs(target, objs, pixelWidth, pixelHeight);
-                    System.Windows.MessageBox.Show("保存成功");
-                }
+                
+                string des = target.Replace(".tif", ".pbf");
+                System.IO.File.WriteAllLines(des, lines, Encoding.UTF8);
+
+                //Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + "imgmerge.exe " + "-m " + des + " " + target);
+
             }).Start();
             
         }
@@ -95,6 +102,7 @@ namespace phothoflow.filemanager
                 return false;
         }
 
+        const int PART_LEN = 160000000;
 
         void WritePart(Tiff tiff, List<Item> objs, short index, int eachHeight, int pixelWidth)
         {

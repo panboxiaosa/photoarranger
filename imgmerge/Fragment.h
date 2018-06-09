@@ -3,12 +3,13 @@
 class Fragment
 {
 public:
-	Fragment();
+	Fragment(string str);
 	~Fragment();
 
-	string fileName;
+	string filePath;
 	int top;
 	int left;
+	bool rotated;
 
 
 };

@@ -22,6 +22,8 @@
 #include <memory>
 #include <iomanip>
 #include <sstream>
+#include <gdiplus.h>
+#include <gdiplusflat.h>
 
 using namespace std;
 using namespace cv;

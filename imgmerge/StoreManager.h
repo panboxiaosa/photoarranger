@@ -17,13 +17,15 @@ public:
 
 	void load(wstring tar);
 
-	void build(string tar);
+	void build(wstring tar);
 
 private:
+
 	vector<Fragment> fragments;
 	int pixelWidth;
 	int pixelHeight;
 	int dpi;
+	int margin;
 	
 };
 

@@ -10,5 +10,7 @@ public:
 	static void find(const TCHAR* lpPath, std::vector<pair<wstring, string> > &fileList);
 
 	static void find(const TCHAR* lpPath, vector<string> &nameList);
+
+
 };
 

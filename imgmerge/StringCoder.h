@@ -21,5 +21,9 @@ public:
 	static bool endsWith(wstring obj, const WCHAR* suf);
 
 	static std::wstring String2WString(const std::string& s);
+
+	static vector<string> split(const string &s, const string &seperator);
+
+	static vector<string> split(const string &s);
 };
 

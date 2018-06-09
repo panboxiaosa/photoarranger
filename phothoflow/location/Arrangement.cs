@@ -9,22 +9,20 @@ using System.IO;
 using phothoflow.filemanager;
 using System.Threading;
 using phothoflow.setting;
-
+using System.Diagnostics;
+using phothoflow.ipc;
 
 namespace phothoflow.location
 {
     class Arrangement
     {
-        StepCallback callback;
 
         ArrangeCalcer calcer = new ArrangeCalcer();
         private List<Item> currentArrange;
-        List<Item> allItemList;
+        public List<Item> allItemList;
         
-        public Arrangement(StepCallback callback_)
-        {
-            callback = callback_;
-            
+        public Arrangement()
+        {            
         }
 
         public float GetTotalHeight()
@@ -61,41 +59,10 @@ namespace phothoflow.location
 
         public void Load(string path)
         {
+            
             allItemList = new List<Item>();
-            List<string> images = ImageList.listDirectory(path);
+            ProcessExecutor.ExecuteSilent(System.AppDomain.CurrentDomain.BaseDirectory + "imgmerge.exe", "-l " + path);
 
-            int seg = 1; // Environment.ProcessorCount;
-            int each = images.Count / seg;
-
-            List<Thread> ts = new List<Thread>();
-            for (int i = 0; i < seg; i++)
-            {
-                List<string> part = new List<string>();
-                int num = i == seg - 1 ? images.Count - each * (seg - 1) : each;
-                part.AddRange(images.GetRange(i * each, num));
-
-                Thread t = new Thread(new ParameterizedThreadStart((object partList) =>
-                {
-                    List<string> toBeLoad = (List<string>)partList;
-                    foreach (String pathStr in toBeLoad)
-                    {
-                        Item item = new Item(pathStr);
-                        lock (allItemList)
-                        {
-                            allItemList.Add(item);
-                            callback.OnStep(item);
-                        }
-                    }
-                }));
-                t.Start(part);
-                ts.Add(t);
-            }
-
-            foreach (Thread t in ts)
-                t.Join();
-
-
-            Arrange();
         }
 
         MemoryStream GetMemoryStream(string path)
@@ -143,7 +110,7 @@ namespace phothoflow.location
 
         private void ReArrange(List<Item> already, List<Item> rest)
         {
-            callback.OnStart();
+            //callback.OnStart();
             foreach (Item item in rest)
             {
                 int position = calcer.FindSuitable(already, item);
@@ -154,7 +121,7 @@ namespace phothoflow.location
             }
             currentArrange = already;
 
-            callback.OnFinish();
+            //callback.OnFinish();
         }
 
         public void Arrange()
@@ -164,7 +131,6 @@ namespace phothoflow.location
                 return;
             }
 
-            callback.OnStart();
             currentArrange = new List<Item>();
             foreach (Item item in allItemList)
             {
@@ -174,7 +140,6 @@ namespace phothoflow.location
                     currentArrange.Insert(position, item);
                 }
             }
-            callback.OnFinish();
         }
 
         public void Recession(Item item)

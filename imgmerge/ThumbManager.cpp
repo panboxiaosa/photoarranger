@@ -2,10 +2,10 @@
 #include "md5.h"
 #include "stdafx.h"
 #include "StringCoder.h"
-#include "jpeglib.h"
-#include <direct.h>  
 #include "BufStorage.h"
 #include "FileUtil.h"
+#include "ImageLoader.h"
+#include "Messager.h"
 
 
 ThumbManager::ThumbManager()
@@ -17,92 +17,20 @@ ThumbManager::~ThumbManager()
 {
 }
 
-std::wstring ThumbManager::load(std::wstring path, string tag){
+void ThumbManager::load(std::wstring path, string tag){
 
 	string profile = getProfile(path, tag);
-	cout << profile << "\t";
-	wcout << path << endl;
-	if (cache.find(profile.c_str()) != cache.end()) {
-		return cache[profile.c_str()];
+	if (cache.find(profile) != cache.end()) {
+		ImageLoader loaded = cache[profile];
+		Messager::sendStr(loaded.toString() + "$" + StringCoder::WString2String(path));
 	}
 	else 
 	{
-		int width, height;
-		short channel;
-		if (StringCoder::endsWith(path, _T(".tif")) || StringCoder::endsWith(path, _T(".TIF"))) {
-
-			TIFF *tiff = TIFFOpenW(path.c_str(), "r");
-
-			TIFFGetField(tiff, TIFFTAG_IMAGEWIDTH, &width);
-			TIFFGetField(tiff, TIFFTAG_IMAGELENGTH, &height);
-			TIFFGetField(tiff, TIFFTAG_SAMPLESPERPIXEL, &channel);
-			int step = width * channel;
-			byte* stableBuf = BufStorage::getStorage();
-			for (int i = 0; i < height; i++) {
-				TIFFReadScanline(tiff, stableBuf , i);
-				stableBuf += step;
-			}
-
-			TIFFClose(tiff);
-			
-		}
-		else if (StringCoder::endsWith(path, _T(".jpg")) 
-			|| StringCoder::endsWith(path, _T(".JPG"))
-			|| StringCoder::endsWith(path, _T(".JPEG"))
-			|| StringCoder::endsWith(path, _T(".jpeg"))){
-
-			struct jpeg_decompress_struct cinfo;
-			struct jpeg_error_mgr jerr;
-			FILE * infile;
-			JSAMPARRAY buffer;
-			int row_stride;
-
-			//绑定标准错误处理结构  
-			cinfo.err = jpeg_std_error(&jerr);
-			//初始化JPEG对象  
-			jpeg_create_decompress(&cinfo);
-			//指定图像文件  
-			_wfopen_s(&infile, path.c_str(), _T("rb"));
-			jpeg_stdio_src(&cinfo, infile);
-
-			//读取图像信息  
-			(void)jpeg_read_header(&cinfo, TRUE);
-
-			//开始解压缩图像  
-			(void)jpeg_start_decompress(&cinfo);
-
-
-			//分配缓冲区空间  
-			row_stride = cinfo.output_width * cinfo.output_components;
-			height = cinfo.output_height;
-			width = cinfo.output_width;
-			channel = cinfo.output_components;
-
-			buffer = (*cinfo.mem->alloc_sarray)((j_common_ptr)&cinfo, JPOOL_IMAGE, row_stride, 1);
-
-			byte* stableBuf = BufStorage::getStorage();
-			//读取数据  
-			while (cinfo.output_scanline < cinfo.output_height)
-			{
-				(void)jpeg_read_scanlines(&cinfo, buffer, 1);
-
-				memcpy_s(stableBuf, row_stride, buffer[0], row_stride);
-				stableBuf += row_stride;
-			}
-			//结束解压缩操作  
-			(void)jpeg_finish_decompress(&cinfo);
-
-			//释放资源  
-			jpeg_destroy_decompress(&cinfo);
-			fclose(infile);
-
-		}
-
-		Mat full(height, width, CV_8UC(channel), BufStorage::getStorage());
-		
-		wstring thumbPath = createThumb(full, profile);
-		cache[profile] = thumbPath;
-		return thumbPath;
+		ImageLoader img(path);
+		img.profileStr = profile;
+		wstring thumbPath = createThumb(img);
+		cache[profile] = img;
+		Messager::sendStr(img.toString() + "#" + StringCoder::WString2String(path));
 	}
 }
 
@@ -131,26 +59,29 @@ std::string ThumbManager::getProfile(std::wstring path, string tag) {
 
 		unsigned char digest[16];
 		MD5Final(digest, &context);
-		std::ostringstream oss;
+		std::stringstream oss;
 		for (int i = 0; i < 16; ++i)
 		{
 			oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned int>(digest[i]);
 		}
-		oss << std::ends;
 
-		return move(oss.str());
+		return oss.str();
 	}
 	return "";
 }
 
 
-std::wstring ThumbManager::createThumb(cv::Mat mat, string name)
+std::wstring ThumbManager::createThumb(ImageLoader img)
 {
+	Mat full(img.height, img.width, CV_8UC(img.channel), BufStorage::getStorage());
+
 	Mat thumb;
-	resize(mat, thumb, Size(0, 0), 0.1, 0.1, INTER_NEAREST);
+	resize(full, thumb, Size(0, 0), 0.1, 0.1, INTER_NEAREST);
 
 	wstring path = getThumbDir();
-	path += _T("\\") + StringCoder::String2WString(name) + _T(".jpg");
+	
+	path += _T("\\") + StringCoder::String2WString(img.toString()) + _T(".jpg");
+
 	vector <int> params;
 	if (thumb.channels() > 3) {
 		Mat test(thumb.size(), CV_8UC3);
@@ -171,7 +102,6 @@ std::wstring ThumbManager::getThumbDir()
 	GetModuleFileName(NULL, _szPath, MAX_PATH);
 	(_tcsrchr(_szPath, _T('\\')))[1] = 0;//删除文件名，只获得路径 字串
 
-
 	const WCHAR* thumbdir = _T("thumb");
 	_tcscat_s(_szPath, thumbdir);
 	if (-1 == _waccess(_szPath, 0)) {
@@ -187,11 +117,21 @@ void ThumbManager::initCache()
 	wstring thumDir = getThumbDir();
 	vector<string> files;
 	FileUtil::find(thumDir.c_str(), files);
-	wstring thumbPath = getThumbDir();
+
 	for (string item : files) {
-		string md5 = item.substr(0, item.length() - 4);
-		wstring fullPath = thumbPath + _T("\\") + StringCoder::String2WString(item);
-		cache[md5] = fullPath;
+		
+		wstring thumbPath = thumDir + _T("\\") + StringCoder::String2WString(item);
+
+		ImageLoader added;
+		string name = item.substr(0, item.length() - 4);
+		vector<string> parts = StringCoder::split(name);
+		added.profileStr = parts[0];
+		added.width = stoi(parts[1]);
+		added.height = stoi(parts[2]);
+		added.dpiX = stoi(parts[3]);
+		added.dpiY = stoi(parts[4]);
+
+		cache[parts[0]] = added;
 
 	}
 }

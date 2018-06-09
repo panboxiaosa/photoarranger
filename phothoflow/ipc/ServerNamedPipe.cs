@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Yzmeir.NamedPipes;
-using Yzmeir.InterProcessComm;
+using phothoflow;
+using phothoflow.location;
 
-namespace phothoflow.ipc
+namespace NamedPipesServer
 {
     public sealed class ServerNamedPipe : IDisposable
     {
@@ -15,23 +16,34 @@ namespace phothoflow.ipc
         internal DateTime LastAction;
         private bool disposed = false;
 
-        public static IChannelManager PipManager;
-
         private void PipeListener()
         {
             CheckIfDisposed();
             try
             {
-                Listen = PipManager.Listen;
+                Listen = MainWindow.PipeManager.Listen;
                 while (Listen)
                 {
                     LastAction = DateTime.Now;
                     string request = PipeConnection.Read();
+                    
                     LastAction = DateTime.Now;
-                    if (request.Trim() != "")
+                    string use = request.Replace("\0", "");
+                    if (use != "")
                     {
-                        Console.WriteLine(request);
                         PipeConnection.Write("Ok");
+                        if (use =="start")
+                        {
+                            PipeManager._callback.OnStart();
+                        }
+                        else if (use == "finish")
+                        {
+                            PipeManager._callback.OnFinish();
+                        }
+                        else if (use.Contains("$"))
+                        {
+                            PipeManager._callback.OnStep(new Item(use));
+                        }
                     }
                     else
                     {
@@ -41,10 +53,9 @@ namespace phothoflow.ipc
                     PipeConnection.Disconnect();
                     if (Listen)
                     {
-                        //Form1.ActivityRef.AppendText("Pipe " + this.PipeConnection.NativeHandle.ToString() + ": listening" + Environment.NewLine);
                         Connect();
                     }
-                    PipManager.WakeUp();
+                    MainWindow.PipeManager.WakeUp();
                 }
             }
             catch (System.Threading.ThreadAbortException ex) { }
@@ -67,7 +78,7 @@ namespace phothoflow.ipc
         {
             CheckIfDisposed();
             this.Listen = false;
-            PipManager.RemoveServerChannel(this.PipeConnection.NativeHandle);
+            MainWindow.PipeManager.RemoveServerChannel(this.PipeConnection.NativeHandle);
             this.Dispose();
         }
         internal void Start()
@@ -112,6 +123,7 @@ namespace phothoflow.ipc
         {
             Dispose(false);
         }
+
         internal ServerNamedPipe(string name, uint outBuffer, uint inBuffer, int maxReadBytes, bool secure)
         {
             PipeConnection = new ServerPipeConnection(name, outBuffer, inBuffer, maxReadBytes, secure);

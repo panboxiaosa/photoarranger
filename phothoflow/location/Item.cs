@@ -35,6 +35,10 @@ namespace phothoflow.location
         public float Density_x;
         public float Density_y;
 
+        public bool Rotated;
+
+        public string OriginPath;
+
         public string ImagePath { get; set; }
         public string Name { get; set; }
 
@@ -45,11 +49,30 @@ namespace phothoflow.location
             return false;
         }
 
-        public Item(string path)
+        public void Settle(string thumName, int pixelWidth, int pixelHeight, int dpiX, int dpiY)
         {
-            ImagePath = path;
-            Name = path.Substring(path.LastIndexOf("\\") + 1);
-            Preview = InitBitmap(path);
+            Density_x = dpiX;
+            Density_y = dpiY;
+            RealWidth = (float)pixelWidth / dpiX;
+            RealHeight = (float)pixelHeight / dpiY;
+            Height = RealHeight + SettingManager.GetMargin() * 2;
+            Width = RealWidth + SettingManager.GetMargin() * 2;
+            
+        }
+
+        public Item(string name)
+        {
+            string[] parts = name.Split('$');
+            OriginPath = parts[5];
+            Settle(parts[0],int.Parse(parts[1]),int.Parse(parts[2]), int.Parse(parts[3]), int.Parse(parts[4]));
+
+            ImagePath = System.AppDomain.CurrentDomain.BaseDirectory + "thumb\\" + parts[0] + "$" + parts[1] + "$" + parts[2] + "$" + parts[3]+"$" + parts[4] + ".jpg";
+            Preview = new BitmapImage(new Uri(ImagePath));
+            Name = OriginPath.Substring(OriginPath.LastIndexOf("\\") + 1);
+
+            //ImagePath = path;
+            // = path.Substring(path.LastIndexOf("\\") + 1);
+            //Preview = InitBitmap(path);
         }
 
         public static BitmapImage BitmapToBitmapImage(Bitmap bitmap)
@@ -64,7 +87,6 @@ namespace phothoflow.location
             return bImage;
         }
 
-        
 
         BitmapImage InitBitmap(string path)
         {
@@ -101,8 +123,8 @@ namespace phothoflow.location
 
         public bool IsOverlap(Item r2)
         {
-            if ((Top + Height > r2.Top + 0.001) && (r2.Top + r2.Height > Top + 0.001)
-                     && (Left + Width > r2.Left + 0.001) && (r2.Left + r2.Width > Left + 0.001))
+            if ((Top + Height > r2.Top + 0.0001f) && (r2.Top + r2.Height > Top + 0.0001f)
+                     && (Left + Width > r2.Left + 0.0001f) && (r2.Left + r2.Width > Left + 0.0001f))
             {
                 return true;
             }

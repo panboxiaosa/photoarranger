@@ -54,7 +54,8 @@ namespace Yzmeir.NamedPipes
             byte[] bytes = ReadBytes(handle, maxBytes);
             if (bytes != null)
             {
-                returnVal = System.Text.Encoding.UTF8.GetString(bytes);
+                byte[] converted = Encoding.Convert(Encoding.Default, Encoding.UTF8, bytes);
+                returnVal = System.Text.Encoding.UTF8.GetString(converted);
             }
             return returnVal;
         }

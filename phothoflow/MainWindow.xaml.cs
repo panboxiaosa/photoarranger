@@ -22,7 +22,7 @@ using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Yzmeir.InterProcessComm;
 using Yzmeir.NamedPipes;
-using phothoflow.ipc;
+using NamedPipesServer;
 
 namespace phothoflow
 {
@@ -32,7 +32,12 @@ namespace phothoflow
     /// </summary>
     public partial class MainWindow : Window, StepCallback
     {
+        public static IChannelManager PipeManager;
 
+        public void OnItemLoaded()
+        {
+
+        }
 
         private Point start;
         ObservableCollection<Item> unarranged;
@@ -50,10 +55,12 @@ namespace phothoflow
                 MainContainer.Height = 100;
                 MainContainer.Children.Clear();
             }));
+
         }
 
         public void OnFinish()
         {
+            arrangement.Arrange();
             foreach (Item val in arrangement.GetarrangedItems())
             {
                 AddItem(val);
@@ -62,6 +69,19 @@ namespace phothoflow
                 }), val);
             }
 
+        }
+
+        public void OnStep(Item val)
+        {
+            arrangement.allItemList.Add(val);
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                if (!(val.Preview is BitmapFrame))
+                {
+                    val.Preview = BitmapFrame.Create(val.Preview);
+                }
+                unarranged.Add(val);
+            }));
         }
 
         UIElement CreateMovable(Item one)
@@ -111,29 +131,18 @@ namespace phothoflow
                 MainContainer.Children.Add(photo);
             }), val);
         }
-
-        public void OnStep(Item val)
-        {
-            this.Dispatcher.Invoke(new Action(() =>
-            {
-                if (!(val.Preview is BitmapFrame))
-                {
-                    val.Preview = BitmapFrame.Create(val.Preview);
-                }
-                unarranged.Add(val);
-            }));
-        }
         
         Arrangement arrangement;
+
         public MainWindow()
         {
             InitializeComponent();
             SettingManager.Init();
-            arrangement = new Arrangement(this);
+            arrangement = new Arrangement();
             unarranged = new ObservableCollection<Item>();
             waitingList.ItemsSource = unarranged;
-            ServerNamedPipe.PipManager = new PipeManager();
-            ServerNamedPipe.PipManager.Initialize();
+            PipeManager = new PipeManager(this);
+            PipeManager.Initialize();
         }
 
         void DrawContainer()
@@ -224,7 +233,10 @@ namespace phothoflow
                 case "导出":
                     SaveFile();
                     break;
-                case "选择文件夹":
+                case "导入":
+                    LoadPersonal();
+                    break;
+                case "打开文件夹":
                     OpenFolder();
                     break;
                 default:
@@ -232,6 +244,11 @@ namespace phothoflow
             }
         }
 
+        void LoadPersonal()
+        {
+            System.Drawing.Image test = System.Drawing.Bitmap.FromFile("E:\\a.jpg");
+            float x = test.HorizontalResolution;
+        }
 
         void OpenFolder()
         {

@@ -19,7 +19,7 @@ namespace phothoflow.setting
 
         const string DEFAULTMARGIN = "1,2,4";
 
-        const string DEFAULTWIDTH = "63,71,79,87,99,110,126,158,197";
+        const string DEFAULTWIDTH = "1.6,1.8,2,2.2,2.5,2.8,3.2,4,5";
 
         const string DPISETTING = "dpi";
         
@@ -67,7 +67,8 @@ namespace phothoflow.setting
 
         public static float GetWidth()
         {
-            return width.Get()[width.Current()];
+            float w = width.Get()[width.Current()];
+            return w * 39.3700787f;
         }
 
         public static float GetMargin()

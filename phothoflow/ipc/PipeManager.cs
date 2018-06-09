@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading;
 using Yzmeir.InterProcessComm;
 using Yzmeir.NamedPipes;
+using phothoflow.location;
 
-namespace phothoflow.ipc
+namespace NamedPipesServer
 {
     public sealed class PipeManager : IChannelManager
     {
@@ -38,6 +39,13 @@ namespace phothoflow.ipc
 
         public object SyncRoot = new object();
 
+        public static StepCallback _callback;
+
+        public PipeManager(StepCallback callback)
+        {
+            _callback = callback;
+        }
+
         public void Initialize()
         {
             Pipes = Hashtable.Synchronized(_pipes);
@@ -48,6 +56,15 @@ namespace phothoflow.ipc
             MainThread.Start();
         }
 
+        public string HandleRequest(string request)
+        {
+            string returnVal;
+
+            Console.WriteLine("here reach");
+            returnVal = "Response to: " + request;
+
+            return returnVal;
+        }
         private void Start()
         {
             try

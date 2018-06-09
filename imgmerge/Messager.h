@@ -7,8 +7,7 @@ public:
 	Messager();
 	~Messager();
 
-	void sendStr(string str);
+	static void sendStr(string str);
 
-	HANDLE hPipe;             
 };
 

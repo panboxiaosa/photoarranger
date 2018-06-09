@@ -7,8 +7,9 @@
         
         <DockPanel>
             <Menu DockPanel.Dock="Top" Name="menu" >
-                <MenuItem Header="选择文件夹" Click="MenuItem_Click"/>
+                <MenuItem Header="打开文件夹" Click="MenuItem_Click"/>
                 <MenuItem Header="导出" Click="MenuItem_Click"/>
+                <MenuItem Header="导入" Click="MenuItem_Click"/>
                 <MenuItem Header="宽度设置" Click="MenuItem_Click"/>
                 <MenuItem Header="边距设置" Click="MenuItem_Click"/>
                 <MenuItem Header="分辨率设置" Click="MenuItem_Click" />

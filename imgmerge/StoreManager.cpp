@@ -7,7 +7,6 @@ StoreManager::StoreManager()
 {
 }
 
-
 StoreManager::~StoreManager()
 {
 }
@@ -21,7 +20,7 @@ void StoreManager::setTag(TIFF** tiff)
 	TIFFSetField(*tiff, TIFFTAG_IMAGELENGTH, pixelHeight);
 	TIFFSetField(*tiff, TIFFTAG_SAMPLESPERPIXEL, 4);
 	TIFFSetField(*tiff, TIFFTAG_BITSPERSAMPLE, 8);
-	TIFFSetField(*tiff, TIFFTAG_COMPRESSION, COMPRESSION_PACKBITS);
+	TIFFSetField(*tiff, TIFFTAG_COMPRESSION, COMPRESSION_LZW);
 	TIFFSetField(*tiff, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_SEPARATED);
 	TIFFSetField(*tiff, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
 	TIFFSetField(*tiff, TIFFTAG_RESOLUTIONUNIT, 2);
@@ -68,6 +67,7 @@ void StoreManager::build(wstring tar) {
 
 	int64 together = pixelWidth;
 	together *= pixelHeight * 4;
+
 	if (together > BOARDBUF) {
 		buildByStep(tar);
 		return;
@@ -116,31 +116,37 @@ void StoreManager::buildByStep(wstring tar) {
 	int steps = pixelHeight / eachHeight;
 
 	TIFF *tiff = TIFFOpenW(tar.c_str(), "w");
-
 	setTag(&tiff);
+	int infoUnit = pixelHeight / 100;
+
+	int step = pixelWidth * 4;
 
 	for (int i = 0; i < steps; i++) {
 		byte* data = buildPart(i, eachHeight);
-
-		int step = pixelWidth * 4;
 		int offset = i * eachHeight;
-		for (int i = 0; i < eachHeight; i++)
+		for (int j = 0; j < eachHeight; j++)
 		{
-			TIFFWriteScanline(tiff, data, i + offset);
+			int cur = j + offset;
+			TIFFWriteScanline(tiff, data, cur);
 			data += step;
+			if (cur % infoUnit == 0) {
+				cout << "写入tif文件进度完成 " << cur / infoUnit << "%" << endl;
+			}
 		}
 	}
 
 	int restHeight = pixelHeight - eachHeight * steps;
 	if (restHeight > 0) {
 		byte* data = buildPart(steps, restHeight);
-
 		int offset = eachHeight * steps;
-		int step = pixelWidth * 4;
 		for (int i = 0; i < restHeight; i++)
 		{
-			TIFFWriteScanline(tiff, data, i + offset);
+			int cur = i + offset;
+			TIFFWriteScanline(tiff, data, cur);
 			data += step;
+			if (cur % infoUnit == 0) {
+				cout << "写入tif文件进度完成 " << cur / infoUnit << "%" << endl;
+			}
 		}
 	}
 
@@ -200,6 +206,7 @@ byte* StoreManager::buildPart(int index, int height) {
 		}
 
 		(prepare(src)).copyTo(drawBoard(dst));
+		cout << "渲染图片 " << StringCoder::WString2String(frag.filePath) << " 完成" << endl;
 	}
 
 	return BufStorage::getBoardStorage();

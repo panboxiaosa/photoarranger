@@ -57,25 +57,38 @@ void setDpi(TIFF* tiff, ushort& ref) {
 
 void ImageLoader::loadJpg(wstring path)
 {
-	Gdiplus::Bitmap map(path.c_str(), true);
+	using namespace Gdiplus;
+	Bitmap map(path.c_str(), true);
 
-	HBITMAP _hBmp;
-	BITMAP bmp;
-	map.GetHBITMAP(NULL, &_hBmp);
-
-	GetObject(_hBmp, sizeof(BITMAP), &bmp);
-	channel = bmp.bmBitsPixel == 1 ? 1 : bmp.bmBitsPixel / 8;
-	height = bmp.bmHeight;
-	width = bmp.bmWidth;
+	height = map.GetHeight();
+	width = map.GetWidth();
 	dpiX = round(map.GetHorizontalResolution());
 	dpiY = round(map.GetVerticalResolution());
 
-	GetBitmapBits(_hBmp, channel * height * width, BufStorage::getStorage());
-	
-	byte test[50];
-	memcpy(test, BufStorage::getStorage(), 50);
+	PixelFormat format = map.GetPixelFormat();
+	Gdiplus::BitmapData data;
+	Gdiplus::Rect full(0, 0, width, height);
+	uint total;
+	map.LockBits(&full, Gdiplus::ImageLockModeRead, format, &data);
+	total = data.Stride * data.Height;
+	memcpy(BufStorage::getStorage(), data.Scan0, total);
+	map.UnlockBits(&data);
 
-	colorSpace = RGBASPACE;
+	if (format == PixelFormat32bppCMYK) {
+		channel = 4;
+		colorSpace = CMYKSPACE;
+	}
+	else if (format == PixelFormat24bppRGB) {
+		colorSpace = RGBSPACE;
+		channel = 3;
+	}
+	else if (format == PixelFormat32bppARGB) {
+		colorSpace = RGBASPACE;
+		channel = 4;
+	}
+	else {
+		colorSpace = UNHANDLABLESPACE;
+	}
 
 	
 }

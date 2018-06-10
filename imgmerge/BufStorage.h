@@ -1,6 +1,6 @@
 #pragma once
 #include "stdafx.h"
-#define BOARDBUF 4000000000u
+#define BOARDBUF 1000000000u
 
 class BufStorage
 {

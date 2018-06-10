@@ -82,11 +82,14 @@ std::wstring ThumbManager::createThumb(ImageLoader img)
 	
 	path += _T("\\") + StringCoder::String2WString(img.toString()) + _T(".jpg");
 
-	if (img.colorSpace == RGBASPACE || RGBSPACE == img.colorSpace) {
+	if (img.colorSpace == RGBASPACE) {
 		Mat test(thumb.size(), CV_8UC3);
-		const int fromTo[6] = { 0, 0, 1, 1, 2, 2 };
+		const int fromTo[6] = { 1, 0, 2, 1, 3, 2 };
 		mixChannels(thumb, test, fromTo, 3);
 		imwrite(StringCoder::WString2String(path), test);
+	}
+	else if (RGBSPACE == img.colorSpace) {
+		imwrite(StringCoder::WString2String(path), thumb);
 	}
 	else if (CMYKASPACE == img.colorSpace || CMYKSPACE == img.colorSpace){
 		Mat test(thumb.size(), CV_8UC3);

@@ -58,11 +58,45 @@ Mat BufStorage::pickCmyk(Mat mat, ushort colorSpace) {
 		const int fromTo[8] = { 0, 0, 1, 1, 2, 2, 3, 3 };
 		mixChannels(mat, cmyk, fromTo, 4);
 	}
-	else if (RGBSPACE == colorSpace || RGBASPACE == colorSpace) {
-		cmyk = Scalar(0, 0, 0, 0);
-		const int fromTo[6] = { 2, 0, 1, 1, 0, 2 };
-		mixChannels(mat, cmyk, fromTo, 3);
-		cmyk = Scalar(255, 255, 255, 0) - cmyk;
+	else if (RGBSPACE == colorSpace) {
+		for (int i = 0; i<cmyk.rows; i++){
+			uchar *data = mat.ptr<uchar>(i);
+			uchar *dataCMYK = cmyk.ptr<uchar>(i);
+			for (int j = 0; j < cmyk.cols; j++){
+				uchar b = data[3 * j];
+				uchar g = data[3 * j + 1];
+				uchar r = data[3 * j + 2];
+
+				uchar c = 255 - r;
+				uchar m = 255 - g;
+				uchar y = 255 - b;
+				uchar k = min(min(c, m), y);
+				dataCMYK[4 * j] = c - k;
+				dataCMYK[4 * j + 1] = m - k;
+				dataCMYK[4 * j + 2] = y - k;
+				dataCMYK[4 * j + 3] = k;
+			}
+		}
+	}
+	else if (RGBASPACE == colorSpace) {
+		for (int i = 0; i<cmyk.rows; i++){
+			uchar *data = mat.ptr<uchar>(i);
+			uchar *dataCMYK = cmyk.ptr<uchar>(i);
+			for (int j = 0; j < cmyk.cols; j++){
+				uchar b = data[4 * j + 1];
+				uchar g = data[4 * j + 2];
+				uchar r = data[4 * j + 3];
+
+				uchar c = 255 - r;
+				uchar m = 255 - g;
+				uchar y = 255 - b;
+				uchar k = min(min(c, m), y);
+				dataCMYK[4 * j] = c - k;
+				dataCMYK[4 * j + 1] = m - k;
+				dataCMYK[4 * j + 2] = y - k;
+				dataCMYK[4 * j + 3] = k;
+			}
+		}
 	}
 	return cmyk;
 }

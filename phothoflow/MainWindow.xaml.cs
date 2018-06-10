@@ -70,7 +70,7 @@ namespace phothoflow
 
         public void OnLoadStart()
         {
-            
+            unarranged.Clear();
         }
 
         public void OnLoadFinish()

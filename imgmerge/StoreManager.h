@@ -9,15 +9,19 @@ public:
 	StoreManager();
 	~StoreManager();
 
-	void saveTo(wstring tar);
-
-	void saveDefault();
-
-	void loadDefault();
+	void setTag(TIFF** tiff);
 
 	void load(wstring tar);
 
 	void build(wstring tar);
+
+	byte* buildPart(int index, int height);
+
+	void buildByStep(wstring tar);
+
+	vector<wstring> getOriginFiles();
+
+	bool between(Fragment item, int offset, int height);
 
 private:
 

@@ -10,14 +10,20 @@ FileUtil::~FileUtil()
 {
 }
 
-string buildTimeStr(WIN32_FIND_DATA filedata) {
+string buildTimeStr(FILETIME ftCreate, FILETIME ftModify) {
 	stringstream ss;
-	ss << filedata.ftCreationTime.dwHighDateTime
-		<< filedata.ftCreationTime.dwLowDateTime
-		<< filedata.ftLastWriteTime.dwHighDateTime
-		<< filedata.ftLastWriteTime.dwLowDateTime;
+	ss << ftCreate.dwHighDateTime
+		<< ftCreate.dwLowDateTime
+		<< ftModify.dwHighDateTime
+		<< ftModify.dwLowDateTime;
 	return ss.str();
 }
+
+string buildTimeStr(WIN32_FIND_DATA filedata) {
+	
+	return buildTimeStr(filedata.ftCreationTime, filedata.ftLastWriteTime);
+}
+
 
 void FileUtil::find(const TCHAR* lpPath, std::vector<pair<wstring, string> > &fileList)
 {
@@ -93,4 +99,26 @@ void FileUtil::find(const TCHAR* lpPath, vector<string> &nameList)
 		if (!FindNextFile(hFind, &FindFileData))    break;
 	}
 	FindClose(hFind);
+}
+
+vector<pair<wstring, string>> FileUtil::supply(vector<wstring> path) {
+	vector<pair<wstring, string>> ret;
+	for (wstring str : path) {
+		FILETIME ftCreate, ftAccess, ftModify;
+
+		HANDLE hFile = CreateFile(str.c_str(),
+			GENERIC_READ,
+			FILE_SHARE_READ,
+			NULL,
+			OPEN_EXISTING,
+			FILE_FLAG_BACKUP_SEMANTICS,
+			NULL);
+
+		if (GetFileTime(hFile, &ftCreate, &ftAccess, &ftModify))
+		{
+			string timeStr = buildTimeStr(ftCreate, ftModify);
+			ret.push_back(pair<wstring, string>(str, timeStr));
+		}
+	}
+	return ret;
 }

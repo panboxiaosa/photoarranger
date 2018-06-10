@@ -25,5 +25,7 @@ public:
 	static vector<string> split(const string &s, const string &seperator);
 
 	static vector<string> split(const string &s);
+
+	static vector<wstring> split(const wstring& s, const wstring& seperator);
 };
 

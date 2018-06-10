@@ -3,12 +3,14 @@
 class Fragment
 {
 public:
-	Fragment(string str);
+	Fragment(wstring str);
 	~Fragment();
 
-	string filePath;
+	wstring filePath;
 	int top;
 	int left;
+	int height;
+	int width;
 	bool rotated;
 
 

@@ -11,6 +11,7 @@ public:
 
 	static void find(const TCHAR* lpPath, vector<string> &nameList);
 
+	static vector<pair<wstring, string>> supply(vector<wstring> path);
 
 };
 

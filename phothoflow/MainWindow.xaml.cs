@@ -23,6 +23,8 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using Yzmeir.InterProcessComm;
 using Yzmeir.NamedPipes;
 using NamedPipesServer;
+using System.Diagnostics;
+using phothoflow.ipc;
 
 namespace phothoflow
 {
@@ -30,21 +32,18 @@ namespace phothoflow
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, StepCallback
+    public partial class MainWindow : Window, LoadCallback, ArrangeCallback
     {
         public static IChannelManager PipeManager;
-
-        public void OnItemLoaded()
-        {
-
-        }
-
+        Arrangement arrangement;
         private Point start;
         ObservableCollection<Item> unarranged;
+
         Color Normal = Color.FromRgb(176, 196, 222);
         Color Chosen = Color.FromRgb(220, 20, 60);
 
-        public void OnStart()
+
+        public void OnArrangeStart()
         {
             this.Dispatcher.Invoke(new Action(() =>
             {
@@ -55,25 +54,33 @@ namespace phothoflow
                 MainContainer.Height = 100;
                 MainContainer.Children.Clear();
             }));
-
         }
 
-        public void OnFinish()
+        public void OnArrangeFinish()
         {
-            arrangement.Arrange();
             foreach (Item val in arrangement.GetarrangedItems())
             {
                 AddItem(val);
-                this.Dispatcher.Invoke(new Action<Item>((one) =>{
+                this.Dispatcher.Invoke(new Action<Item>((one) =>
+                {
                     unarranged.Remove(one);
                 }), val);
             }
-
         }
 
-        public void OnStep(Item val)
+        public void OnLoadStart()
         {
-            arrangement.allItemList.Add(val);
+            
+        }
+
+        public void OnLoadFinish()
+        {
+            arrangement.Arrange();
+        }
+
+        public void OnLoadStep(Item val)
+        {
+            arrangement.AddElement(val);
             this.Dispatcher.Invoke(new Action(() =>
             {
                 if (!(val.Preview is BitmapFrame))
@@ -131,29 +138,16 @@ namespace phothoflow
                 MainContainer.Children.Add(photo);
             }), val);
         }
-        
-        Arrangement arrangement;
 
         public MainWindow()
         {
             InitializeComponent();
             SettingManager.Init();
-            arrangement = new Arrangement();
+            arrangement = new Arrangement(this);
             unarranged = new ObservableCollection<Item>();
             waitingList.ItemsSource = unarranged;
             PipeManager = new PipeManager(this);
             PipeManager.Initialize();
-        }
-
-        void DrawContainer()
-        {
-            List<Item> arrange = arrangement.GetarrangedItems();
-            MainContainer.Children.Clear();
-
-            foreach (Item one in arrange)
-            {
-                OnStep(one);
-            }
         }
 
         private void ImageMouseMove(object sender, MouseEventArgs e)
@@ -180,11 +174,7 @@ namespace phothoflow
             float y = (float)((Canvas.GetTop(delta) + m.OffsetY)/ DisplayOptions.DisplayRate);
             Item target = delta.Tag as Item;
 
-            if (!arrangement.AdjustItem(target, x, y))
-            {
-                OnStart();
-                OnFinish();
-            }
+            arrangement.AdjustItem(target, x, y);
   
         }
 
@@ -194,7 +184,6 @@ namespace phothoflow
             if (delta.IsMouseCaptured) return;
             delta.BorderBrush = new SolidColorBrush(Chosen);
             start = e.MouseDevice.GetPosition(MainContainer);
-
 
             delta.CaptureMouse();
             
@@ -230,10 +219,13 @@ namespace phothoflow
                 case "关于":
                     MessageBox.Show("图片排列器");
                     break;
-                case "导出":
+                case "保存":
                     SaveFile();
                     break;
-                case "导入":
+                case "导出图片":
+                    SavePic();
+                    break;
+                case "打开文件":
                     LoadPersonal();
                     break;
                 case "打开文件夹":
@@ -246,8 +238,19 @@ namespace phothoflow
 
         void LoadPersonal()
         {
-            System.Drawing.Image test = System.Drawing.Bitmap.FromFile("E:\\a.jpg");
-            float x = test.HorizontalResolution;
+            OpenFileDialog ofd = new OpenFileDialog();
+            //设置打开的文件的类型，注意过滤器的语法  
+            ofd.Filter = "pbf文件|*.pbf";
+            //调用ShowDialog()方法显示该对话框，该方法的返回值代表用户是否点击了确定按钮  
+            if (ofd.ShowDialog() == true)
+            {
+                Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + "imgmerge.exe ",  "-f " + ofd.FileName);
+            }
+            else
+            {
+                MessageBox.Show("没有选择文件");
+            }  
+            
         }
 
         void OpenFolder()
@@ -256,12 +259,15 @@ namespace phothoflow
             dialog.IsFolderPicker = true;
             if (CommonFileDialogResult.Ok == dialog.ShowDialog()) {
                 string path = dialog.FileName;
-                new Thread(() => { arrangement.Load(path); }).Start();
+                new Thread(() => {
+                    ProcessExecutor.ExecuteSilent(System.AppDomain.CurrentDomain.BaseDirectory + "imgmerge.exe", "-l " + path);
+
+                }).Start();
             }
             
         }
 
-        void SaveFile()
+        void SavePic()
         {
             SaveFileDialog sfd = new SaveFileDialog();
             //设置保存的文件的类型，注意过滤器的语法  
@@ -271,6 +277,23 @@ namespace phothoflow
             {
                 FileWriter fw = new FileWriter();
                 fw.Write(sfd.FileName, arrangement.GetarrangedItems(), arrangement.GetTotalHeight());
+            }
+            else
+            {
+                MessageBox.Show("取消保存");
+            }  
+        }
+
+        void SaveFile()
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            //设置保存的文件的类型，注意过滤器的语法  
+            sfd.Filter = "pbf文件|*.pbf";
+            //调用ShowDialog()方法显示该对话框，该方法的返回值代表用户是否点击了确定按钮  
+            if (sfd.ShowDialog() == true)
+            {
+                FileWriter fw = new FileWriter();
+                fw.Save(sfd.FileName, arrangement.GetarrangedItems(), arrangement.GetTotalHeight());
             }
             else
             {
@@ -296,7 +319,6 @@ namespace phothoflow
 
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
-            
             Button btn = e.Source as Button;
             switch ((string)btn.Tag)
             {
@@ -317,7 +339,6 @@ namespace phothoflow
             Managable settingItem = SettingManager.Get(SettingTitle.Text);
             settingItem.Select(mCB.SelectedIndex);
         }
-
 
     }
 }

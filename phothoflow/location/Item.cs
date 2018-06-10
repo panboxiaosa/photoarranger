@@ -7,13 +7,9 @@ using System.Windows.Media.Imaging;
 using System.Drawing;
 using System.Windows.Interop;
 using System.Windows;
-using Emgu.Util;
-using Emgu.CV.CvEnum;
-using Emgu.CV.Structure;
-using Emgu.CV;
+
 using System.IO;
 using phothoflow.setting;
-using BitMiracle.LibTiff.Classic;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using phothoflow.filemanager;
@@ -70,9 +66,6 @@ namespace phothoflow.location
             Preview = new BitmapImage(new Uri(ImagePath));
             Name = OriginPath.Substring(OriginPath.LastIndexOf("\\") + 1);
 
-            //ImagePath = path;
-            // = path.Substring(path.LastIndexOf("\\") + 1);
-            //Preview = InitBitmap(path);
         }
 
         public static BitmapImage BitmapToBitmapImage(Bitmap bitmap)
@@ -88,26 +81,7 @@ namespace phothoflow.location
         }
 
 
-        BitmapImage InitBitmap(string path)
-        {
-            Mat mat = ImageReader.readAsMat(path);
-            Bitmap img = mat.Bitmap;
-            
-            Density_x = img.HorizontalResolution;
-            Density_y = img.VerticalResolution;
-
-            RealWidth = (img.Width / Density_x);
-            RealHeight = (img.Height / Density_y);
-
-            Width = RealWidth + SettingManager.GetMargin() * 2;
-            Height = RealHeight + SettingManager.GetMargin() * 2;
-
-            BitmapImage thumb = BuildThumb(img);
-
-            img.Dispose();
-            return thumb;
-
-        }
+        
 
         BitmapImage BuildThumb(Bitmap origin)
         {
@@ -123,8 +97,8 @@ namespace phothoflow.location
 
         public bool IsOverlap(Item r2)
         {
-            if ((Top + Height > r2.Top + 0.0001f) && (r2.Top + r2.Height > Top + 0.0001f)
-                     && (Left + Width > r2.Left + 0.0001f) && (r2.Left + r2.Width > Left + 0.0001f))
+            if ((Top + Height > r2.Top + 0.000001f) && (r2.Top + r2.Height > Top + 0.000001f)
+                     && (Left + Width > r2.Left + 0.000001f) && (r2.Left + r2.Width > Left + 0.000001f))
             {
                 return true;
             }

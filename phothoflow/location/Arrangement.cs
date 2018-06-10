@@ -10,7 +10,6 @@ using phothoflow.filemanager;
 using System.Threading;
 using phothoflow.setting;
 using System.Diagnostics;
-using phothoflow.ipc;
 
 namespace phothoflow.location
 {
@@ -19,10 +18,13 @@ namespace phothoflow.location
 
         ArrangeCalcer calcer = new ArrangeCalcer();
         private List<Item> currentArrange;
-        public List<Item> allItemList;
+        private List<Item> allItemList;
+
+        ArrangeCallback callback;
         
-        public Arrangement()
-        {            
+        public Arrangement(ArrangeCallback arrangeCallback)
+        {
+            callback = arrangeCallback;
         }
 
         public float GetTotalHeight()
@@ -56,29 +58,39 @@ namespace phothoflow.location
             }
         }
 
-
-        public void Load(string path)
+        public void Arrange()
         {
-            
-            allItemList = new List<Item>();
-            ProcessExecutor.ExecuteSilent(System.AppDomain.CurrentDomain.BaseDirectory + "imgmerge.exe", "-l " + path);
-
+            if (allItemList == null)
+            {
+                return;
+            }
+            callback.OnArrangeStart();
+            currentArrange = new List<Item>();
+            foreach (Item item in allItemList)
+            {
+                int position = calcer.FindSuitable(currentArrange, item);
+                if (position != -1)
+                {
+                    currentArrange.Insert(position, item);
+                }
+            }
+            callback.OnArrangeFinish();
         }
 
-        MemoryStream GetMemoryStream(string path)
+        public void AddElement(Item item)
         {
-            BinaryReader myBR = new BinaryReader(File.Open(path, FileMode.Open));
-            FileInfo myFI = new FileInfo(path);
-            byte[] myBytes = myBR.ReadBytes((int)myFI.Length);
-            myBR.Close();
-            MemoryStream myMS2 = new MemoryStream(myBytes);
-            return myMS2;
+            if (allItemList == null)
+            {
+                allItemList = new List<Item>();
+            }
+            allItemList.Add(item);
         }
 
         public bool AdjustItem(Item adjust, float x, float y)
         {
             if (adjust.Width + x > SettingManager.GetWidth()) return false;
             if (y < 0 || x < 0) return false;
+
             List<Item> prepare = new List<Item>();
             List<Item> abondon = new List<Item>();
             adjust.Top = y;
@@ -110,7 +122,7 @@ namespace phothoflow.location
 
         private void ReArrange(List<Item> already, List<Item> rest)
         {
-            //callback.OnStart();
+            callback.OnArrangeStart();
             foreach (Item item in rest)
             {
                 int position = calcer.FindSuitable(already, item);
@@ -121,31 +133,7 @@ namespace phothoflow.location
             }
             currentArrange = already;
 
-            //callback.OnFinish();
+            callback.OnArrangeFinish();
         }
-
-        public void Arrange()
-        {
-            if (allItemList == null)
-            {
-                return;
-            }
-
-            currentArrange = new List<Item>();
-            foreach (Item item in allItemList)
-            {
-                int position = calcer.FindSuitable(currentArrange, item);
-                if (position != -1)
-                {
-                    currentArrange.Insert(position, item);
-                }
-            }
-        }
-
-        public void Recession(Item item)
-        {
-            currentArrange.Remove(item);
-        }
-
     }
 }

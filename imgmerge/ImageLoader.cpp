@@ -54,82 +54,31 @@ void setDpi(TIFF* tiff, ushort& ref) {
 	}
 }
 
-void storeToMat(Gdiplus::Bitmap* pbm)
-
-{
-	HBITMAP _hBmp;
-	BITMAP bmp;
-	pbm->GetHBITMAP(NULL, &_hBmp);
-
-	GetObject(_hBmp, sizeof(BITMAP), &bmp);
-	int nChannels = bmp.bmBitsPixel == 1 ? 1 : bmp.bmBitsPixel / 8;
-	int depth = bmp.bmBitsPixel == 1 ? IPL_DEPTH_1U : IPL_DEPTH_8U;
-	GetBitmapBits(_hBmp, bmp.bmHeight*bmp.bmWidth*nChannels, BufStorage::getStorage());
-
-	//Mat v_mat(bmp.bmWidth, bmp.bmHeight, CV_8UC(nChannels), BufStorage::getStorage());
-}
 
 void ImageLoader::loadJpg(wstring path)
 {
-	int64 one = getTickCount();
-	Gdiplus::Bitmap map(path.c_str());
-	
+	Gdiplus::Bitmap map(path.c_str(), true);
+
+	HBITMAP _hBmp;
+	BITMAP bmp;
+	map.GetHBITMAP(NULL, &_hBmp);
+
+	GetObject(_hBmp, sizeof(BITMAP), &bmp);
+	channel = bmp.bmBitsPixel == 1 ? 1 : bmp.bmBitsPixel / 8;
+	height = bmp.bmHeight;
+	width = bmp.bmWidth;
 	dpiX = round(map.GetHorizontalResolution());
 	dpiY = round(map.GetVerticalResolution());
 
-	int64 two = getTickCount();
+	GetBitmapBits(_hBmp, channel * height * width, BufStorage::getStorage());
+	
+	byte test[50];
+	memcpy(test, BufStorage::getStorage(), 50);
 
-	struct jpeg_decompress_struct cinfo;
-	struct jpeg_error_mgr jerr;
-	FILE * infile;
-	JSAMPARRAY buffer;
-	int row_stride;
+	colorSpace = RGBASPACE;
 
-	//绑定标准错误处理结构  
-	cinfo.err = jpeg_std_error(&jerr);
-	//初始化JPEG对象  
-	jpeg_create_decompress(&cinfo);
-	//指定图像文件  
-	_wfopen_s(&infile, path.c_str(), _T("rb"));
-	jpeg_stdio_src(&cinfo, infile);
-
-	//读取图像信息  
-	(void)jpeg_read_header(&cinfo, TRUE);
-
-	//开始解压缩图像  
-	(void)jpeg_start_decompress(&cinfo);
-
-
-	//分配缓冲区空间  
-	row_stride = cinfo.output_width * cinfo.output_components;
-	height = cinfo.output_height;
-	width = cinfo.output_width;
-	channel = cinfo.output_components;
-
-	buffer = (*cinfo.mem->alloc_sarray)((j_common_ptr)&cinfo, JPOOL_IMAGE, row_stride, 1);
-
-	byte* stableBuf = BufStorage::getStorage();
-	//读取数据  
-	while (cinfo.output_scanline < cinfo.output_height)
-	{
-		(void)jpeg_read_scanlines(&cinfo, buffer, 1);
-
-		memcpy_s(stableBuf, row_stride, buffer[0], row_stride);
-		stableBuf += row_stride;
-	}
-	//结束解压缩操作  
-	(void)jpeg_finish_decompress(&cinfo);
-
-	//释放资源  
-	jpeg_destroy_decompress(&cinfo);
-	fclose(infile);
-	int64 three = getTickCount();
-
-	int cmp1 = two - one;
-	int cmp2 = three - two;
-
+	
 }
-
 
 
 void ImageLoader::loadTif(wstring path){
@@ -138,9 +87,25 @@ void ImageLoader::loadTif(wstring path){
 	TIFFGetField(tiff, TIFFTAG_IMAGEWIDTH, &width);
 	TIFFGetField(tiff, TIFFTAG_IMAGELENGTH, &height);
 	TIFFGetField(tiff, TIFFTAG_SAMPLESPERPIXEL, &channel);
+	ushort metric;
+	TIFFGetField(tiff, TIFFTAG_PHOTOMETRIC, &metric);
 	setDpi(tiff, dpiX);
 	setDpi(tiff, dpiY);
 
+	if (metric == PHOTOMETRIC_RGB) {
+		colorSpace = RGBSPACE;
+	}
+	else if (metric == PHOTOMETRIC_SEPARATED) {
+		if (channel == 4) {
+			colorSpace = CMYKSPACE;
+		}
+		else if (channel == 5) {
+			colorSpace = CMYKASPACE;
+		}
+	}
+	else {
+		colorSpace == UNHANDLABLESPACE;
+	}
 	int step = width * channel;
 	byte* stableBuf = BufStorage::getStorage();
 	for (int i = 0; i < height; i++) {

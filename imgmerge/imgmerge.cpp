@@ -13,18 +13,15 @@
 using namespace cv;
 using namespace std;
 
-void loadEntry(wstring filename) {
-	
-	ThumbManager thumb;
 
+void loadToUi(vector<pair<wstring, string>> files) {
+	ThumbManager thumb;
 	Messager::sendStr("start");
-	vector<pair<wstring, string>> files;
-	FileUtil::find(filename.c_str(), files);
 	for (pair<wstring, string> item : files) {
 		wstring pathName = item.first;
-		if (StringCoder::endsWith(pathName, _T(".jpg")) 
-			|| StringCoder::endsWith(pathName, _T(".jpeg")) 
-			|| StringCoder::endsWith(pathName, _T(".png")) 
+		if (StringCoder::endsWith(pathName, _T(".jpg"))
+			|| StringCoder::endsWith(pathName, _T(".jpeg"))
+			|| StringCoder::endsWith(pathName, _T(".png"))
 			|| StringCoder::endsWith(pathName, _T(".tif"))
 			|| StringCoder::endsWith(pathName, _T(".JPG"))
 			|| StringCoder::endsWith(pathName, _T(".JPEG"))
@@ -36,10 +33,26 @@ void loadEntry(wstring filename) {
 	Messager::sendStr("finish");
 }
 
+void loadEntry(wstring filename) {
+	vector<pair<wstring, string>> files;
+	FileUtil::find(filename.c_str(), files);
+	loadToUi(files);
+}
+
+
 void mergeEntry(wstring filename, wstring target) {
 	StoreManager store;
 	store.load(filename);
 	store.build(target);
+	
+}
+
+void fileEntry(wstring filename) {
+	StoreManager store;
+	store.load(filename);
+	vector<wstring> paths = store.getOriginFiles();
+	vector<pair<wstring, string>> all = FileUtil::supply(paths);
+	loadToUi(all);
 }
 
 extern "C" {
@@ -53,23 +66,25 @@ int _tmain(int argc, wchar_t* argv[])
 
 	if (argc < 3)
 		return 0;
+	TIFFSetErrorHandler(doNothing);
+	TIFFSetWarningHandler(doNothing);
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR gdiplusToken;
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 	wcout.imbue(locale(locale(), "", LC_CTYPE));
 	if (_tcscmp(argv[1], L"-l") == 0) {
-
-		TIFFSetErrorHandler(doNothing);
-		TIFFSetWarningHandler(doNothing);
-		Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-		ULONG_PTR gdiplusToken;
-		Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
-
 		loadEntry(argv[2]);
-		Gdiplus::GdiplusShutdown(gdiplusToken);
 	}
 	else if (_tcscmp(argv[1], L"-m") == 0) 
 	{
 		mergeEntry(argv[2], argv[3]);
 	}
+	else if (_tcscmp(argv[1], L"-f") == 0) {
+		fileEntry(argv[2]);
+	}
+	Gdiplus::GdiplusShutdown(gdiplusToken);
+
 	BufStorage::releaseStorage();
 	return 0;
 }

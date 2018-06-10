@@ -34,15 +34,15 @@ namespace NamedPipesServer
                         PipeConnection.Write("Ok");
                         if (use =="start")
                         {
-                            PipeManager._callback.OnStart();
+                            PipeManager._callback.OnLoadStart();
                         }
                         else if (use == "finish")
                         {
-                            PipeManager._callback.OnFinish();
+                            PipeManager._callback.OnLoadFinish();
                         }
                         else if (use.Contains("$"))
                         {
-                            PipeManager._callback.OnStep(new Item(use));
+                            PipeManager._callback.OnLoadStep(new Item(use));
                         }
                     }
                     else

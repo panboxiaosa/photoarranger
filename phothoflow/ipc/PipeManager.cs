@@ -39,9 +39,9 @@ namespace NamedPipesServer
 
         public object SyncRoot = new object();
 
-        public static StepCallback _callback;
+        public static LoadCallback _callback;
 
-        public PipeManager(StepCallback callback)
+        public PipeManager(LoadCallback callback)
         {
             _callback = callback;
         }

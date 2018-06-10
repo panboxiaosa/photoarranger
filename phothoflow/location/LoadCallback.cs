@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace phothoflow.location
 {
-    public interface StepCallback
+    public interface LoadCallback
     {
-        void OnStart();
+        void OnLoadStart();
 
-        void OnStep(Item item);
+        void OnLoadStep(Item item);
 
-        void OnFinish();
+        void OnLoadFinish();
     }
 }

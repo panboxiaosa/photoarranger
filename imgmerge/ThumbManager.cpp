@@ -30,7 +30,7 @@ void ThumbManager::load(std::wstring path, string tag){
 		img.profileStr = profile;
 		wstring thumbPath = createThumb(img);
 		cache[profile] = img;
-		Messager::sendStr(img.toString() + "#" + StringCoder::WString2String(path));
+		Messager::sendStr(img.toString() + "$" + StringCoder::WString2String(path));
 	}
 }
 
@@ -82,17 +82,19 @@ std::wstring ThumbManager::createThumb(ImageLoader img)
 	
 	path += _T("\\") + StringCoder::String2WString(img.toString()) + _T(".jpg");
 
-	vector <int> params;
-	if (thumb.channels() > 3) {
+	if (img.colorSpace == RGBASPACE || RGBSPACE == img.colorSpace) {
 		Mat test(thumb.size(), CV_8UC3);
-		const int fromTo[6] = { 1, 0, 2, 1, 3, 2 };
+		const int fromTo[6] = { 0, 0, 1, 1, 2, 2 };
 		mixChannels(thumb, test, fromTo, 3);
 		imwrite(StringCoder::WString2String(path), test);
 	}
-	else {
-		imwrite(StringCoder::WString2String(path), thumb);
+	else if (CMYKASPACE == img.colorSpace || CMYKSPACE == img.colorSpace){
+		Mat test(thumb.size(), CV_8UC3);
+		const int fromTo[6] = { 2, 0, 1, 1, 0, 2 };
+		mixChannels(thumb, test, fromTo, 3);
+		test = Scalar(255, 255, 255) - test;
+		imwrite(StringCoder::WString2String(path), test);
 	}
-	
 	return path;
 }
 

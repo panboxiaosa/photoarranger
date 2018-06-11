@@ -10,7 +10,7 @@ namespace phothoflow.location
     {
         void OnLoadStart();
 
-        void OnLoadStep(Item item);
+        void OnLoadStep(string str);
 
         void OnLoadFinish();
     }

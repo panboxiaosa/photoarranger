@@ -9,10 +9,10 @@ public:
 	wstring filePath;
 	int top;
 	int left;
-	int height;
-	int width;
 	bool rotated;
-
+//private:
+	int width;
+	int height;
 
 };
 

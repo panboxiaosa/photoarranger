@@ -40,10 +40,6 @@ namespace phothoflow.location
 
         public BitmapSource Preview { get; set; }
 
-        public bool ThumbnailCallback()
-        {
-            return false;
-        }
 
         public void Settle(string thumName, int pixelWidth, int pixelHeight, int dpiX, int dpiY)
         {
@@ -56,6 +52,19 @@ namespace phothoflow.location
             
         }
 
+        public void RotateImg() {
+            if (Rotated)
+                return;
+            Rotated = true;
+            float temp = RealWidth;
+            RealWidth = RealHeight;
+            RealHeight = temp;
+
+            temp = Width;
+            Width = Height;
+            Height = temp;
+        }
+
         public Item(string name)
         {
             string[] parts = name.Split('$');
@@ -66,34 +75,10 @@ namespace phothoflow.location
             Preview = new BitmapImage(new Uri(ImagePath));
             Name = OriginPath.Substring(OriginPath.LastIndexOf("\\") + 1);
 
-        }
-
-        public static BitmapImage BitmapToBitmapImage(Bitmap bitmap)
-        {
-            MemoryStream ms = new MemoryStream();
-            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-            BitmapImage bImage = new BitmapImage();
-            bImage.BeginInit();
-            bImage.StreamSource = new MemoryStream(ms.ToArray());
-            bImage.EndInit();
-            ms.Dispose();
-            return bImage;
-        }
-
-
-        
-
-        BitmapImage BuildThumb(Bitmap origin)
-        {
-            int width = origin.Width / 10;
-            int height = origin.Height / 10;
-
-            Image thumBitmap = origin.GetThumbnailImage(width, height, () => { return false; }, IntPtr.Zero);
-            BitmapImage img = BitmapToBitmapImage(new Bitmap(thumBitmap));
-            thumBitmap.Dispose();
+            Rotated = false;
             
-            return img;
         }
+
 
         public bool IsOverlap(Item r2)
         {

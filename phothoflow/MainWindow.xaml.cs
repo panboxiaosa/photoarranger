@@ -45,6 +45,7 @@ namespace phothoflow
 
         public void OnArrangeStart()
         {
+            arrangement.checkRotate();
             this.Dispatcher.Invoke(new Action(() =>
             {
                 if (MainContainer.Width != SettingManager.GetWidth() * DisplayOptions.DisplayRate)
@@ -83,16 +84,14 @@ namespace phothoflow
             arrangement.Arrange();
         }
 
-        public void OnLoadStep(Item val)
+        public void OnLoadStep(string str)
         {
-            arrangement.AddElement(val);
             this.Dispatcher.Invoke(new Action(() =>
             {
-                if (!(val.Preview is BitmapFrame))
-                {
-                    val.Preview = BitmapFrame.Create(val.Preview);
-                }
+                Item val = new Item(str);                
                 unarranged.Add(val);
+                arrangement.AddElement(val);
+
             }));
         }
 
@@ -102,11 +101,13 @@ namespace phothoflow
             Image img = new Image();
             img.Width = one.RealWidth * rate;
             img.Height = one.RealHeight * rate;
-            if (!(one.Preview is BitmapFrame))
+            if (one.Rotated)
             {
-                one.Preview = BitmapFrame.Create(one.Preview);
-            }
-            img.Source = one.Preview;
+                var rotate = new RotateTransform(90);
+                img.Source = new TransformedBitmap(one.Preview, rotate);
+            } else {
+                img.Source = one.Preview;
+            }            
 
             Border border = new Border();
             border.Width = one.Width * rate;

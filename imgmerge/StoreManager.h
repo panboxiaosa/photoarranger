@@ -21,7 +21,9 @@ public:
 
 	vector<wstring> getOriginFiles();
 
-	bool between(Fragment item, int offset, int height);
+	bool between(Fragment& item, int offset, int height);
+
+	void cutPast(Mat& prepare, int height, int offset, Fragment& frag, Mat& drawBoard);
 
 private:
 

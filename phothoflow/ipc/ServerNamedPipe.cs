@@ -42,7 +42,7 @@ namespace NamedPipesServer
                         }
                         else if (use.Contains("$"))
                         {
-                            PipeManager._callback.OnLoadStep(new Item(use));
+                            PipeManager._callback.OnLoadStep(use);
                         }
                     }
                     else

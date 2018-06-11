@@ -53,7 +53,6 @@ namespace phothoflow.location
 
         bool Fit(Item comer, Corner attach, List<Item> already)
         {
-
             comer.Left = attach.x;
             comer.Top = attach.y;
 

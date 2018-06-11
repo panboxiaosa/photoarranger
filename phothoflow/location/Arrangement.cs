@@ -40,6 +40,19 @@ namespace phothoflow.location
             return bottom;
         }
 
+        public void checkRotate()
+        {
+            if (allItemList == null)
+                return;
+            foreach (Item item in allItemList) {
+                if (item.Width > SettingManager.GetWidth() && item.Height < SettingManager.GetWidth())
+                {
+                    item.RotateImg();
+                }
+            }
+            
+        }
+
         public List<Item> GetarrangedItems()
         {
             return currentArrange;

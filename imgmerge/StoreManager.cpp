@@ -79,15 +79,28 @@ void StoreManager::build(wstring tar) {
 	for (Fragment frag : fragments) {
 		ImageLoader img(frag.filePath);
 		Mat full(img.height, img.width, CV_8UC(img.channel), BufStorage::getStorage());
+		Mat cmyk = BufStorage::pickCmyk(full, img.colorSpace);
+
 		float ratex = (float)dpi / img.dpiX;
 		float ratey = (float)dpi / img.dpiY;
 
-		Mat cmyk = BufStorage::pickCmyk(full, img.colorSpace);
+		if (frag.rotated) {
+			Mat useful(frag.width, frag.height, CV_8UC4, BufStorage::getStorage());
+			resize(cmyk, useful, Size(0, 0), ratex, ratey, INTER_NEAREST);
+			transpose(useful, useful);
+			flip(useful, useful, 1);
 
-		Mat useful(img.height, img.width, CV_8UC4, BufStorage::getStorage());
-		resize(cmyk, useful, Size(0, 0), ratex, ratey, INTER_NEAREST);
-		Rect roi(frag.left + margin, frag.top + margin, useful.cols, useful.rows);
-		useful.copyTo(drawBoard(roi));
+			Rect roi(frag.left + margin, frag.top + margin, useful.cols, useful.rows);
+			useful.copyTo(drawBoard(roi));
+		}
+		else{
+			Mat useful(frag.height, frag.width, CV_8UC4, BufStorage::getStorage());
+			resize(cmyk, useful, Size(0, 0), ratex, ratey, INTER_NEAREST);
+
+			Rect roi(frag.left + margin, frag.top + margin, useful.cols, useful.rows);
+			useful.copyTo(drawBoard(roi));
+		}
+
 		cout << "äÖÈ¾Í¼Æ¬ " << StringCoder::WString2String(frag.filePath) << " Íê³É" << endl;
 	}
 
@@ -122,8 +135,9 @@ void StoreManager::buildByStep(wstring tar) {
 	int step = pixelWidth * 4;
 
 	for (int i = 0; i < steps; i++) {
-		byte* data = buildPart(i, eachHeight);
 		int offset = i * eachHeight;
+		byte* data = buildPart(offset, eachHeight);
+		
 		for (int j = 0; j < eachHeight; j++)
 		{
 			int cur = j + offset;
@@ -137,8 +151,9 @@ void StoreManager::buildByStep(wstring tar) {
 
 	int restHeight = pixelHeight - eachHeight * steps;
 	if (restHeight > 0) {
-		byte* data = buildPart(steps, restHeight);
 		int offset = eachHeight * steps;
+		byte* data = buildPart(offset, restHeight);
+		
 		for (int i = 0; i < restHeight; i++)
 		{
 			int cur = i + offset;
@@ -153,8 +168,9 @@ void StoreManager::buildByStep(wstring tar) {
 	TIFFClose(tiff);
 }
 
-bool StoreManager::between(Fragment item, int offset, int height) {
+bool StoreManager::between(Fragment& item, int offset, int height) {
 	int top = item.top + margin;
+
 	int bottom = top + item.height;
 	if (top < offset + height && bottom > offset) {
 		return true;
@@ -164,12 +180,31 @@ bool StoreManager::between(Fragment item, int offset, int height) {
 	}
 }
 
-byte* StoreManager::buildPart(int index, int height) {
+void StoreManager::cutPast(Mat& prepare, int height,int offset, Fragment& frag, Mat& drawBoard) {
+	int actualWidth = prepare.cols;
+	int actualHeight = prepare.rows;
+
+	Rect src(0, 0, actualWidth, actualHeight);
+	Rect dst(frag.left + margin, frag.top + margin - offset, actualWidth, actualHeight);
+	if (dst.y < 0) {
+		src.y -= dst.y;
+		src.height += dst.y;
+		dst.height += dst.y;
+		dst.y = 0;
+
+	}
+	if (dst.y + dst.height > height) {
+		src.height -= dst.y + dst.height - height;
+		dst.height = src.height;
+	}
+
+	(prepare(src)).copyTo(drawBoard(dst));
+}
+
+byte* StoreManager::buildPart(int offset, int height) {
 
 	Mat drawBoard(height, pixelWidth, CV_8UC4, BufStorage::getBoardStorage());
 	drawBoard = Scalar(0, 0, 0, 0);
-
-	int offset = index * height;
 
 	for (Fragment frag : fragments) {
 
@@ -183,29 +218,20 @@ byte* StoreManager::buildPart(int index, int height) {
 		float ratey = (float)dpi / img.dpiY;
 
 		Mat cmyk = BufStorage::pickCmyk(full, img.colorSpace);
+		if (frag.rotated) {
+			Mat prepare(frag.width, frag.height, CV_8UC4, BufStorage::getStorage());
+			resize(cmyk, prepare, Size(0, 0), ratex, ratey, INTER_NEAREST);
+			transpose(prepare, prepare);
+			flip(prepare, prepare, 1);
+			cutPast(prepare, height, offset, frag, drawBoard);
 
-		Mat prepare(img.height * ratey, img.width * ratex, CV_8UC4, BufStorage::getStorage());
-
-		resize(cmyk, prepare, Size(0, 0), ratex, ratey, INTER_NEAREST);
-
-		int actualWidth = prepare.cols;
-		int actualHeight = prepare.rows;
-
-		Rect src(0,0,actualWidth, actualHeight);
-		Rect dst(frag.left + margin, frag.top + margin - offset, actualWidth, actualHeight);
-		if (dst.y < 0) {
-			src.y -= dst.y;
-			src.height += dst.y;
-			dst.height += dst.y;
-			dst.y = 0;
-			
 		}
-		if (dst.y + dst.height > height) {
-			src.height -= dst.y + dst.height - height;
-			dst.height = src.height;
+		else {
+			Mat prepare(frag.height, frag.width, CV_8UC4, BufStorage::getStorage());
+			resize(cmyk, prepare, Size(0, 0), ratex, ratey, INTER_NEAREST);
+			cutPast(prepare, height, offset, frag, drawBoard);
 		}
-
-		(prepare(src)).copyTo(drawBoard(dst));
+		
 		cout << "äÖÈ¾Í¼Æ¬ " << StringCoder::WString2String(frag.filePath) << " Íê³É" << endl;
 	}
 

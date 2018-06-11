@@ -20,7 +20,7 @@
                 <MenuItem Header="关于" Click="MenuItem_Click" />
             </Menu>
 
-            <ListBox DockPanel.Dock="Right" Width="250" Name="waitingList" ItemsSource="{Binding}" >
+            <ListBox DockPanel.Dock="Right" Width="250" Name="waitingList" ItemsSource="{Binding}" MouseDoubleClick="waitingList_MouseDoubleClick">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel HorizontalAlignment="Left">

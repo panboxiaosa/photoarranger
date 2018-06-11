@@ -97,8 +97,8 @@ namespace phothoflow.location
 
         public bool IsOverlap(Item r2)
         {
-            if ((Top + Height > r2.Top + 0.000001f) && (r2.Top + r2.Height > Top + 0.000001f)
-                     && (Left + Width > r2.Left + 0.000001f) && (r2.Left + r2.Width > Left + 0.000001f))
+            if ((Top + Height > r2.Top + 0.0000001f) && (r2.Top + r2.Height > Top + 0.0000001f)
+                     && (Left + Width > r2.Left + 0.0000001f) && (r2.Left + r2.Width > Left + 0.0000001f))
             {
                 return true;
             }
@@ -106,6 +106,14 @@ namespace phothoflow.location
             {
                 return false;
             }
+        }
+
+        public bool Contains(float x, float y)
+        {
+            if (x >= Left && x < Left + Width & y >= Top && y < Top + Height)
+                return true;
+            else
+                return false;
         }
 
     }

@@ -24,13 +24,14 @@ namespace phothoflow.setting
             PartName = name;
         }
 
-        public void Add(float item)
+        public bool Add(float item)
         {
             if (configs.Contains(item))
-                return;
+                return false;
             configs.Insert(0, item);
             selected = 0;
             Save();
+            return true;
         }
 
         public ObservableCollection<float> Get()

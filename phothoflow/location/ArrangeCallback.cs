@@ -10,5 +10,7 @@ namespace phothoflow.location
         void OnArrangeStart();
 
         void OnArrangeFinish();
+
+        void OnDrawBack(Item item);
     }
 }

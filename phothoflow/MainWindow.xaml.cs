@@ -68,6 +68,11 @@ namespace phothoflow
             }
         }
 
+        public void OnDrawBack(Item item)
+        {
+            unarranged.Add(item);
+        }
+
         public void OnLoadStart()
         {
             unarranged.Clear();
@@ -132,6 +137,7 @@ namespace phothoflow
                 photo.MouseLeftButtonDown += ImageClick;
                 photo.MouseLeftButtonUp += ImageRelease;
                 photo.MouseMove += ImageMouseMove;
+                photo.MouseRightButtonUp += ImageSelect;
 
                 Canvas.SetLeft(photo, one.Left * rate);
                 Canvas.SetTop(photo, one.Top * rate);
@@ -149,6 +155,19 @@ namespace phothoflow
             PipeManager = new PipeManager(this);
             PipeManager.Initialize();
         }
+
+        private void ImageSelect(object sender, MouseButtonEventArgs e)
+        {
+            if (MessageBox.Show("是否删除图片", "点击确定删除图片", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                // do something
+                Border delta = sender as Border;
+                Item target = delta.Tag as Item;
+                arrangement.DrawBackItem(target);
+            }
+
+        }
+
 
         private void ImageMouseMove(object sender, MouseEventArgs e)
         {
@@ -189,20 +208,6 @@ namespace phothoflow
             
         }
 
-        private void PopSetting(string str)
-        {
-            SettingDialog.IsOpen = true;
-            SettingTitle.Text = str;
-            PopUpdate();
-        }
-
-        private void PopUpdate()
-        {
-            CreateData.Text = "";
-            Managable settingItem = SettingManager.Get(SettingTitle.Text);
-            ChooseList.ItemsSource = settingItem.Get();
-            ChooseList.SelectedIndex = settingItem.Current();
-        }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -299,38 +304,26 @@ namespace phothoflow
             {
                 MessageBox.Show("取消保存");
             }  
-            
         }
 
-        private void PerformAdd()
+        string origin;
+
+        private void PopSetting(string str)
         {
-            Managable settingItem = SettingManager.Get(SettingTitle.Text);
-            settingItem.Add(float.Parse(CreateData.Text));
+            SettingDialog.IsOpen = true;
+            SettingTitle.Text = str;
+
             PopUpdate();
+            origin = ChooseList.SelectedValue as string;
         }
 
-        private void PerformConfirm()
+        private void PopUpdate()
         {
-            SettingDialog.IsOpen = false;
-            arrangement.Remargin();
-            arrangement.Arrange();
+            CreateData.Text = "";
+            Managable settingItem = SettingManager.Get(SettingTitle.Text);
+            ChooseList.ItemsSource = settingItem.Get();
+            ChooseList.SelectedIndex = settingItem.Current();
 
-        }
-
-        private void Confirm_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = e.Source as Button;
-            switch ((string)btn.Tag)
-            {
-                case "AddData":
-                    PerformAdd();
-                    break;
-                case "Confirm":
-                    PerformConfirm();
-                    break;
-                default:
-                    break;
-            }
         }
 
         private void ChooseList_DropDownClosed(object sender, EventArgs e)
@@ -338,6 +331,42 @@ namespace phothoflow
             ComboBox mCB = sender as ComboBox;
             Managable settingItem = SettingManager.Get(SettingTitle.Text);
             settingItem.Select(mCB.SelectedIndex);
+        }
+
+
+        private void Confirm_Click(object sender, RoutedEventArgs e)
+        {
+
+            Button btn = e.Source as Button;
+            switch ((string)btn.Tag)
+            {
+                case "AddData":
+                    Managable settingItem = SettingManager.Get(SettingTitle.Text);
+                    bool added = settingItem.Add(float.Parse(CreateData.Text));
+                    PopUpdate();
+                    break;
+                case "Confirm":
+                    string confirmVal = ChooseList.SelectedValue as string;
+                    if (origin != confirmVal && SettingTitle.Text != SettingManager.DPIWORDING)
+                    {
+                        if (SettingTitle.Text == SettingManager.MARGINGWORDING)
+                            arrangement.Remargin();
+                        arrangement.Arrange();
+                    }
+                    SettingDialog.IsOpen = false;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void waitingList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            int index = waitingList.SelectedIndex;
+            Item tar = unarranged[index];
+            
+            if (arrangement.ArrangeElement(tar))
+                unarranged.Remove(tar);
         }
 
     }

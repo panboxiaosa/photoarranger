@@ -92,7 +92,6 @@ namespace phothoflow.location
 
         public bool ArrangeElement(Item item)
         {
-            
             int position = calcer.FindSuitable(currentArrange, item);
             if (position != -1)
             {
@@ -105,7 +104,6 @@ namespace phothoflow.location
             {
                 return false;
             }
-            
         }
 
         public void DrawBackItem(Item item)

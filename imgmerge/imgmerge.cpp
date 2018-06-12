@@ -33,6 +33,7 @@ void loadToUi(vector<pair<wstring, string>> files) {
 	Messager::sendStr("finish");
 }
 
+
 void loadEntry(wstring filename) {
 	vector<pair<wstring, string>> files;
 	FileUtil::find(filename.c_str(), files);
@@ -53,6 +54,12 @@ void fileEntry(wstring filename) {
 	vector<wstring> paths = store.getOriginFiles();
 	vector<pair<wstring, string>> all = FileUtil::supply(paths);
 	loadToUi(all);
+}
+
+void appendEntry(wstring filename) {
+	string timeStr = FileUtil::timeProfile(filename);
+	ThumbManager thumb;
+	thumb.load(filename, timeStr);
 }
 
 extern "C" {
@@ -82,6 +89,9 @@ int _tmain(int argc, wchar_t* argv[])
 	}
 	else if (_tcscmp(argv[1], L"-f") == 0) {
 		fileEntry(argv[2]);
+	}
+	else if (_tcscmp(argv[1], L"-a") == 0) {
+		appendEntry(argv[2]);
 	}
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 

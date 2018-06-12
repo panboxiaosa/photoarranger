@@ -210,6 +210,22 @@ namespace phothoflow
         }
 
 
+        void AppendPic()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            //设置打开的文件的类型，注意过滤器的语法  
+            ofd.Filter = "jpg文件|*.jpg|jpeg文件|*.jpeg|tif文件|*.tif";
+            //调用ShowDialog()方法显示该对话框，该方法的返回值代表用户是否点击了确定按钮  
+            if (ofd.ShowDialog() == true)
+            {
+                Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + "imgmerge.exe ", "-a " + ofd.FileName);
+            }
+            else
+            {
+                MessageBox.Show("没有选择图片");
+            }  
+        }
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             MenuItem item = e.Source as MenuItem;
@@ -236,6 +252,9 @@ namespace phothoflow
                     break;
                 case "打开文件夹":
                     OpenFolder();
+                    break;
+                case "添加图片":
+                    AppendPic();
                     break;
                 default:
                     break;

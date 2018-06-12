@@ -13,5 +13,7 @@ public:
 
 	static vector<pair<wstring, string>> supply(vector<wstring> path);
 
+	static string timeProfile(wstring filepath);
+
 };
 

@@ -11,6 +11,7 @@
                 <MenuItem Header="保存" Click="MenuItem_Click"/>
                 <MenuItem Header="导出图片" Click="MenuItem_Click"/>
                 <MenuItem Header="打开文件" Click="MenuItem_Click"/>
+                <MenuItem Header="添加图片" Click="MenuItem_Click"/>
                 <MenuItem Header="设置" >
                     <MenuItem Header="宽度设置" Click="MenuItem_Click"/>
                     <MenuItem Header="边距设置" Click="MenuItem_Click"/>

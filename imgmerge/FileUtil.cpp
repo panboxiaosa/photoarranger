@@ -122,3 +122,21 @@ vector<pair<wstring, string>> FileUtil::supply(vector<wstring> path) {
 	}
 	return ret;
 }
+
+string FileUtil::timeProfile(wstring filepath) {
+	FILETIME ftCreate, ftAccess, ftModify;
+
+	HANDLE hFile = CreateFile(filepath.c_str(),
+		GENERIC_READ,
+		FILE_SHARE_READ,
+		NULL,
+		OPEN_EXISTING,
+		FILE_FLAG_BACKUP_SEMANTICS,
+		NULL);
+
+	if (GetFileTime(hFile, &ftCreate, &ftAccess, &ftModify))
+	{
+		return buildTimeStr(ftCreate, ftModify);
+	}
+	return "";
+}

@@ -101,6 +101,10 @@ void StoreManager::build(wstring tar) {
 			useful.copyTo(drawBoard(roi));
 		}
 
+		Mat title = createText(frag);
+		Rect titlePos(frag.left + margin, frag.top + margin + frag.height, title.cols, title.rows);
+		title.copyTo(drawBoard(titlePos));
+
 		cout << "渲染图片 " << StringCoder::WString2String(frag.filePath) << " 完成" << endl;
 	}
 
@@ -201,6 +205,167 @@ void StoreManager::cutPast(Mat& prepare, int height,int offset, Fragment& frag, 
 	(prepare(src)).copyTo(drawBoard(dst));
 }
 
+void GetStringSize(HDC hDC, const char* str, int* w, int* h)
+{
+	SIZE size;
+	GetTextExtentPoint32A(hDC, str, strlen(str), &size);
+	if (w != 0) *w = size.cx;
+	if (h != 0) *h = size.cy;
+}
+
+void putTextZH(Mat &dst, const char* str, Point org, Scalar color, int fontSize, const char* fn, bool italic = false, bool underline = false)
+{
+	CV_Assert(dst.data != 0 && (dst.channels() == 1 || dst.channels() == 3));
+
+	int x, y, r, b;
+	if (org.x > dst.cols || org.y > dst.rows) return;
+	x = org.x < 0 ? -org.x : 0;
+	y = org.y < 0 ? -org.y : 0;
+
+	LOGFONTA lf;
+	lf.lfHeight = -fontSize;
+	lf.lfWidth = 0;
+	lf.lfEscapement = 0;
+	lf.lfOrientation = 0;
+	lf.lfWeight = 5;
+	lf.lfItalic = italic;   //斜体
+	lf.lfUnderline = underline; //下划线
+	lf.lfStrikeOut = 0;
+	lf.lfCharSet = DEFAULT_CHARSET;
+	lf.lfOutPrecision = 0;
+	lf.lfClipPrecision = 0;
+	lf.lfQuality = PROOF_QUALITY;
+	lf.lfPitchAndFamily = 0;
+	strcpy_s(lf.lfFaceName, fn);
+
+	HFONT hf = CreateFontIndirectA(&lf);
+	HDC hDC = CreateCompatibleDC(0);
+	HFONT hOldFont = (HFONT)SelectObject(hDC, hf);
+
+	int strBaseW = 0, strBaseH = 0;
+	int singleRow = 0;
+	char buf[1 << 12];
+	strcpy_s(buf, str);
+	char *bufT[1 << 12];  // 这个用于分隔字符串后剩余的字符，可能会超出。
+	//处理多行
+	{
+		int nnh = 0;
+		int cw, ch;
+
+		const char* ln = strtok_s(buf, "\n", bufT);
+		while (ln != 0)
+		{
+			GetStringSize(hDC, ln, &cw, &ch);
+			strBaseW = max(strBaseW, cw);
+			strBaseH = max(strBaseH, ch);
+
+			ln = strtok_s(0, "\n", bufT);
+			nnh++;
+		}
+		singleRow = strBaseH;
+		strBaseH *= nnh;
+	}
+
+	if (org.x + strBaseW < 0 || org.y + strBaseH < 0)
+	{
+		SelectObject(hDC, hOldFont);
+		DeleteObject(hf);
+		DeleteObject(hDC);
+		return;
+	}
+
+	r = org.x + strBaseW > dst.cols ? dst.cols - org.x - 1 : strBaseW - 1;
+	b = org.y + strBaseH > dst.rows ? dst.rows - org.y - 1 : strBaseH - 1;
+	org.x = org.x < 0 ? 0 : org.x;
+	org.y = org.y < 0 ? 0 : org.y;
+
+	BITMAPINFO bmp = { 0 };
+	BITMAPINFOHEADER& bih = bmp.bmiHeader;
+	int strDrawLineStep = strBaseW * 3 % 4 == 0 ? strBaseW * 3 : (strBaseW * 3 + 4 - ((strBaseW * 3) % 4));
+
+	bih.biSize = sizeof(BITMAPINFOHEADER);
+	bih.biWidth = strBaseW;
+	bih.biHeight = strBaseH;
+	bih.biPlanes = 1;
+	bih.biBitCount = 24;
+	bih.biCompression = BI_RGB;
+	bih.biSizeImage = strBaseH * strDrawLineStep;
+	bih.biClrUsed = 0;
+	bih.biClrImportant = 0;
+
+	void* pDibData = 0;
+	HBITMAP hBmp = CreateDIBSection(hDC, &bmp, DIB_RGB_COLORS, &pDibData, 0, 0);
+
+	CV_Assert(pDibData != 0);
+	HBITMAP hOldBmp = (HBITMAP)SelectObject(hDC, hBmp);
+
+	SetTextColor(hDC, RGB(255, 255, 255));
+	SetBkColor(hDC, 0);
+
+	strcpy_s(buf, str);
+	const char* ln = strtok_s(buf, "\n", bufT);
+	int outTextY = 0;
+	while (ln != 0)
+	{
+		TextOutA(hDC, 0, outTextY, ln, strlen(ln));
+		outTextY += singleRow;
+		ln = strtok_s(0, "\n", bufT);
+	}
+	uchar* dstData = (uchar*)dst.data;
+	int dstStep = dst.step / sizeof(dstData[0]);
+	unsigned char* pImg = (unsigned char*)dst.data + org.x * dst.channels() + org.y * dstStep;
+	unsigned char* pStr = (unsigned char*)pDibData + x * 3;
+	for (int tty = y; tty <= b; ++tty)
+	{
+		unsigned char* subImg = pImg + (tty - y) * dstStep;
+		unsigned char* subStr = pStr + (strBaseH - tty - 1) * strDrawLineStep;
+		for (int ttx = x; ttx <= r; ++ttx)
+		{
+			for (int n = 0; n < dst.channels(); ++n){
+				double vtxt = subStr[n] / 255.0;
+				int cvv = vtxt * color.val[n] + (1 - vtxt) * subImg[n];
+				subImg[n] = cvv > 255 ? 255 : (cvv < 0 ? 0 : cvv);
+			}
+
+			subStr += 3;
+			subImg += dst.channels();
+		}
+	}
+
+	SelectObject(hDC, hOldBmp);
+	SelectObject(hDC, hOldFont);
+	DeleteObject(hf);
+	DeleteObject(hBmp);
+	DeleteDC(hDC);
+}
+
+Mat StoreManager::createText(Fragment& frag) {
+	string path = StringCoder::WString2String(frag.filePath);
+	vector<string> parts = StringCoder::split(path, "\\");
+	Mat mat(margin, frag.width - margin * 2, CV_8UC3, Scalar(255,255,255));
+	putTextZH(mat, parts[parts.size() - 1].c_str(), Point(0, 0), Scalar(0, 0, 0), min(18,margin), "微软雅黑");
+	Mat cmyk(margin, frag.width - margin * 2, CV_8UC4, Scalar(0,0,0,0));
+	for (int i = 0; i<cmyk.rows; i++){
+		uchar *data = mat.ptr<uchar>(i);
+		uchar *dataCMYK = cmyk.ptr<uchar>(i);
+		for (int j = 0; j < cmyk.cols; j++){
+			uchar b = data[3 * j];
+			uchar g = data[3 * j + 1];
+			uchar r = data[3 * j + 2];
+
+			uchar c = 255 - r;
+			uchar m = 255 - g;
+			uchar y = 255 - b;
+			uchar k = min(min(c, m), y);
+			dataCMYK[4 * j] = c - k;
+			dataCMYK[4 * j + 1] = m - k;
+			dataCMYK[4 * j + 2] = y - k;
+			dataCMYK[4 * j + 3] = k;
+		}
+	}
+	return cmyk;
+}
+
 byte* StoreManager::buildPart(int offset, int height) {
 
 	Mat drawBoard(height, pixelWidth, CV_8UC4, BufStorage::getBoardStorage());
@@ -232,6 +397,25 @@ byte* StoreManager::buildPart(int offset, int height) {
 			cutPast(prepare, height, offset, frag, drawBoard);
 		}
 		
+		Mat title = createText(frag);
+		Rect src(0, 0, title.cols, title.rows);
+		Rect dst(frag.left + margin, frag.top + margin + frag.height - offset, title.cols, title.rows);
+
+		if (dst.y < 0) {
+			src.y -= dst.y;
+			src.height += dst.y;
+			dst.height += dst.y;
+			dst.y = 0;
+
+		}
+		if (dst.y + dst.height > height) {
+			src.height -= dst.y + dst.height - height;
+			dst.height = src.height;
+		}
+		if (src.height > 0) {
+			title(src).copyTo(drawBoard(dst));
+		}
+
 		cout << "渲染图片 " << StringCoder::WString2String(frag.filePath) << " 完成" << endl;
 	}
 

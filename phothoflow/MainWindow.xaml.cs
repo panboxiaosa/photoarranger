@@ -218,7 +218,7 @@ namespace phothoflow
             //调用ShowDialog()方法显示该对话框，该方法的返回值代表用户是否点击了确定按钮  
             if (ofd.ShowDialog() == true)
             {
-                Process.Start(System.AppDomain.CurrentDomain.BaseDirectory + "imgmerge.exe ", "-a " + ofd.FileName);
+                ProcessExecutor.ExecuteSilent(System.AppDomain.CurrentDomain.BaseDirectory + "imgmerge.exe ", "-a " + ofd.FileName);
             }
             else
             {

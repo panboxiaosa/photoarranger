@@ -25,6 +25,8 @@ public:
 
 	void cutPast(Mat& prepare, int height, int offset, Fragment& frag, Mat& drawBoard);
 
+	Mat createText(Fragment& frag);
+
 private:
 
 	vector<Fragment> fragments;

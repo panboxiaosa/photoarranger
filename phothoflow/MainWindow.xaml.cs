@@ -256,6 +256,9 @@ namespace phothoflow
                 case "添加图片":
                     AppendPic();
                     break;
+                case "重排":
+                    arrangement.Arrange();
+                    break;
                 default:
                     break;
             }
@@ -353,7 +356,6 @@ namespace phothoflow
             settingItem.Select(mCB.SelectedIndex);
         }
 
-
         private void Confirm_Click(object sender, RoutedEventArgs e)
         {
 
@@ -387,6 +389,34 @@ namespace phothoflow
             
             if (arrangement.ArrangeElement(tar))
                 unarranged.Remove(tar);
+        }
+
+        bool scaling = false;
+
+        private void arrangePanel_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (scaling)
+            {
+                var x = Math.Pow(2, e.Delta / 3.0 / Mouse.MouseWheelDeltaForOneLine);
+                MainContainer.Scale *= x;
+            }
+            
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (!e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
+            {
+                scaling = false;
+            }
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Control))
+            {
+                scaling = true;
+            }
         }
 
     }

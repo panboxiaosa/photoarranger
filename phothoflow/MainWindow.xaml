@@ -1,7 +1,9 @@
 ﻿<Window x:Class="phothoflow.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="图片排列器" Height="450" Width="725">
+        Title="图片排列器" Height="450" Width="725"
+        KeyUp="Window_KeyUp"
+        KeyDown="Window_KeyDown">
     
     <Grid>
         
@@ -12,13 +14,13 @@
                 <MenuItem Header="导出图片" Click="MenuItem_Click"/>
                 <MenuItem Header="打开文件" Click="MenuItem_Click"/>
                 <MenuItem Header="添加图片" Click="MenuItem_Click"/>
+                <MenuItem Header="重排" Click="MenuItem_Click"/>
                 <MenuItem Header="设置" >
                     <MenuItem Header="宽度设置" Click="MenuItem_Click"/>
                     <MenuItem Header="边距设置" Click="MenuItem_Click"/>
                     <MenuItem Header="分辨率设置" Click="MenuItem_Click" />
                 </MenuItem>
                 <MenuItem Header="帮助" Click="MenuItem_Click" />
-                <MenuItem Header="关于" Click="MenuItem_Click" />
             </Menu>
 
             <ListBox DockPanel.Dock="Right" Width="250" Name="waitingList" ItemsSource="{Binding}" MouseDoubleClick="waitingList_MouseDoubleClick">
@@ -32,11 +34,12 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <ScrollViewer DockPanel.Dock="Left" Name="arrangePanel" HorizontalScrollBarVisibility="Auto" Background="Gray">
-                <Canvas Name="MainContainer" Height="600" Width="500" Background="White">
-                    
-                </Canvas>
+            <ScrollViewer DockPanel.Dock="Left" Name="arrangePanel" HorizontalScrollBarVisibility="Auto" Background="Gray"
+                          PreviewMouseWheel="arrangePanel_MouseWheel">
+                <ZoomableCanvas Name="MainContainer" Height="600" Width="500" Background="White" HorizontalAlignment="Center"/>
+
             </ScrollViewer>
+
 
         </DockPanel>
         <Popup Name="SettingDialog" Placement="Center" Width="280" Height="180">

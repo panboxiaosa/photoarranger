@@ -17,9 +17,9 @@ namespace phothoflow.setting
 
         const string DEFAULTDPI = "30,60,72,120";
 
-        const string DEFAULTMARGIN = "1,2,4";
+        const string DEFAULTMARGIN = "2,4,8";
 
-        const string DEFAULTWIDTH = "1.6,1.8,2,2.2,2.5,2.8,3.2,4,5";
+        const string DEFAULTWIDTH = "160,180,200,220,250,208,320,400,500";
 
         const string DPISETTING = "dpi";
         
@@ -27,8 +27,8 @@ namespace phothoflow.setting
 
         const string WIDTHSETTING = "width";
 
-        public const string WIDTHWORDING = "宽度设置";
-        public const string MARGINGWORDING = "边距设置";
+        public const string WIDTHWORDING = "宽度设置(cm)";
+        public const string MARGINGWORDING = "边距设置(cm)";
         public const string DPIWORDING = "分辨率设置";
 
         public static string GetDefault(string name) {
@@ -68,12 +68,12 @@ namespace phothoflow.setting
         public static float GetWidth()
         {
             float w = width.Get()[width.Current()];
-            return w * 39.3700787f;
+            return w * 0.3937008f;
         }
 
         public static float GetMargin()
         {
-            return margin.Get()[margin.Current()];
+            return margin.Get()[margin.Current()] * 0.3937008f;
         }
 
         public static Managable Get(string currentDeal) {

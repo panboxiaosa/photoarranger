@@ -53,10 +53,10 @@ Mat BufStorage::pickRgb(Mat mat) {
 
 Mat BufStorage::pickCmyk(Mat mat, ushort colorSpace) {
 	Mat cmyk(mat.size(), CV_8UC4, getSwapStorage());
-
+	cmyk = Scalar(0,0,0,0);
 	if (CMYKASPACE == colorSpace || CMYKSPACE == colorSpace) {
-		const int fromTo[8] = { 0, 0, 1, 1, 2, 2, 3, 3 };
-		mixChannels(mat, cmyk, fromTo, 4);
+		const int fromTo[8] = { 0, 0, 1, 1, 2, 2 };
+		mixChannels(mat, cmyk, fromTo, 3);
 	}
 	else if (RGBSPACE == colorSpace) {
 		for (int i = 0; i<cmyk.rows; i++){

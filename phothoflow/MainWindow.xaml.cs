@@ -337,7 +337,7 @@ namespace phothoflow
             SettingTitle.Text = str;
 
             PopUpdate();
-            origin = ChooseList.SelectedValue as string;
+            origin = ChooseList.Text;
         }
 
         private void PopUpdate()
@@ -368,7 +368,7 @@ namespace phothoflow
                     PopUpdate();
                     break;
                 case "Confirm":
-                    string confirmVal = ChooseList.SelectedValue as string;
+                    string confirmVal = ChooseList.Text;
                     if (origin != confirmVal && SettingTitle.Text != SettingManager.DPIWORDING)
                     {
                         if (SettingTitle.Text == SettingManager.MARGINGWORDING)

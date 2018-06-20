@@ -16,8 +16,8 @@
                 <MenuItem Header="添加图片" Click="MenuItem_Click"/>
                 <MenuItem Header="重排" Click="MenuItem_Click"/>
                 <MenuItem Header="设置" >
-                    <MenuItem Header="宽度设置" Click="MenuItem_Click"/>
-                    <MenuItem Header="边距设置" Click="MenuItem_Click"/>
+                    <MenuItem Header="宽度设置(cm)" Click="MenuItem_Click"/>
+                    <MenuItem Header="边距设置(cm)" Click="MenuItem_Click"/>
                     <MenuItem Header="分辨率设置" Click="MenuItem_Click" />
                 </MenuItem>
                 <MenuItem Header="帮助" Click="MenuItem_Click" />

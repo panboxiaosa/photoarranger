@@ -93,9 +93,12 @@ std::wstring ThumbManager::createThumb(ImageLoader img)
 	}
 	else if (CMYKASPACE == img.colorSpace || CMYKSPACE == img.colorSpace){
 		Mat test(thumb.size(), CV_8UC3);
+		
 		const int fromTo[6] = { 2, 0, 1, 1, 0, 2 };
 		mixChannels(thumb, test, fromTo, 3);
+
 		test = Scalar(255, 255, 255) - test;
+		
 		imwrite(StringCoder::WString2String(path), test);
 	}
 	return path;

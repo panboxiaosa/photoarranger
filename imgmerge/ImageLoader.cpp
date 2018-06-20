@@ -90,11 +90,11 @@ void ImageLoader::loadJpg(wstring path)
 		colorSpace = UNHANDLABLESPACE;
 	}
 
-	
 }
 
 
 void ImageLoader::loadTif(wstring path){
+
 	TIFF *tiff = TIFFOpenW(path.c_str(), "r");
 
 	TIFFGetField(tiff, TIFFTAG_IMAGEWIDTH, &width);
@@ -124,6 +124,7 @@ void ImageLoader::loadTif(wstring path){
 	for (int i = 0; i < height; i++) {
 		TIFFReadScanline(tiff, stableBuf, i);
 		stableBuf += step;
+		
 	}
 	
 	TIFFClose(tiff);

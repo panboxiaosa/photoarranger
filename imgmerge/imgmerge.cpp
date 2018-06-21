@@ -63,7 +63,12 @@ void appendEntry(wstring filename) {
 }
 
 extern "C" {
-	void doNothing(const char*, const char*, char *) {
+	void doNothing(const char* one, const char* two, char * three) {
+		//cout<< "warning " << one << ":" << two << ":" << three << endl;
+	}
+
+	void doErr(const char* one, const char* two, char * three) {
+		//cout<<"error " << one << ":" << two << ":" << three << endl;
 	}
 }
 
@@ -73,7 +78,7 @@ int _tmain(int argc, wchar_t* argv[])
 
 	if (argc < 3)
 		return 0;
-	TIFFSetErrorHandler(doNothing);
+	TIFFSetErrorHandler(doErr);
 	TIFFSetWarningHandler(doNothing);
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;

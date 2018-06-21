@@ -97,11 +97,13 @@ void ImageLoader::loadTif(wstring path){
 
 	TIFF *tiff = TIFFOpenW(path.c_str(), "r");
 
+	ushort metric;
+
 	TIFFGetField(tiff, TIFFTAG_IMAGEWIDTH, &width);
 	TIFFGetField(tiff, TIFFTAG_IMAGELENGTH, &height);
 	TIFFGetField(tiff, TIFFTAG_SAMPLESPERPIXEL, &channel);
-	ushort metric;
 	TIFFGetField(tiff, TIFFTAG_PHOTOMETRIC, &metric);
+
 	setDpi(tiff, dpiX);
 	setDpi(tiff, dpiY);
 
@@ -119,12 +121,13 @@ void ImageLoader::loadTif(wstring path){
 	else {
 		colorSpace == UNHANDLABLESPACE;
 	}
+	
+
 	int step = width * channel;
 	byte* stableBuf = BufStorage::getStorage();
 	for (int i = 0; i < height; i++) {
 		TIFFReadScanline(tiff, stableBuf, i);
 		stableBuf += step;
-		
 	}
 	
 	TIFFClose(tiff);

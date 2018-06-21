@@ -81,7 +81,10 @@ namespace phothoflow
 
         public void OnLoadFinish()
         {
-            arrangement.Arrange();
+            this.Dispatcher.Invoke(new Action(() =>
+            {
+                arrangement.Arrange();
+            }));
         }
 
         public void OnLoadStep(string str)
@@ -384,7 +387,10 @@ namespace phothoflow
 
         private void waitingList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            
             int index = waitingList.SelectedIndex;
+            if (index < 0)
+                return;
             Item tar = unarranged[index];
             
             if (arrangement.ArrangeElement(tar))

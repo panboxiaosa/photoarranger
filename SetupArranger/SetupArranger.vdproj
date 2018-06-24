@@ -21,26 +21,26 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_16916E2540FE42A9B974D90477889AB6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_1759327FA53440A090DEE34FDB2A78C0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_2A4CC5FFFEAA8B03302D35AC5DDA4C2F"
+        "MsmKey" = "8:_3238A17338827C4BFD63B4E37CE001B1"
         "OwnerKey" = "8:_C6E5E381DE514FAD9F2BFAFB68A8903B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_2A4CC5FFFEAA8B03302D35AC5DDA4C2F"
-        "OwnerKey" = "8:_FB4AC59B674819503F3B79A14F09A1FD"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_4153CCCC030EAEA443373364EFF7CDA7"
-        "OwnerKey" = "8:_C6E5E381DE514FAD9F2BFAFB68A8903B"
+        "MsmKey" = "8:_3238A17338827C4BFD63B4E37CE001B1"
+        "OwnerKey" = "8:_7AF64BD02D26A4A8DFB8ABA40B8F729E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -51,20 +51,32 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_58313299AD71DCA2DBE5D72ABFE575E4"
+        "OwnerKey" = "8:_C6E5E381DE514FAD9F2BFAFB68A8903B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5F02BD587B3145C5907C9D5CB15C9EAC"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_6305DD9FCD1560A7A08543334E2D0F49"
+        "MsmKey" = "8:_7AF64BD02D26A4A8DFB8ABA40B8F729E"
         "OwnerKey" = "8:_C6E5E381DE514FAD9F2BFAFB68A8903B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_6305DD9FCD1560A7A08543334E2D0F49"
-        "OwnerKey" = "8:_4153CCCC030EAEA443373364EFF7CDA7"
+        "MsmKey" = "8:_9CC5473B3E0385AB9E87D76489B7C911"
+        "OwnerKey" = "8:_C6E5E381DE514FAD9F2BFAFB68A8903B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_9CC5473B3E0385AB9E87D76489B7C911"
+        "OwnerKey" = "8:_58313299AD71DCA2DBE5D72ABFE575E4"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -87,6 +99,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DB727FC3D65CDCD80646FD26BBCA2E6E"
+        "OwnerKey" = "8:_C6E5E381DE514FAD9F2BFAFB68A8903B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_E36202187A5A4D0EA212416D04D6BE22"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -99,18 +117,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_FB4AC59B674819503F3B79A14F09A1FD"
-        "OwnerKey" = "8:_C6E5E381DE514FAD9F2BFAFB68A8903B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2A4CC5FFFEAA8B03302D35AC5DDA4C2F"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_C6E5E381DE514FAD9F2BFAFB68A8903B"
         "MsmSig" = "8:_UNDEFINED"
@@ -118,19 +124,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4153CCCC030EAEA443373364EFF7CDA7"
+        "OwnerKey" = "8:_7AF64BD02D26A4A8DFB8ABA40B8F729E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6305DD9FCD1560A7A08543334E2D0F49"
+        "OwnerKey" = "8:_3238A17338827C4BFD63B4E37CE001B1"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FB4AC59B674819503F3B79A14F09A1FD"
+        "OwnerKey" = "8:_DB727FC3D65CDCD80646FD26BBCA2E6E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_58313299AD71DCA2DBE5D72ABFE575E4"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9CC5473B3E0385AB9E87D76489B7C911"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -248,6 +266,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_16916E2540FE42A9B974D90477889AB6"
+            {
+            "SourcePath" = "8:..\\x64\\Release\\icc.profile"
+            "TargetName" = "8:icc.profile"
+            "Tag" = "8:"
+            "Folder" = "8:_1B9E178C969D4FF882F8E21AF3CBA7C7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1759327FA53440A090DEE34FDB2A78C0"
             {
             "SourcePath" = "8:..\\x64\\Release\\opencv_ffmpeg310_64.dll"
@@ -268,20 +306,20 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_2A4CC5FFFEAA8B03302D35AC5DDA4C2F"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3238A17338827C4BFD63B4E37CE001B1"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Yzmeir.InterProcessComm, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64"
                 "ScatterAssemblies"
                 {
-                    "_2A4CC5FFFEAA8B03302D35AC5DDA4C2F"
+                    "_3238A17338827C4BFD63B4E37CE001B1"
                     {
-                    "Name" = "8:Microsoft.WindowsAPICodePack.dll"
+                    "Name" = "8:Yzmeir.InterProcessComm.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Microsoft.WindowsAPICodePack.dll"
+            "SourcePath" = "8:Yzmeir.InterProcessComm.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1B9E178C969D4FF882F8E21AF3CBA7C7"
@@ -299,20 +337,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4153CCCC030EAEA443373364EFF7CDA7"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_58313299AD71DCA2DBE5D72ABFE575E4"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Yzmeir.NamedPipes, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_4153CCCC030EAEA443373364EFF7CDA7"
+                    "_58313299AD71DCA2DBE5D72ABFE575E4"
                     {
-                    "Name" = "8:Yzmeir.NamedPipes.dll"
+                    "Name" = "8:Microsoft.WindowsAPICodePack.Shell.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Yzmeir.NamedPipes.dll"
+            "SourcePath" = "8:Microsoft.WindowsAPICodePack.Shell.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1B9E178C969D4FF882F8E21AF3CBA7C7"
@@ -350,20 +388,51 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_6305DD9FCD1560A7A08543334E2D0F49"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7AF64BD02D26A4A8DFB8ABA40B8F729E"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Yzmeir.InterProcessComm, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64"
+            "AssemblyAsmDisplayName" = "8:Yzmeir.NamedPipes, Version=1.0.0.0, Culture=neutral, processorArchitecture=AMD64"
                 "ScatterAssemblies"
                 {
-                    "_6305DD9FCD1560A7A08543334E2D0F49"
+                    "_7AF64BD02D26A4A8DFB8ABA40B8F729E"
                     {
-                    "Name" = "8:Yzmeir.InterProcessComm.dll"
+                    "Name" = "8:Yzmeir.NamedPipes.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Yzmeir.InterProcessComm.dll"
+            "SourcePath" = "8:Yzmeir.NamedPipes.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_1B9E178C969D4FF882F8E21AF3CBA7C7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_9CC5473B3E0385AB9E87D76489B7C911"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_9CC5473B3E0385AB9E87D76489B7C911"
+                    {
+                    "Name" = "8:Microsoft.WindowsAPICodePack.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.WindowsAPICodePack.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1B9E178C969D4FF882F8E21AF3CBA7C7"
@@ -421,6 +490,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DB727FC3D65CDCD80646FD26BBCA2E6E"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ZoomableCanvas, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_DB727FC3D65CDCD80646FD26BBCA2E6E"
+                    {
+                    "Name" = "8:ZoomableCanvas.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ZoomableCanvas.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_1B9E178C969D4FF882F8E21AF3CBA7C7"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E36202187A5A4D0EA212416D04D6BE22"
             {
             "SourcePath" = "8:..\\x64\\Release\\opencv_world310.dll"
@@ -459,37 +559,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FB4AC59B674819503F3B79A14F09A1FD"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_FB4AC59B674819503F3B79A14F09A1FD"
-                    {
-                    "Name" = "8:Microsoft.WindowsAPICodePack.Shell.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.WindowsAPICodePack.Shell.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_1B9E178C969D4FF882F8E21AF3CBA7C7"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
         }
@@ -1084,7 +1153,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_57D39EAFA977438A896C7DF00F50E72A"
             {
-            "SourcePath" = "8:..\\x64\\Release\\imgmerge.exe"
+            "SourcePath" = "8:..\\x64\\Debug\\imgmerge.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1B9E178C969D4FF882F8E21AF3CBA7C7"
@@ -1112,7 +1181,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C6E5E381DE514FAD9F2BFAFB68A8903B"
             {
-            "SourcePath" = "8:..\\phothoflow\\obj\\x64\\Release\\arranger.exe"
+            "SourcePath" = "8:..\\phothoflow\\obj\\x64\\Debug\\arranger.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1B9E178C969D4FF882F8E21AF3CBA7C7"

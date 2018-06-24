@@ -14,8 +14,6 @@ StoreManager::~StoreManager()
 
 void StoreManager::setTag(TIFF** tiff) 
 {
-	TIFFSetDirectory(*tiff, 0);
-	TIFFSetField(*tiff, TIFFTAG_SUBFILETYPE, FILETYPE_PAGE);
 	TIFFSetField(*tiff, TIFFTAG_IMAGEWIDTH, pixelWidth);
 	TIFFSetField(*tiff, TIFFTAG_IMAGELENGTH, pixelHeight);
 	TIFFSetField(*tiff, TIFFTAG_SAMPLESPERPIXEL, 4);
@@ -26,6 +24,23 @@ void StoreManager::setTag(TIFF** tiff)
 	TIFFSetField(*tiff, TIFFTAG_RESOLUTIONUNIT, 2);
 	TIFFSetField(*tiff, TIFFTAG_XRESOLUTION, (float)dpi);
 	TIFFSetField(*tiff, TIFFTAG_YRESOLUTION, (float)dpi);
+
+	TCHAR szFilePath[MAX_PATH + 1] = { 0 };
+	GetModuleFileName(NULL, szFilePath, MAX_PATH);
+	(_tcsrchr(szFilePath, _T('\\')))[1] = 0;
+	wstring path = szFilePath;
+	path += L"icc.profile";
+
+	ifstream fin(path, ios::binary);
+	streampos   pos = fin.tellg();
+	fin.seekg(0, ios::end);
+	int len = fin.tellg();
+	fin.seekg(pos);
+	char* buf = new char[len];
+	fin.read((char *)(buf), len);
+	TIFFSetField(*tiff, TIFFTAG_ICCPROFILE, len, buf);
+	delete[] buf;
+
 }
 
 

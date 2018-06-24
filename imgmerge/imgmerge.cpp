@@ -72,6 +72,26 @@ extern "C" {
 	}
 }
 
+void testEntry(wstring filename, wstring target) {
+
+	TIFF *tiff = TIFFOpenW(filename.c_str(), "r");
+
+	uint32 count = 0;
+	void* p;
+
+	TIFFGetField(tiff, TIFFTAG_ICCPROFILE, &count, &p);
+	byte* buf = new byte[count];
+	memcpy(buf, p, count);
+
+	TIFFClose(tiff);
+
+	ofstream ost(target.c_str(), ios::binary);
+	ost.write((char*)buf, count);
+	
+	delete[] buf;
+	
+}
+
 
 int _tmain(int argc, wchar_t* argv[])
 {
@@ -88,7 +108,7 @@ int _tmain(int argc, wchar_t* argv[])
 	if (_tcscmp(argv[1], L"-l") == 0) {
 		loadEntry(argv[2]);
 	}
-	else if (_tcscmp(argv[1], L"-m") == 0) 
+	else if (_tcscmp(argv[1], L"-m") == 0)
 	{
 		mergeEntry(argv[2], argv[3]);
 	}
@@ -97,6 +117,9 @@ int _tmain(int argc, wchar_t* argv[])
 	}
 	else if (_tcscmp(argv[1], L"-a") == 0) {
 		appendEntry(argv[2]);
+	}
+	else if (_tcscmp(argv[1], L"-t") == 0){
+		testEntry(argv[2], argv[3]);
 	}
 	Gdiplus::GdiplusShutdown(gdiplusToken);
 

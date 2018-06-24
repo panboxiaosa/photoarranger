@@ -57,6 +57,7 @@ namespace phothoflow
             }));
         }
 
+
         public void OnArrangeFinish()
         {
             foreach (Item val in arrangement.GetarrangedItems())
@@ -83,6 +84,7 @@ namespace phothoflow
         {
             this.Dispatcher.Invoke(new Action(() =>
             {
+                arrangement.SortBySize();
                 arrangement.Arrange();
             }));
         }

@@ -15,9 +15,9 @@ using System.Runtime.InteropServices;
 using phothoflow.filemanager;
 
 
-namespace phothoflow.location
+namespace phothoflow.location 
 {
-    public class Item
+    public class Item : IComparable<Item>
     {
         public float Top;
         public float Left;
@@ -99,6 +99,11 @@ namespace phothoflow.location
                 return true;
             else
                 return false;
+        }
+
+        public int CompareTo(Item other)
+        {
+            return (int)((other.RealHeight * other.RealWidth) - (RealHeight * RealWidth));
         }
 
     }

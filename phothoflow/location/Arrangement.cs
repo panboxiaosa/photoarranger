@@ -40,6 +40,15 @@ namespace phothoflow.location
             return bottom;
         }
 
+
+        public void SortBySize()
+        {
+            if (allItemList != null)
+            {
+                allItemList.Sort();
+            }
+        }
+
         public void checkRotate()
         {
             if (allItemList == null)
@@ -47,6 +56,8 @@ namespace phothoflow.location
             foreach (Item item in allItemList) {
                 if (item.Width > SettingManager.GetWidth() && item.Height < SettingManager.GetWidth())
                 {
+                    item.RotateImg();
+                } else if (SettingManager.GetWidth() - item.Height > 0 && SettingManager.GetWidth() - item.Height < SettingManager.GetWidth() / 8) {
                     item.RotateImg();
                 }
             }
